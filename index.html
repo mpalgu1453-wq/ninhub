@@ -1,4 +1,4 @@
-<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Nintendo Stock Manager</title><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="js/config.js"></script><style>
+<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Nintendo Stock Manager</title><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="js/config.js"></script><style>
 :root{
   --bg:#f5f5f7;--panel:#fff;--panel2:#fafafc;--line:#d2d2d7;--text:#1d1d1f;
   --muted:#6e6e73;--muted2:#86868b;--purple:#0066cc;--green:#0a7d55;--red:#fa243c;--yellow:#a8690b;
@@ -107,13 +107,16 @@ tbody tr:hover{background:var(--panel2)}
 <div id="appScreen" class="shell hidden"><aside class="side"><div class="brand"><span>●</span> Nintendo Stock</div><div class="navs"><button class="nav active" data-page="dashboard">▦ ภาพรวม</button><button class="nav" data-page="inventory">▣ คลังสินค้า</button><button class="nav" data-page="movement">⇄ รับเข้า / ขาย / โอน</button><button class="nav" data-page="excel">▤ Excel นำเข้า–ส่งออก</button><button class="nav" data-page="reports">▥ รายงาน</button></div><div class="foot"><div id="userEmail" class="muted"></div><div id="userRole" class="muted"></div><button id="logoutBtn" class="secondary" style="width:100%;margin-top:10px">ออกจากระบบ</button></div></aside><main class="main"><div class="top"><div><h1 id="pageTitle">ภาพรวมคลังสินค้า</h1><div class="muted">จัดการสินค้าเข้า–ออกและตรวจนับสต๊อก</div></div><div class="row" style="max-width:470px"><input id="globalSearch" class="search" placeholder="ค้นหาชื่อ / รหัส / บาร์โค้ด..."><button id="quickScan" class="secondary fit">▦ สแกน</button></div></div><div id="notice"></div>
 <section id="dashboard"><div class="grid"><div class="card"><div class="metric-label">จำนวนสินค้าในคลัง</div><div class="metric" id="mUnits">0</div><div class="muted small">รวมทุกหมวดหมู่ (ชิ้น)</div></div><div class="card"><div class="metric-label">รหัสสินค้าทั้งหมด</div><div class="metric" id="mSkus">0</div><div class="muted small">SKU ที่ไม่ซ้ำกัน</div></div><div class="card"><div class="metric-label">รับเข้าเดือนนี้</div><div class="metric" id="mIn">0</div><div class="muted small">ชิ้น</div></div><div class="card"><div class="metric-label">ขายออกเดือนนี้</div><div class="metric" id="mOut">0</div><div class="muted small">ชิ้น</div></div></div><div class="card"><h2>หมวดหมู่สินค้า</h2><div class="grid"><div class="card catclick" onclick="openCategory('เครื่องเกม')"><div>🎮 เครื่องเกม</div><div class="metric" id="catConsole">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('ตุ๊กตา')"><div>🧸 ตุ๊กตา</div><div class="metric" id="catPlush">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('จอยเกม/ACC')"><div>🕹️ จอยเกม / ACC</div><div class="metric" id="catAcc">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('แผ่นเกม')"><div>💿 แผ่นเกม</div><div class="metric" id="catGame">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('ของแถม')"><div>🎁 ของแถม</div><div class="metric" id="catGift">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('ไม่มีหมวดหมู่')"><div>❔ ไม่มีหมวดหมู่</div><div class="metric" id="catNone">0</div><div class="muted small">ชิ้น</div></div><div class="card"><div>⚠️ สินค้าใกล้หมด</div><div class="metric" id="lowStock">0</div><div class="muted small">ตั้งแต่ 3 ชิ้นลงไป</div></div></div></div><div class="card"><h2>รายการเคลื่อนไหวล่าสุด</h2><div class="tablewrap"><table><thead><tr><th>วันเวลา</th><th>ประเภท</th><th>รหัส</th><th>สินค้า</th><th>จำนวน</th><th>หมายเหตุ</th></tr></thead><tbody id="recentRows"></tbody></table></div></div></section>
 <section id="inventory" class="hidden"><div class="card"><div class="row"><h2>คลังสินค้า</h2><div class="row" style="gap:8px;flex:0 0 auto"><select id="bulkCategory" class="hidden" style="max-width:170px;width:auto"><option value="">ย้ายไปหมวด…</option><option>เครื่องเกม</option><option>ตุ๊กตา</option><option>จอยเกม/ACC</option><option>แผ่นเกม</option><option>ของแถม</option><option>ไม่มีหมวดหมู่</option></select><button id="bulkMove" class="secondary hidden">ย้ายหมวดหมู่</button><button id="bulkDelete" class="danger hidden">🗑 ลบที่เลือก</button><button id="newProduct" class="fit adminonly">+ เพิ่มสินค้า</button></div></div><div class="row"><button id="catalogBtn" class="secondary fit">▧ เปิดแคตตาล็อก / พิมพ์เอกสาร</button><button id="showTableBtn" class="secondary fit">☷ มุมมองตาราง</button><button id="showGalleryBtn" class="secondary fit">▦ มุมมองรูปสินค้า</button></div><div class="row"><div class="field"><label>ค้นหาสินค้า</label><input id="invSearch" placeholder="รหัส ชื่อ หรือบาร์โค้ด"></div><div class="field"><label>หมวดหมู่</label><select id="invCategory"><option value="">ทุกหมวดหมู่</option><option>เครื่องเกม</option><option>ตุ๊กตา</option><option>จอยเกม/ACC</option><option>แผ่นเกม</option><option>ของแถม</option><option>ไม่มีหมวดหมู่</option></select></div><div class="field" style="max-width:150px"><label>แสดงต่อหน้า</label><select id="pageSize"><option value="20">20</option><option value="50" selected>50</option><option value="100">100</option><option value="0">ทั้งหมด</option></select></div></div><div id="productGallery" class="product-gallery hidden"></div><div id="inventoryTableWrap" class="tablewrap"><table><thead><tr><th class="adminonly" style="width:36px"><input type="checkbox" id="checkAll" title="เลือกทั้งหน้านี้"></th><th>รหัสสินค้า</th><th>ชื่อสินค้า</th><th>หมวดหมู่</th><th>บาร์โค้ด</th><th>คงเหลือ</th><th>ต้นทุน/ชิ้น</th><th class="adminonly">จัดการ</th></tr></thead><tbody id="inventoryRows"></tbody></table></div><div id="pager" class="pager"></div></div></section>
-<section id="movement" class="hidden"><div class="card"><h2>บันทึกสินค้าเคลื่อนไหว</h2><div class="tabs"><button class="pill active" data-kind="รับเข้า">รับสินค้าเข้า</button><button class="pill" data-kind="ขายออก">ขายสินค้า</button><button class="pill" data-kind="โอนออก">โอนให้ร้านอื่น</button></div><div class="two"><div class="field"><label>สแกนบาร์โค้ด / รหัสสินค้า</label><div class="row"><input id="moveCode" placeholder="ยิงบาร์โค้ดหรือพิมพ์รหัส"><button id="cameraBtn" class="secondary fit">📷 กล้อง</button></div><video id="camera" class="hidden" playsinline style="width:100%;border-radius:10px"></video></div><div class="field"><label>สินค้า</label><select id="moveProduct"></select></div><div class="field"><label>จำนวน (จำนวนเต็ม)</label><input id="moveQty" type="number" min="1" value="1"></div><div class="field"><label>ราคาต่อชิ้น (บาท) — สำหรับบันทึกยอดขาย/ต้นทุน</label><input id="movePrice" type="number" min="0" value="0"></div><div class="field"><label>ร้านปลายทาง (เฉพาะการโอน)</label><input id="moveStore" placeholder="ชื่อร้านที่รับโอน"></div><div class="field"><label>หมายเหตุ</label><input id="moveNote" placeholder="เลขที่บิล / ผู้รับผิดชอบ / หมายเหตุ"></div></div><button id="saveMove">บันทึกรายการ</button><div class="foot">ระบบตรวจสอบยอดคงเหลือก่อนขายหรือโอนออก การบันทึกจะบันทึกลงฐานข้อมูลออนไลน์ร่วมกันทุกอุปกรณ์</div></div></section>
-<section id="excel" class="hidden"><div class="two"><div class="card adminonly"><h2>↑ นำเข้า Excel</h2><p class="muted">รองรับ .xlsx และ .xls โดยใช้คอลัมน์ <b>รหัสสินค้า, จำนวน</b> (ชื่อสินค้า / หมวดหมู่ / บาร์โค้ด / ราคา ใส่ได้ถ้ามี — รองรับหัวตารางภาษาอังกฤษและรายงาน POS) · <b>รหัสที่ยังไม่มีในคลัง ระบบจะสร้างสินค้าใหม่ให้อัตโนมัติในหมวด “ไม่มีหมวดหมู่”</b> · บาร์โค้ดใช้คอลัมน์ SBC ก่อน ถ้าว่างจะใช้ IBC แทน</p><div class="upload"><input id="excelFile" type="file" accept=".xlsx,.xls,.csv"><div class="small muted">เลือกไฟล์ที่นับจากคลังสินค้า</div></div><div class="field"><label>เมื่อยืนยันผลตรวจนับ</label><select id="importMode"><option value="reconcile">ปรับยอดคงเหลือให้ตรงกับจำนวนที่นับ</option><option value="add" selected>บวกจำนวนเข้าสต๊อก (รับเข้า) — จำนวนเท่าเดิมจะไม่บวกซ้ำ</option><option value="meta">อัปเดตเฉพาะบาร์โค้ด/ราคา (ไม่แตะจำนวน)</option><option value="report">เก็บเป็นรายงานตรวจนับ ไม่เปลี่ยนสต๊อก</option></select></div><div id="importSummary" class="notice">เลือกไฟล์เพื่อเริ่มตรวจสอบ</div><div class="tablewrap"><table><thead><tr><th>รหัส</th><th>ชื่อ</th><th>บาร์โค้ด</th><th>ราคา</th><th>จำนวนในไฟล์</th><th>ในระบบ</th><th>ผลต่าง</th><th>สถานะ</th></tr></thead><tbody id="importRows"></tbody></table></div><button id="confirmImport" disabled>✓ ยืนยันนำเข้าข้อมูล</button></div><div class="card"><h2>↓ ส่งออก Excel</h2><p class="muted">ส่งออกจำนวนคงเหลือปัจจุบัน พร้อมรหัสสินค้า ชื่อสินค้า และหมวดหมู่</p><div class="field"><label>หมวดหมู่</label><select id="exportCategory"><option value="">ทุกหมวดหมู่</option><option>เครื่องเกม</option><option>ตุ๊กตา</option><option>จอยเกม/ACC</option><option>แผ่นเกม</option><option>ของแถม</option><option>ไม่มีหมวดหมู่</option></select></div><div class="field"><label>ชนิดข้อมูล</label><select id="exportType"><option value="stock">สินค้าคงเหลือปัจจุบัน</option><option value="transactions">ประวัติรับเข้า–ขาย–โอน</option></select></div><button id="exportBtn" class="green">ดาวน์โหลดไฟล์ Excel</button><button id="templateBtn" class="secondary">ดาวน์โหลดแม่แบบตรวจนับ</button><div class="notice">ก่อนนำเข้า ระบบจะแสดงรหัสที่ไม่พบ จำนวนผิดรูปแบบ และผลต่างให้ตรวจสอบก่อนยืนยันเสมอ</div></div></div></section>
+<section id="movement" class="hidden"><div class="card"><h2>บันทึกสินค้าเคลื่อนไหว</h2><div class="tabs"><button class="pill active" data-kind="รับเข้า">รับสินค้าเข้า</button><button class="pill" data-kind="ขายออก">ขายสินค้า</button><button class="pill" data-kind="โอนออก">โอนให้ร้านอื่น</button></div><div class="two"><div class="field"><label>สแกนบาร์โค้ด / รหัสสินค้า</label><div class="row"><input id="moveCode" placeholder="ยิงบาร์โค้ดหรือพิมพ์รหัส"><button id="cameraBtn" class="secondary fit">📷 กล้อง</button></div><video id="camera" class="hidden" playsinline style="width:100%;border-radius:10px"></video></div><div class="field"><label>สินค้า</label><select id="moveProduct"></select></div><div class="field"><label>จำนวน (จำนวนเต็ม)</label><input id="moveQty" type="number" min="1" value="1"></div><div class="field"><label>ราคาต่อชิ้น (บาท) — สำหรับบันทึกยอดขาย/ต้นทุน</label><input id="movePrice" type="number" min="0" value="0"></div><div class="field"><label>ร้านปลายทาง (เฉพาะการโอน)</label><input id="moveStore" placeholder="ชื่อร้านที่รับโอน"></div><div class="field"><label>หมายเหตุ</label><input id="moveNote" placeholder="เลขที่บิล / ผู้รับผิดชอบ / หมายเหตุ"></div></div><div id="cartBox" class="hidden"><h3 style="margin:18px 0 8px">🧾 รายการในบิลนี้ <span class="small muted" id="billHint"></span></h3><div class="tablewrap"><table><thead><tr><th>รหัส</th><th>สินค้า</th><th>จำนวน</th><th>ราคา/ชิ้น</th><th>รวม</th><th></th></tr></thead><tbody id="cartRows"></tbody></table></div><div class="row" style="justify-content:space-between;align-items:center;margin-top:10px"><span class="small muted" id="cartCount">ยังไม่มีรายการ</span><b id="cartTotal">0 ฿</b></div><div class="row" style="gap:8px;margin-top:10px"><button id="saveBill">💾 บันทึกบิล</button><button id="clearBill" class="secondary">ล้างบิล</button></div></div><button id="saveMove">บันทึกรายการ</button><div class="foot">ระบบตรวจสอบยอดคงเหลือก่อนขายหรือโอนออก การบันทึกจะบันทึกลงฐานข้อมูลออนไลน์ร่วมกันทุกอุปกรณ์</div></div><div class="card" style="margin-top:18px"><div class="row"><h2>บิลขายล่าสุด</h2><button id="refreshBills" class="secondary fit">↻ รีเฟรช</button></div><div class="tablewrap"><table><thead><tr><th>วันเวลา</th><th>เลขบิล</th><th>รายการ</th><th>ชิ้น</th><th>ยอดรวม</th><th>จัดการ</th></tr></thead><tbody id="billRows"></tbody></table></div><div class="small muted" style="margin-top:8px">รวมรายการขายที่บันทึกไว้ล่าสุด — บิลที่บันทึกก่อนอัปเดตจะแสดงเป็น “บิลเดี่ยว”</div></div></section>
+<section id="excel" class="hidden"><div class="two"><div class="card adminonly"><h2>↑ นำเข้า Excel</h2><p class="muted">รองรับ .xlsx และ .xls โดยใช้คอลัมน์ <b>รหัสสินค้า, จำนวน</b> (ชื่อสินค้า / หมวดหมู่ / บาร์โค้ด / ราคา ใส่ได้ถ้ามี — รองรับหัวตารางภาษาอังกฤษและรายงาน POS) · <b>รหัสที่ยังไม่มีในคลัง ระบบจะสร้างสินค้าใหม่ให้อัตโนมัติในหมวด “ไม่มีหมวดหมู่”</b> · บาร์โค้ดใช้คอลัมน์ SBC ก่อน ถ้าว่างจะใช้ IBC แทน</p><div class="upload"><input id="excelFile" type="file" accept=".xlsx,.xls,.csv"><div class="small muted">เลือกไฟล์ที่นับจากคลังสินค้า</div></div><div class="field"><label>เมื่อยืนยันผลตรวจนับ</label><select id="importMode"><option value="reconcile">ปรับยอดคงเหลือให้ตรงกับจำนวนที่นับ</option><option value="add" selected>บวกจำนวนเข้าสต๊อก (รับเข้า) — จำนวนเท่าเดิมจะไม่บวกซ้ำ</option><option value="meta">อัปเดตเฉพาะบาร์โค้ด/ราคา (ไม่แตะจำนวน)</option><option value="report">เก็บเป็นรายงานตรวจนับ ไม่เปลี่ยนสต๊อก</option></select></div><div id="importSummary" class="notice">เลือกไฟล์เพื่อเริ่มตรวจสอบ</div><div class="tablewrap"><table><thead><tr><th>รหัส</th><th>ชื่อ</th><th>บาร์โค้ด</th><th>ราคา</th><th>จำนวนในไฟล์</th><th>ในระบบ</th><th>ผลต่าง</th><th>สถานะ</th></tr></thead><tbody id="importRows"></tbody></table></div><button id="confirmImport" disabled>✓ ยืนยันนำเข้าข้อมูล</button></div><div class="card"><h2>↓ ส่งออก Excel</h2><p class="muted">ส่งออกจำนวนคงเหลือปัจจุบัน พร้อมรหัสสินค้า ชื่อสินค้า และหมวดหมู่</p><div class="field"><label>หมวดหมู่</label><select id="exportCategory"><option value="">ทุกหมวดหมู่</option><option>เครื่องเกม</option><option>ตุ๊กตา</option><option>จอยเกม/ACC</option><option>แผ่นเกม</option><option>ของแถม</option><option>ไม่มีหมวดหมู่</option></select></div><div class="field"><label>ชนิดข้อมูล</label><select id="exportType"><option value="stock">สินค้าคงเหลือปัจจุบัน</option><option value="transactions">ประวัติรับเข้า–ขาย–โอน</option><option value="in">ประวัติรับเข้า</option><option value="out">ประวัติขาย</option><option value="transfer">ประวัติโอน</option></select></div><button id="exportBtn" class="green">ดาวน์โหลดไฟล์ Excel</button><button id="templateBtn" class="secondary">ดาวน์โหลดแม่แบบตรวจนับ</button><div class="notice">ก่อนนำเข้า ระบบจะแสดงรหัสที่ไม่พบ จำนวนผิดรูปแบบ และผลต่างให้ตรวจสอบก่อนยืนยันเสมอ</div></div></div></section>
 <section id="reports" class="hidden"><div class="card"><h2>รายงานการเคลื่อนไหว</h2><div class="row"><div class="field"><label>จากวันที่</label><input id="reportFrom" type="date"></div><div class="field"><label>ถึงวันที่</label><input id="reportTo" type="date"></div><div class="field"><label>ช่วงด่วน</label><select id="reportPreset"><option value="today">วันนี้</option><option value="7">7 วันล่าสุด</option><option value="month" selected>เดือนนี้</option><option value="year">ปีนี้</option><option value="all">ทั้งหมด</option><option value="custom">กำหนดเอง</option></select></div><div class="field"><label>ประเภท</label><select id="reportKind"><option value="">ทั้งหมด</option><option>รับเข้า</option><option>ขายออก</option><option>โอนออก</option><option>ตรวจนับ</option></select></div><button id="runReport" class="fit">แสดงรายงาน</button></div><div class="small muted" id="reportRangeLabel"></div><div class="grid"><div class="card"><div class="muted">รับเข้า (ชิ้น)</div><div class="metric" id="rIn">0</div></div><div class="card"><div class="muted">ขายออก (ชิ้น)</div><div class="metric" id="rSold">0</div></div><div class="card"><div class="muted">โอนออก (ชิ้น)</div><div class="metric" id="rTransfer">0</div></div><div class="card"><div class="muted">ยอดขาย (บาท)</div><div class="metric" id="rSales">0</div></div></div><div class="tablewrap"><table><thead><tr><th>วันเวลา</th><th>ประเภท</th><th>รหัส</th><th>สินค้า</th><th>จำนวน</th><th>มูลค่า</th><th>หมายเหตุ</th></tr></thead><tbody id="reportRows"></tbody></table></div><button id="reportExport" class="secondary">ส่งออกรายงาน Excel</button></div></section>
 <div class="foot">ข้อมูลเก็บในฐานข้อมูลออนไลน์ (Supabase) ร่วมกันทุกอุปกรณ์ · ต้องล็อกอินก่อนใช้งาน · สิทธิ์: แอดมิน/พนักงาน</div></main></div><div id="productModal" class="modal hidden" onclick="if(event.target===this)closeProductModal()"><div class="modalbox"><div class="row"><h2 id="modalTitle">รายละเอียดสินค้า</h2><button class="secondary fit" onclick="closeProductModal()">ปิด ✕</button></div><div id="modalContent"></div></div></div><div id="productForm" class="modal hidden" onclick="if(event.target===this)closeProductForm()"><div class="modalbox"><div class="row"><h2 id="productFormTitle">เพิ่มสินค้า</h2><button class="secondary fit" onclick="closeProductForm()">ปิด ✕</button></div><div class="two"><div class="field"><label>รหัสสินค้า (ต้องไม่ซ้ำ)</label><input id="pCode"></div><div class="field"><label>ชื่อสินค้า</label><input id="pName"></div><div class="field"><label>หมวดหมู่</label><select id="pCategory"><option>เครื่องเกม</option><option>ตุ๊กตา</option><option>จอยเกม/ACC</option><option>แผ่นเกม</option><option>ของแถม</option><option>ไม่มีหมวดหมู่</option></select></div><div class="field"><label>บาร์โค้ด</label><input id="pBarcode"></div><div class="field"><label>จำนวนคงเหลือ</label><input id="pQty" type="number" min="0" value="0"></div><div class="field"><label>ต้นทุนต่อชิ้น (บาท)</label><input id="pCost" type="number" min="0" value="0"></div><div class="field"><label>ลิงก์รูปสินค้า (ถ้ามี)</label><input id="pImage" placeholder="https://... หรืออัปโหลดรูปด้านล่าง"></div><div class="field"><label>หรืออัปโหลดรูปจากอุปกรณ์</label><input id="pImageFile" type="file" accept="image/*"><div class="small muted">แนะนำรูปไม่เกิน 1 MB สำหรับต้นแบบที่เก็บในเบราว์เซอร์</div></div></div><div class="row" style="margin-top:14px"><button id="saveProduct">บันทึกสินค้า</button><button id="cancelProduct" class="secondary">ยกเลิก</button><button id="deleteProduct" class="danger hidden">ลบสินค้า</button></div></div></div>
+<div id="scanModal" class="modal hidden" onclick="if(event.target===this)closeScan()"><div class="modalbox" style="max-width:560px"><div class="row"><h2>สแกนบาร์โค้ด</h2><button class="secondary fit" onclick="closeScan()">ปิด ✕</button></div><video id="scanVideo" playsinline style="width:100%;border-radius:14px;background:#000;min-height:220px"></video><div class="muted small" style="margin-top:10px">ส่องบาร์โค้ดให้อยู่ในกรอบ ระบบจะค้นหาสินค้าในคลังให้อัตโนมัติ — หรือใช้เครื่องสแกนยิงที่ช่องค้นหาก็ได้</div></div></div>
+<div id="billModal" class="modal hidden" onclick="if(event.target===this)closeBill()"><div class="modalbox"><div class="row"><h2 id="billTitle">รายละเอียดบิล</h2><button class="secondary fit" onclick="closeBill()">ปิด ✕</button></div><div id="billContent"></div></div></div>
 <script>
 const $=id=>document.getElementById(id);
 let db={products:[],moves:[]},kind='รับเข้า',importData=[],cameraStream=null,editing=null,user=null,profile=null,isAdmin=false,sb,selectedCodes=new Set(),pageNo=1,pageSize=50;
+let cart=[],lastBill='';
 if(!window.SUPABASE_URL||window.SUPABASE_URL.includes('YOUR_SUPABASE_URL')||!window.SUPABASE_ANON_KEY||window.SUPABASE_ANON_KEY.includes('YOUR_SUPABASE_ANON_KEY')){
   document.addEventListener('DOMContentLoaded',()=>{authNote('ยังไม่ได้ตั้งค่า Supabase — แก้ไขไฟล์ js/config.js ให้เรียบร้อยก่อนใช้งาน (ดูขั้นตอนใน README.md)','err')});
 }else{
@@ -128,7 +131,7 @@ function authNote(msg,type='err'){$('authNotice').innerHTML=msg?`<div class="not
 async function loadData(){
   if(!sb)return;
   const [{data:products,error:pErr},{data:moves,error:mErr}]=await Promise.all([
-    sb.from('products').select('*').order('code'),
+    sb.from('products').select('code,name,category,barcode,qty,cost,updated_at').order('code'),
     sb.from('moves').select('*').order('date',{ascending:false}).limit(500)
   ]);
   if(pErr)throw pErr;
@@ -138,12 +141,24 @@ async function loadData(){
 }
 async function save(){await loadData();render()}
 
-function photo(p){return p.image||''}
+let imageMap=null,imagePromise=null;
+function loadImages(){
+  if(imagePromise)return imagePromise;
+  imagePromise=(async()=>{
+    if(!sb){imageMap=new Map();return imageMap}
+    const {data,error}=await sb.from('products').select('code,image');
+    if(error)throw error;
+    imageMap=new Map((data||[]).map(r=>[r.code,r.image||'']));
+    return imageMap;
+  })().catch(e=>{imagePromise=null;throw e});
+  return imagePromise;
+}
+function photo(p){return imageMap?imageMap.get(p.code)||'':''}
 function placeholder(){return '<div style="font-size:42px">🎮</div><div class="small">ยังไม่มีรูปสินค้า</div>'}
 function openProduct(code){let p=db.products.find(x=>x.code===code);if(!p)return;$('modalTitle').textContent=p.name;$('modalContent').innerHTML=`<div class="two"><div>${photo(p)?`<img class="detail-photo" src="${esc(photo(p))}" alt="${esc(p.name)}">`:`<div class="detail-photo" style="display:grid;place-content:center;text-align:center">${placeholder()}</div>`}</div><div><h2>${esc(p.name)}</h2><p class="muted">รหัสสินค้า: ${esc(p.code)}</p><p>หมวดหมู่: ${esc(p.category)}</p><p>บาร์โค้ด: ${esc(p.barcode||'—')}</p><p>คงเหลือ: <b>${n(p.qty)} ชิ้น</b></p><p>ต้นทุน/ชิ้น: ${n(p.cost)} บาท</p>${isAdmin?`<button onclick="closeProductModal();editProduct('${esc(p.code)}')">แก้ไขสินค้า / รูปภาพ</button>`:''}</div></div>`;$('productModal').classList.remove('hidden')}
 function closeProductModal(){$('productModal').classList.add('hidden')}
 function openCategory(cat){page('inventory');$('invCategory').value=cat;$('invSearch').value='';pageNo=1;render();note('กำลังแสดงหมวดหมู่: '+cat)}
-function exportCatalog(){let cat=$('invCategory').value;let list=db.products.filter(p=>!cat||p.category===cat);let w=window.open('','_blank');if(!w)return note('เบราว์เซอร์บล็อกหน้าต่างเอกสาร กรุณาอนุญาตป๊อปอัป','err');w.document.write(`<!doctype html><html lang="th"><meta charset="utf-8"><title>แคตตาล็อกสินค้า Nintendo</title><style>body{font-family:Arial,sans-serif;padding:24px;color:#222}h1{margin-bottom:4px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.item{border:1px solid #ddd;border-radius:8px;padding:10px;break-inside:avoid}.item img{width:100%;height:150px;object-fit:contain}.ph{height:150px;display:grid;place-items:center;background:#f5f5f5}small{color:#555}@media print{button{display:none}}</style><h1>Nintendo Stock — แคตตาล็อกสินค้า</h1><p>หมวดหมู่: ${cat||'ทั้งหมด'} · วันที่ ${new Date().toLocaleDateString('th-TH')}</p><div class="grid">${list.map(p=>`<div class="item">${p.image?`<img src="${esc(p.image)}">`:'<div class="ph">ไม่มีรูป</div>'}<h3>${esc(p.name)}</h3><p>รหัส: ${esc(p.code)}</p><p>หมวดหมู่: ${esc(p.category)}</p><p>คงเหลือ: ${n(p.qty)} ชิ้น</p><small>บาร์โค้ด: ${esc(p.barcode||'—')}</small></div>`).join('')}</div><p><button onclick="window.print()">พิมพ์ / บันทึกเป็น PDF</button></p></html>`);w.document.close()}
+async function exportCatalog(){await loadImages().catch(()=>{});let cat=$('invCategory').value;let list=db.products.filter(p=>!cat||p.category===cat);let w=window.open('','_blank');if(!w)return note('เบราว์เซอร์บล็อกหน้าต่างเอกสาร กรุณาอนุญาตป๊อปอัป','err');w.document.write(`<!doctype html><html lang="th"><meta charset="utf-8"><title>แคตตาล็อกสินค้า Nintendo</title><style>body{font-family:Arial,sans-serif;padding:24px;color:#222}h1{margin-bottom:4px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.item{border:1px solid #ddd;border-radius:8px;padding:10px;break-inside:avoid}.item img{width:100%;height:150px;object-fit:contain}.ph{height:150px;display:grid;place-items:center;background:#f5f5f5}small{color:#555}@media print{button{display:none}}</style><h1>Nintendo Stock — แคตตาล็อกสินค้า</h1><p>หมวดหมู่: ${cat||'ทั้งหมด'} · วันที่ ${new Date().toLocaleDateString('th-TH')}</p><div class="grid">${list.map(p=>`<div class="item">${p.image?`<img src="${esc(p.image)}">`:'<div class="ph">ไม่มีรูป</div>'}<h3>${esc(p.name)}</h3><p>รหัส: ${esc(p.code)}</p><p>หมวดหมู่: ${esc(p.category)}</p><p>คงเหลือ: ${n(p.qty)} ชิ้น</p><small>บาร์โค้ด: ${esc(p.barcode||'—')}</small></div>`).join('')}</div><p><button onclick="window.print()">พิมพ์ / บันทึกเป็น PDF</button></p></html>`);w.document.close()}
 function findProduct(s){s=String(s||'').trim().toLowerCase();return db.products.find(p=>p.code.toLowerCase()===s||String(p.barcode).toLowerCase()===s||p.name.toLowerCase()===s)}
 
 function render(){
@@ -157,7 +172,7 @@ function render(){
   $('inventoryRows').innerHTML=ps.map(p=>`<tr><td class="adminonly"><input type="checkbox" class="rowCheck" data-code="${esc(p.code)}" ${selectedCodes.has(p.code)?'checked':''}></td><td>${esc(p.code)}</td><td>${esc(p.name)}</td><td>${esc(p.category)}</td><td>${esc(p.barcode||'—')}</td><td><span class="tag ${p.qty<=3?'warn':''}">${n(p.qty)}</span></td><td>${n(p.cost)}</td><td class="adminonly"><button class="secondary" onclick="editProduct('${esc(p.code)}')">แก้ไข</button></td></tr>`).join('')||'<tr><td colspan="8" class="empty">ไม่พบสินค้า</td></tr>';
   syncSelection();
   renderPager(total,pages,start,ps.length);
-  $('productGallery').innerHTML=ps.map(p=>`<div class="product-tile" onclick="openProduct('${esc(p.code)}')"><div class="product-photo">${photo(p)?`<img src="${esc(photo(p))}" alt="${esc(p.name)}" onerror="this.parentNode.innerHTML='🎮<br>รูปไม่พร้อมใช้งาน'">`:placeholder()}</div><div class="product-info"><strong>${esc(p.name)}</strong><div class="muted small">${esc(p.code)} · ${esc(p.category)}</div><div style="margin-top:8px">คงเหลือ <b>${n(p.qty)}</b> ชิ้น</div><div class="small muted">แตะเพื่อดูรูปและรายละเอียด</div></div></div>`).join('')||'<div class="empty">ไม่พบสินค้า</div>';
+  $('productGallery').innerHTML=ps.map(p=>`<div class="product-tile" onclick="openProduct('${esc(p.code)}')"><div class="product-photo">${photo(p)?`<img src="${esc(photo(p))}" alt="${esc(p.name)}" loading="lazy" onerror="this.parentNode.innerHTML='🎮<br>รูปไม่พร้อมใช้งาน'">`:placeholder()}</div><div class="product-info"><strong>${esc(p.name)}</strong><div class="muted small">${esc(p.code)} · ${esc(p.category)}</div><div style="margin-top:8px">คงเหลือ <b>${n(p.qty)}</b> ชิ้น</div><div class="small muted">แตะเพื่อดูรูปและรายละเอียด</div></div></div>`).join('')||'<div class="empty">ไม่พบสินค้า</div>';
   let units=db.products.reduce((s,p)=>s+p.qty,0);$('mUnits').textContent=n(units);$('mSkus').textContent=n(db.products.length);
   $('catConsole').textContent=n(db.products.filter(p=>p.category==='เครื่องเกม').reduce((s,p)=>s+p.qty,0));
   $('catPlush').textContent=n(db.products.filter(p=>p.category==='ตุ๊กตา').reduce((s,p)=>s+p.qty,0));
@@ -172,14 +187,15 @@ function render(){
   $('recentRows').innerHTML=moveRows(db.moves.slice(0,8),false);
   $('moveProduct').innerHTML=db.products.map(p=>`<option value="${esc(p.code)}">${esc(p.code)} — ${esc(p.name)} (เหลือ ${p.qty})</option>`).join('');
   document.querySelectorAll('.adminonly').forEach(el=>el.classList.toggle('hidden',!isAdmin));
+  renderBills();
 }
 
 function moveRows(moves,full=true){return moves.map(m=>`<tr><td>${esc(new Date(m.date).toLocaleString('th-TH'))}</td><td>${esc(m.kind)}</td><td>${esc(m.code)}</td><td>${esc(m.name)}</td><td>${n(m.qty)}</td>${full?`<td>${n(m.price*m.qty)}</td>`:''}<td>${esc(m.note||'—')}</td></tr>`).join('')||`<tr><td colspan="${full?7:6}" class="empty">ยังไม่มีรายการ</td></tr>`}
 
-function page(name){document.querySelectorAll('main section').forEach(s=>s.classList.toggle('hidden',s.id!==name));document.querySelectorAll('.nav').forEach(b=>b.classList.toggle('active',b.dataset.page===name));$('pageTitle').textContent=({dashboard:'ภาพรวมคลังสินค้า',inventory:'คลังสินค้า',movement:'รับเข้า / ขาย / โอน',excel:'นำเข้า–ส่งออก Excel',reports:'รายงานสต๊อก'})[name];}
+function page(name){document.querySelectorAll('main section').forEach(s=>s.classList.toggle('hidden',s.id!==name));document.querySelectorAll('.nav').forEach(b=>b.classList.toggle('active',b.dataset.page===name));$('pageTitle').textContent=({dashboard:'ภาพรวมคลังสินค้า',inventory:'คลังสินค้า',movement:'รับเข้า / ขาย / โอน',excel:'นำเข้า–ส่งออก Excel',reports:'รายงานสต๊อก'})[name];if(name==='excel')ensureXLSX().catch(()=>{})}
 document.querySelectorAll('.nav').forEach(b=>b.onclick=()=>page(b.dataset.page));
 $('globalSearch').oninput=()=>{page('inventory');$('invSearch').value=$('globalSearch').value;pageNo=1;render()};
-$('invSearch').oninput=()=>{pageNo=1;render()};$('invCategory').onchange=()=>{pageNo=1;render()};
+$('invSearch').oninput=()=>{pageNo=1;render()};$('invSearch').addEventListener('keydown',e=>{if(e.key!=='Enter')return;const v=$('invSearch').value.trim(),p=v?findScanProduct(v):null;if(!p)return;e.preventDefault();$('invSearch').value=p.code;pageNo=1;render();openProduct(p.code)});$('invCategory').onchange=()=>{pageNo=1;render()};
 $('showGalleryBtn').onclick=()=>{$('productGallery').classList.remove('hidden');$('inventoryTableWrap').classList.add('hidden')};
 $('showTableBtn').onclick=()=>{$('productGallery').classList.add('hidden');$('inventoryTableWrap').classList.remove('hidden')};
 $('catalogBtn').onclick=exportCatalog;
@@ -219,12 +235,13 @@ $('pager').addEventListener('click',e=>{let b=e.target.closest('button');if(!b)r
 function openProductForm(){editing=null;$('deleteProduct').classList.add('hidden');$('productFormTitle').textContent='เพิ่มสินค้า';['pCode','pName','pBarcode'].forEach(id=>$(id).value='');$('pQty').value=0;$('pCost').value=0;$('pImage').value='';$('pImageFile').value='';$('pCode').disabled=false;$('productForm').classList.remove('hidden');setTimeout(()=>$('pCode').focus(),50)}
 window.closeProductForm=()=>{$('productForm').classList.add('hidden');$('pCode').disabled=false};
 $('newProduct').onclick=()=>{if(!isAdmin)return note('เฉพาะแอดมินเท่านั้น','err');openProductForm()};
-window.editProduct=code=>{if(!isAdmin)return note('เฉพาะแอดมินเท่านั้น','err');let p=db.products.find(x=>x.code===code);if(!p)return;editing=code;$('deleteProduct').classList.remove('hidden');$('productFormTitle').textContent='แก้ไขสินค้า · '+p.code;$('pCode').value=p.code;$('pCode').disabled=true;$('pName').value=p.name;$('pBarcode').value=p.barcode||'';$('pCategory').value=p.category;$('pQty').value=p.qty;$('pCost').value=p.cost;$('pImage').value=p.image&&!p.image.startsWith('data:')?p.image:'';$('pImageFile').value='';$('productForm').classList.remove('hidden')};
+window.editProduct=code=>{if(!isAdmin)return note('เฉพาะแอดมินเท่านั้น','err');let p=db.products.find(x=>x.code===code);if(!p)return;editing=code;$('deleteProduct').classList.remove('hidden');$('productFormTitle').textContent='แก้ไขสินค้า · '+p.code;$('pCode').value=p.code;$('pCode').disabled=true;$('pName').value=p.name;$('pBarcode').value=p.barcode||'';$('pCategory').value=p.category;$('pQty').value=p.qty;$('pCost').value=p.cost;$('pImage').value=(photo(p)&&!photo(p).startsWith('data:'))?photo(p):'';$('pImageFile').value='';$('productForm').classList.remove('hidden')};
 $('cancelProduct').onclick=closeProductForm;
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!$('productForm').classList.contains('hidden'))return closeProductForm();if(!$('productModal').classList.contains('hidden'))closeProductModal()}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!$('billModal').classList.contains('hidden'))return closeBill();if(!$('scanModal').classList.contains('hidden'))return closeScan();if(!$('productForm').classList.contains('hidden'))return closeProductForm();if(!$('productModal').classList.contains('hidden'))closeProductModal()}});
 $('saveProduct').onclick=async()=>{
   if(!sb||!isAdmin)return note('เฉพาะแอดมินเท่านั้น หรือยังไม่ได้ตั้งค่า Supabase','err');
-  let oldImage=editing?db.products.find(x=>x.code===editing)?.image||'':'';let image=$('pImage').value.trim()||oldImage;let file=$('pImageFile').files[0];
+  if(editing&&(!imageMap||!imageMap.has(editing)))await loadImages().catch(()=>{});
+  let oldImage=editing?photo(db.products.find(x=>x.code===editing)||{code:editing}):'';let image=$('pImage').value.trim()||oldImage;let file=$('pImageFile').files[0];
   if(file){if(file.size>1200000)return note('รูปใหญ่เกิน 1.2 MB กรุณาย่อรูปก่อน','err');image=await new Promise((resolve,reject)=>{let r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)})}
   let p={code:$('pCode').value.trim(),name:$('pName').value.trim(),barcode:$('pBarcode').value.trim(),category:$('pCategory').value,qty:Number($('pQty').value),cost:Number($('pCost').value),image};
   if(!p.code||!p.name||!Number.isInteger(p.qty)||p.qty<0||p.cost<0)return note('กรอกรหัส ชื่อ จำนวนเต็มไม่ติดลบ และต้นทุนให้ถูกต้อง','err');
@@ -233,21 +250,72 @@ $('saveProduct').onclick=async()=>{
   try{
     if(editing){const {error}=await sb.from('products').update({name:p.name,barcode:p.barcode,category:p.category,qty:p.qty,cost:p.cost,image}).eq('code',editing);if(error)throw error}
     else{const {error}=await sb.from('products').insert(p);if(error)throw error}
-    $('pCode').disabled=false;$('productForm').classList.add('hidden');await save();note('บันทึกสินค้าและรูปภาพแล้ว');
+    $('pCode').disabled=false;$('productForm').classList.add('hidden');if(imageMap)imageMap.set(p.code,image||'');await save();note('บันทึกสินค้าและรูปภาพแล้ว');
   }catch(e){note('บันทึกไม่สำเร็จ: '+e.message,'err')}
 };
 $('deleteProduct').onclick=async()=>{if(!sb||!isAdmin||!editing)return; if(!confirm('ลบสินค้านี้จริงหรือไม่?'))return;const {error}=await sb.from('products').delete().eq('code',editing);if(error)return note('ลบไม่สำเร็จ: '+error.message,'err');$('productForm').classList.add('hidden');editing=null;await save();note('ลบสินค้าแล้ว')};
 
-document.querySelectorAll('[data-kind]').forEach(b=>b.onclick=()=>{kind=b.dataset.kind;document.querySelectorAll('[data-kind]').forEach(x=>x.classList.toggle('active',x===b))});
+document.querySelectorAll('[data-kind]').forEach(b=>b.onclick=()=>{kind=b.dataset.kind;document.querySelectorAll('[data-kind]').forEach(x=>x.classList.toggle('active',x===b));syncKindUI()});
 $('moveCode').onchange=()=>{let p=findProduct($('moveCode').value);if(p)$('moveProduct').value=p.code};
 $('moveProduct').onchange=()=>{let p=db.products.find(x=>x.code===$('moveProduct').value);if(p)$('moveCode').value=p.barcode||p.code};
-$('quickScan').onclick=()=>{page('movement');$('moveCode').focus()};
+let scanStream=null,scanTimer=null;
+async function openScan(){
+  if(!('BarcodeDetector'in window))return note('เบราว์เซอร์นี้ไม่รองรับสแกนผ่านกล้อง (แนะนำ Chrome บน Android) — ใช้เครื่องสแกนยิงที่ช่องค้นหาได้เลย','err');
+  page('inventory');$('scanModal').classList.remove('hidden');
+  const video=$('scanVideo');
+  try{
+    scanStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}});
+    video.srcObject=scanStream;try{await video.play()}catch(e){}
+    let det;try{det=new BarcodeDetector({formats:['ean_13','ean_8','upc_a','upc_e','code_128','code_39','itf','qr_code']})}catch(e){det=new BarcodeDetector()}
+    const tick=async()=>{
+      if(!scanStream)return;
+      try{const codes=await det.detect(video);if(codes&&codes.length){const v=String(codes[0].rawValue||'').trim();if(v)return handleScan(v)}}catch(e){}
+      scanTimer=setTimeout(tick,350);
+    };tick();
+  }catch(e){closeScan();note('เปิดกล้องไม่สำเร็จ: '+e.message,'err')}
+}
+window.closeScan=()=>{if(scanTimer){clearTimeout(scanTimer);scanTimer=null}if(scanStream){scanStream.getTracks().forEach(t=>t.stop());scanStream=null}const v=$('scanVideo');if(v)v.srcObject=null;$('scanModal').classList.add('hidden')};
+function findScanProduct(val){
+  const norm=v=>String(v||'').trim().toLowerCase(),digits=v=>String(v||'').replace(/\D/g,'').replace(/^0+/,'');
+  let t=norm(val),d=digits(val);
+  return db.products.find(p=>norm(p.barcode)===t||norm(p.code)===t)
+    ||db.products.find(p=>d&&(digits(p.barcode)===d||digits(p.code)===d))
+    ||db.products.find(p=>norm(p.name)===t)||findProductByName(val);
+}
+function handleScan(val){
+  const p=findScanProduct(val);
+  closeScan();page('inventory');
+  $('invCategory').value='';$('invSearch').value=p?p.code:val;pageNo=1;render();
+  if(p){openProduct(p.code);note('พบสินค้า: '+p.name+' · คงเหลือ '+n(p.qty)+' ชิ้น','ok')}
+  else note('ไม่พบสินค้าที่ตรงกับ "'+val+'" ในคลัง','err');
+}
+$('quickScan').onclick=()=>{if(!$('movement').classList.contains('hidden')){$('moveCode').focus();return}openScan()};
+function cartQty(code){return cart.filter(x=>x.code===code).reduce((s,x)=>s+x.qty,0)}
+function syncKindUI(){const sale=kind==='ขายออก';$('cartBox').classList.toggle('hidden',!sale);$('saveMove').textContent=sale?'＋ เพิ่มลงบิล':'บันทึกรายการ';if(sale)renderCart()}
+function renderCart(){
+  if(!$('cartRows'))return;
+  $('cartRows').innerHTML=cart.map((x,i)=>`<tr><td>${esc(x.code)}</td><td>${esc(x.name)}</td><td>${n(x.qty)}</td><td>${n(x.price)}</td><td>${n(x.qty*x.price)}</td><td><button class="secondary" onclick="removeCartItem(${i})">ลบ</button></td></tr>`).join('')||'<tr><td colspan="6" class="empty">ยังไม่มีรายการ — สแกนสินค้าแล้วกด “เพิ่มลงบิล”</td></tr>';
+  $('cartCount').textContent=cart.length?cart.length+' รายการ · '+n(cart.reduce((s,x)=>s+x.qty,0))+' ชิ้น':'ยังไม่มีรายการ';
+  $('cartTotal').textContent=n(cart.reduce((s,x)=>s+x.qty*x.price,0))+' ฿';
+  $('saveBill').disabled=!cart.length;
+  $('billHint').textContent=lastBill?'· บิลล่าสุด: '+lastBill:'';
+}
+window.removeCartItem=i=>{cart.splice(i,1);renderCart()};
 $('saveMove').onclick=async()=>{
   if(!sb)return note('ยังไม่ได้ตั้งค่า Supabase','err');
   let p=findProduct($('moveCode').value)||db.products.find(x=>x.code===$('moveProduct').value);
   let qty=Number($('moveQty').value),price=Number($('movePrice').value||0),store=$('moveStore').value.trim();
   if(!p)return note('ไม่พบรหัสสินค้า กรุณาเพิ่มสินค้าในคลังก่อน','err');
   if(!Number.isInteger(qty)||qty<=0||price<0)return note('จำนวนต้องเป็นจำนวนเต็มมากกว่า 0 และราคาต้องไม่ติดลบ','err');
+  if(kind==='ขายออก'){
+    const inCart=cartQty(p.code);
+    if(qty+inCart>p.qty)return note(`จำนวนไม่พอ: มี ${p.qty} ชิ้น${inCart?' (ในบิลแล้ว '+inCart+')':''}`,'err');
+    const ex=cart.find(x=>x.code===p.code);
+    if(ex){ex.qty+=qty;ex.price=price}
+    else cart.push({code:p.code,name:p.name,qty,price});
+    renderCart();$('moveCode').value='';$('moveQty').value=1;$('moveCode').focus();
+    return note('เพิ่ม '+p.name+' × '+n(qty)+' ลงบิลแล้ว');
+  }
   if((kind==='ขายออก'||kind==='โอนออก')&&qty>p.qty)return note(`จำนวนไม่พอ: มี ${p.qty} ชิ้น`,'err');
   if(kind==='โอนออก'&&!store)return note('กรุณาระบุร้านปลายทาง','err');
   let noteStr=[$('moveNote').value.trim(),store?`ร้านปลายทาง: ${store}`:''].filter(Boolean).join(' | ');
@@ -256,6 +324,49 @@ $('saveMove').onclick=async()=>{
   $('moveQty').value=1;$('moveNote').value='';$('moveStore').value='';
   await save();note('บันทึกรายการแล้ว');
 };
+$('saveBill').onclick=async()=>{
+  if(!sb)return note('ยังไม่ได้ตั้งค่า Supabase','err');
+  if(!cart.length)return note('ยังไม่มีรายการในบิล','err');
+  const items=cart.map(x=>({code:x.code,qty:x.qty,price:x.price}));
+  const totalQty=cart.reduce((s,x)=>s+x.qty,0),totalVal=cart.reduce((s,x)=>s+x.qty*x.price,0);
+  if(!confirm(`บันทึกบิลขาย ${cart.length} รายการ · ${n(totalQty)} ชิ้น · ${n(totalVal)} ฿?`))return;
+  $('saveBill').disabled=true;
+  try{
+    const noteStr=$('moveNote').value.trim();
+    const {data,error}=await sb.rpc('record_bill',{p_kind:'ขายออก',p_items:items,p_store:null,p_note:noteStr||null,p_bill:null});
+    if(error)throw error;
+    lastBill=data&&data.bill?data.bill:'';
+    cart=[];$('moveNote').value='';renderCart();
+    await save();
+    note('บันทึกบิล '+lastBill+' แล้ว ('+items.length+' รายการ)','ok');
+  }catch(e){note('บันทึกบิลไม่สำเร็จ: '+e.message,'err')}
+  finally{$('saveBill').disabled=!cart.length}
+};
+$('clearBill').onclick=()=>{if(!cart.length)return;if(!confirm('ล้างรายการในบิลทั้งหมด?'))return;cart=[];renderCart();note('ล้างบิลแล้ว')};
+$('refreshBills').onclick=async()=>{await save();note('รีเฟรชประวัติบิลแล้ว')};
+function billGroups(){
+  const map=new Map();
+  db.moves.filter(m=>m.kind==='ขายออก').forEach(m=>{
+    const key=m.bill_id||('single-'+m.id);
+    let g=map.get(key);
+    if(!g){g={key,bill:m.bill_id||'',date:m.date,items:[],qty:0,total:0};map.set(key,g)}
+    g.items.push(m);g.qty+=m.qty;g.total+=m.qty*(m.price||0);
+    if(new Date(m.date)>new Date(g.date))g.date=m.date;
+  });
+  return [...map.values()].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,30);
+}
+function renderBills(){
+  if(!$('billRows'))return;
+  const gs=billGroups();
+  $('billRows').innerHTML=gs.map(g=>`<tr><td>${esc(new Date(g.date).toLocaleString('th-TH'))}</td><td>${g.bill?esc(g.bill):'<span class="small muted">บิลเดี่ยว</span>'}</td><td>${n(g.items.length)}</td><td>${n(g.qty)}</td><td>${n(g.total)}</td><td><button class="secondary" onclick="viewBill('${esc(g.key)}')">ดู</button></td></tr>`).join('')||'<tr><td colspan="6" class="empty">ยังไม่มีประวัติการขาย</td></tr>';
+}
+window.viewBill=key=>{
+  const g=billGroups().find(x=>x.key===key);if(!g)return;
+  $('billTitle').textContent='บิลขาย'+(g.bill?' · '+g.bill:' (บิลเดี่ยว)');
+  $('billContent').innerHTML=`<p class="muted">${esc(new Date(g.date).toLocaleString('th-TH'))}</p><div class="tablewrap"><table><thead><tr><th>รหัส</th><th>สินค้า</th><th>จำนวน</th><th>ราคา/ชิ้น</th><th>รวม</th></tr></thead><tbody>${g.items.map(m=>`<tr><td>${esc(m.code)}</td><td>${esc(m.name)}</td><td>${n(m.qty)}</td><td>${n(m.price)}</td><td>${n(m.qty*(m.price||0))}</td></tr>`).join('')}</tbody></table></div><div class="row" style="justify-content:flex-end;gap:14px;margin-top:10px"><b>รวม ${n(g.qty)} ชิ้น</b><b>${n(g.total)} ฿</b></div>${g.items.find(m=>m.note)?`<div class="foot">${esc(g.items.find(m=>m.note).note)}</div>`:''}`;
+  $('billModal').classList.remove('hidden');
+};
+window.closeBill=()=>$('billModal').classList.add('hidden');
 
 const numOf=v=>{if(typeof v==='number')return Number.isInteger(v)?v:NaN;let s=String(v??'').trim();if(!s)return NaN;const ints=n=>Number.isInteger(n)?n:NaN;if(/^-?\d+(\.\d+)?$/.test(s))return ints(Number(s));if(/^-?\d{1,3}(,\d{3})+(\.\d+)?$/.test(s))return ints(Number(s.replace(/,/g,'')));let m=s.match(/^(-?\d+(?:\.\d+)?)\s*[^\d].*$/);return m?ints(Number(m[1])):NaN};
 const normHead=s=>String(s??'').trim().toLowerCase().replace(/[\s_()\-.\/]/g,'');
@@ -284,7 +395,9 @@ function findProductByName(name){
   for(const pp of db.products){const nm=normTxt(pp.name);if(nm.length>=4&&t.includes(nm)&&(!best||nm.length>normTxt(best.name).length))best=pp}
   return best;
 }
-$('excelFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;importData=[];if(!window.XLSX)return note('โหลดตัวอ่าน Excel ไม่สำเร็จ กรุณาเชื่อมต่ออินเทอร์เน็ตแล้วลองใหม่','err');try{let wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),grid=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:'',blankrows:false});if(!grid.length)throw Error('ไฟล์ไม่มีข้อมูล');const loose=(h,keys)=>{if(!h)return false;return keys.some(k=>h.includes(k))};const hits=(row,keys)=>row.filter(c=>loose(normHead(c),keys)).length;let hr=-1,best=0;for(let r=0;r<Math.min(15,grid.length);r++){let sc=hits(grid[r],CODE_K)*3+hits(grid[r],QTY_K)*3+hits(grid[r],NAME_K)+hits(grid[r],CAT_K);if(sc>best){best=sc;hr=r}}if(hr<0)hr=-1;const H=hr>=0?(grid[hr]||[]):[];const colExact=keys=>{for(let c=0;c<H.length;c++)if(keys.includes(normHead(H[c])))return c;return -1};const colLoose=keys=>{for(let c=0;c<H.length;c++)if(loose(normHead(H[c]),keys))return c;return -1};const pick=keys=>{const e=colExact(keys);return e>=0?e:colLoose(keys)};const pickEx=(keys,ex)=>{for(let c=0;c<H.length;c++)if(c!==ex&&keys.includes(normHead(H[c])))return c;for(let c=0;c<H.length;c++)if(c!==ex&&loose(normHead(H[c]),keys))return c;return -1};let si=pick(SBC_K),ii=pick(IBC_K),baseCi=(si>=0?pickEx(CODE_K,si):(ii>=0?pickEx(CODE_K,ii):pick(CODE_K))),ni=pick(NAME_K),ti=pick(CAT_K),qi=pick(QTY_K),pi=pick(PRICE_K);let bi=si>=0?si:ii,ci=baseCi>=0?baseCi:(bi>=0?bi:0);if(si===ci||si===ni||si===qi||si===ti)si=-1;if(ii===ci||ii===ni||ii===qi||ii===ti||ii===si)ii=-1;if(pi===ci||pi===ni||pi===qi||pi===ti||pi===si||pi===ii)pi=-1;const bcOf=r=>{let a=si>=0?String(r[si]??'').trim():'',b=ii>=0?String(r[ii]??'').trim():'';return a||b};const body=hr>=0?grid.slice(hr+1):grid;const nonEmpty=body.filter(r=>r.some(c=>String(c??'').trim()!==''));if(qi<0){for(let c=0;c<(H.length||(grid[0]||[]).length);c++){if(c===ci)continue;let vals=nonEmpty.map(r=>r[c]).filter(v=>String(v??'').trim()!=='');if(vals.length&&vals.every(v=>!isNaN(numOf(v)))){qi=c;break}}}if(ci<0)ci=0;if(ni===ci)ni=-1;if(ti===ci||ti===qi)ti=-1;const colName=c=>c>=0&&H[c]!==undefined?String(H[c]).trim():'ไม่พบคอลัมน์';const rows=nonEmpty.map(r=>({code:String(r[ci]??'').trim(),name:ni>=0?String(r[ni]??'').trim():'',cat:ti>=0?String(r[ti]??'').trim():'',qty:qi>=0?(r[qi]??''):'',noQty:qi<0,barcode:(si>=0||ii>=0)?bcOf(r):'',cost:pi>=0?(r[pi]??''):''}));applyImportRows(rows,`หัวตาราง: ${hr>=0?'แถวที่ '+(hr+1):'ไม่พบ (ใช้แถวแรกเป็นข้อมูล)'} · คอลัมน์รหัส = "${colName(ci)}" · คอลัมน์จำนวน = "${colName(qi)}" · คอลัมน์ชื่อ = "${colName(ni)}" · คอลัมน์บาร์โค้ด = "${colName(si)}"${ii>=0?` · บาร์โค้ดสำรอง (IBC) = "${colName(ii)}"`:''} · คอลัมน์ราคา = "${colName(pi)}"`,hr>=0?hr+2:1)}catch(err){note('อ่านไฟล์ไม่ได้: '+err.message,'err')}};
+let xlsxPromise=null;
+function ensureXLSX(){if(window.XLSX)return Promise.resolve(window.XLSX);if(!xlsxPromise)xlsxPromise=new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';s.onload=()=>res(window.XLSX);s.onerror=()=>{xlsxPromise=null;rej(new Error('โหลดตัวอ่าน Excel ไม่สำเร็จ กรุณาเชื่อมต่ออินเทอร์เน็ตแล้วลองใหม่'))};document.head.appendChild(s)});return xlsxPromise}
+$('excelFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;importData=[];try{await ensureXLSX();let wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),grid=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:'',blankrows:false});if(!grid.length)throw Error('ไฟล์ไม่มีข้อมูล');const loose=(h,keys)=>{if(!h)return false;return keys.some(k=>h.includes(k))};const hits=(row,keys)=>row.filter(c=>loose(normHead(c),keys)).length;let hr=-1,best=0;for(let r=0;r<Math.min(15,grid.length);r++){let sc=hits(grid[r],CODE_K)*3+hits(grid[r],QTY_K)*3+hits(grid[r],NAME_K)+hits(grid[r],CAT_K);if(sc>best){best=sc;hr=r}}if(hr<0)hr=-1;const H=hr>=0?(grid[hr]||[]):[];const colExact=keys=>{for(let c=0;c<H.length;c++)if(keys.includes(normHead(H[c])))return c;return -1};const colLoose=keys=>{for(let c=0;c<H.length;c++)if(loose(normHead(H[c]),keys))return c;return -1};const pick=keys=>{const e=colExact(keys);return e>=0?e:colLoose(keys)};const pickEx=(keys,ex)=>{for(let c=0;c<H.length;c++)if(c!==ex&&keys.includes(normHead(H[c])))return c;for(let c=0;c<H.length;c++)if(c!==ex&&loose(normHead(H[c]),keys))return c;return -1};let si=pick(SBC_K),ii=pick(IBC_K),baseCi=(si>=0?pickEx(CODE_K,si):(ii>=0?pickEx(CODE_K,ii):pick(CODE_K))),ni=pick(NAME_K),ti=pick(CAT_K),qi=pick(QTY_K),pi=pick(PRICE_K);let bi=si>=0?si:ii,ci=baseCi>=0?baseCi:(bi>=0?bi:0);if(si===ci||si===ni||si===qi||si===ti)si=-1;if(ii===ci||ii===ni||ii===qi||ii===ti||ii===si)ii=-1;if(pi===ci||pi===ni||pi===qi||pi===ti||pi===si||pi===ii)pi=-1;const bcOf=r=>{let a=si>=0?String(r[si]??'').trim():'',b=ii>=0?String(r[ii]??'').trim():'';return a||b};const body=hr>=0?grid.slice(hr+1):grid;const nonEmpty=body.filter(r=>r.some(c=>String(c??'').trim()!==''));if(qi<0){for(let c=0;c<(H.length||(grid[0]||[]).length);c++){if(c===ci)continue;let vals=nonEmpty.map(r=>r[c]).filter(v=>String(v??'').trim()!=='');if(vals.length&&vals.every(v=>!isNaN(numOf(v)))){qi=c;break}}}if(ci<0)ci=0;if(ni===ci)ni=-1;if(ti===ci||ti===qi)ti=-1;const colName=c=>c>=0&&H[c]!==undefined?String(H[c]).trim():'ไม่พบคอลัมน์';const rows=nonEmpty.map(r=>({code:String(r[ci]??'').trim(),name:ni>=0?String(r[ni]??'').trim():'',cat:ti>=0?String(r[ti]??'').trim():'',qty:qi>=0?(r[qi]??''):'',noQty:qi<0,barcode:(si>=0||ii>=0)?bcOf(r):'',cost:pi>=0?(r[pi]??''):''}));applyImportRows(rows,`หัวตาราง: ${hr>=0?'แถวที่ '+(hr+1):'ไม่พบ (ใช้แถวแรกเป็นข้อมูล)'} · คอลัมน์รหัส = "${colName(ci)}" · คอลัมน์จำนวน = "${colName(qi)}" · คอลัมน์ชื่อ = "${colName(ni)}" · คอลัมน์บาร์โค้ด = "${colName(si)}"${ii>=0?` · บาร์โค้ดสำรอง (IBC) = "${colName(ii)}"`:''} · คอลัมน์ราคา = "${colName(pi)}"`,hr>=0?hr+2:1)}catch(err){note('อ่านไฟล์ไม่ได้: '+err.message,'err')}};
 
 $('confirmImport').onclick=async()=>{
   if(!importData.length)return;if(!sb||!isAdmin)return note('เฉพาะแอดมินเท่านั้น หรือยังไม่ได้ตั้งค่า Supabase','err');
@@ -298,8 +411,8 @@ $('confirmImport').onclick=async()=>{
   await save();note('นำเข้าข้อมูลเรียบร้อย (สร้าง/ปรับสต๊อกอัตโนมัติ)','ok');$('confirmImport').disabled=true;$('excelFile').value='';importData=[];
 };
 
-function download(rows,name){if(!window.XLSX)return note('โหลดตัวอ่าน Excel ไม่สำเร็จ','err');let ws=XLSX.utils.json_to_sheet(rows);let wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Stock');XLSX.writeFile(wb,name)}
-$('exportBtn').onclick=async()=>{if(!sb)return note('ยังไม่ได้ตั้งค่า Supabase','err');let cat=$('exportCategory').value;if($('exportType').value==='transactions'){const {data:moves,error}=await sb.from('moves').select('*').order('date',{ascending:false});if(error)return note('โหลดข้อมูลไม่สำเร็จ: '+error.message,'err');let rows=(moves||[]).filter(m=>!cat||db.products.find(p=>p.code===m.code)?.category===cat).map(m=>({'วันเวลา':new Date(m.date).toLocaleString('th-TH'),'ประเภท':m.kind,'รหัสสินค้า':m.code,'ชื่อสินค้า':m.name,'จำนวน':m.qty,'ราคาต่อชิ้น':m.price,'มูลค่า':m.qty*m.price,'หมายเหตุ':m.note}));download(rows,'nintendo-transactions.xlsx')}else{let rows=db.products.filter(p=>!cat||p.category===cat).map(p=>({'รหัสสินค้า':p.code,'ชื่อสินค้า':p.name,'หมวดหมู่':p.category,'บาร์โค้ด':p.barcode,'จำนวน':p.qty,'ต้นทุนต่อชิ้น':p.cost}));download(rows,'nintendo-stock.xlsx')}};
+async function download(rows,name){try{await ensureXLSX()}catch(e){return note(e.message,'err')}let ws=XLSX.utils.json_to_sheet(rows);let wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Stock');XLSX.writeFile(wb,name)}
+$('exportBtn').onclick=async()=>{if(!sb)return note('ยังไม่ได้ตั้งค่า Supabase','err');let cat=$('exportCategory').value,t=$('exportType').value;const KIND_EXPORT={in:'รับเข้า',out:'ขายออก',transfer:'โอนออก'};if(t!=='stock'){const {data:moves,error}=await sb.from('moves').select('*').order('date',{ascending:false});if(error)return note('โหลดข้อมูลไม่สำเร็จ: '+error.message,'err');const kind=KIND_EXPORT[t]||'';let rows=(moves||[]).filter(m=>(!kind||m.kind===kind)&&(!cat||db.products.find(p=>p.code===m.code)?.category===cat)).map(m=>({'วันเวลา':new Date(m.date).toLocaleString('th-TH'),'ประเภท':m.kind,'เลขบิล':m.bill_id||'','รหัสสินค้า':m.code,'ชื่อสินค้า':m.name,'จำนวน':m.qty,'ราคาต่อชิ้น':m.price,'มูลค่า':m.qty*m.price,'หมายเหตุ':m.note}));if(!rows.length)return note('ไม่มีข้อมูลสำหรับหมวดหมู่ที่เลือก','err');const names={transactions:'nintendo-transactions',in:'nintendo-receive',out:'nintendo-sales',transfer:'nintendo-transfers'};download(rows,(names[t]||'nintendo-history')+'.xlsx')}else{let rows=db.products.filter(p=>!cat||p.category===cat).map(p=>({'รหัสสินค้า':p.code,'ชื่อสินค้า':p.name,'หมวดหมู่':p.category,'บาร์โค้ด':p.barcode,'จำนวน':p.qty,'ต้นทุนต่อชิ้น':p.cost}));if(!rows.length)return note('ไม่มีข้อมูลสำหรับหมวดหมู่ที่เลือก','err');download(rows,'nintendo-stock.xlsx')}};
 $('templateBtn').onclick=()=>download(db.products.map(p=>({'รหัสสินค้า':p.code,'ชื่อสินค้า':p.name,'หมวดหมู่':p.category,'จำนวน':p.qty})),'stock-count-template.xlsx');
 
 const localISO=d=>new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10);
@@ -318,7 +431,7 @@ async function runReport(){if(!sb)return note('ยังไม่ได้ตั
   $('rTransfer').textContent=n(ms.filter(m=>m.kind==='โอนออก').reduce((s,m)=>s+m.qty,0));
   $('rSales').textContent=n(ms.filter(m=>m.kind==='ขายออก').reduce((s,m)=>s+m.qty*m.price,0));
   $('reportRows').innerHTML=moveRows(ms,true);
-  $('reportExport').onclick=()=>download(ms.map(m=>({'วันเวลา':new Date(m.date).toLocaleString('th-TH'),'ประเภท':m.kind,'รหัสสินค้า':m.code,'ชื่อสินค้า':m.name,'จำนวน':m.qty,'มูลค่า':m.qty*m.price,'หมายเหตุ':m.note})),'nintendo-report.xlsx');
+  $('reportExport').onclick=()=>download(ms.map(m=>({'วันเวลา':new Date(m.date).toLocaleString('th-TH'),'ประเภท':m.kind,'เลขบิล':m.bill_id||'','รหัสสินค้า':m.code,'ชื่อสินค้า':m.name,'จำนวน':m.qty,'มูลค่า':m.qty*m.price,'หมายเหตุ':m.note})),'nintendo-report.xlsx');
 }
 $('runReport').onclick=runReport;$('reportPreset').onchange=applyReportPreset;$('reportFrom').onchange=$('reportTo').onchange=()=>{$('reportPreset').value='custom';updateReportLabel()};applyReportPreset();
 
@@ -340,15 +453,31 @@ function onActivity(){if(!user)return;if(Date.now()-lastTouch>30000)touchActivit
 const idleExpired=()=>{const t=lastActivity();return t>0&&Date.now()-t>=IDLE_LIMIT};
 async function autoLogout(msg){try{if(sb)await sb.auth.signOut({scope:'local'})}catch(e){try{if(sb)await sb.auth.signOut()}catch(_){}}clearAlive();user=null;profile=null;isAdmin=false;db={products:[],moves:[]};$('appScreen').classList.add('hidden');$('authScreen').classList.remove('hidden');$('productForm').classList.add('hidden');$('productModal').classList.add('hidden');authNote(msg||'ออกจากระบบอัตโนมัติ เนื่องจากไม่ใช้งานเกิน 5 ชั่วโมง','ok')}
 ['mousemove','mousedown','keydown','scroll','touchstart'].forEach(ev=>document.addEventListener(ev,onActivity,{passive:true}));
-addEventListener('pagehide',()=>{try{localStorage.removeItem(BEAT_KEY)}catch(e){}});
-addEventListener('pageshow',()=>{if(user)beat()});
 setInterval(()=>{if(user){beat();if(idleExpired())autoLogout()}},3000);
 document.addEventListener('visibilitychange',()=>{if(document.hidden||!user)return;if(idleExpired())return autoLogout();onActivity()});
 
+let starting=false;
+async function startSession(session){
+  if(!session||!session.user||starting)return;
+  starting=true;
+  user=session.user;markAlive();
+  $('userEmail').textContent=user.email||'';
+  showApp();note('กำลังโหลดข้อมูล…');
+  try{
+    const [{data:prof}]=await Promise.all([
+      sb.from('profiles').select('*').eq('id',user.id).single(),
+      loadData()
+    ]);
+    profile=prof;isAdmin=profile?.role==='admin';
+    $('userRole').textContent=isAdmin?'แอดมิน':'พนักงาน';
+    showApp();render();$('notice').innerHTML='';
+    loadImages().then(()=>{if(!$('productGallery').classList.contains('hidden'))render()}).catch(()=>{});
+  }catch(e){note('โหลดข้อมูลไม่สำเร็จ: '+e.message,'err')}
+  finally{starting=false}
+}
 async function boot(){try{const {data:{session}}=await sb.auth.getSession();if(!session)return;
-  if(!sessionStorage.getItem(ALIVE_KEY)&&!recentBeat()){try{await sb.auth.signOut({scope:'local'})}catch(e){}clearAlive();authNote('เพื่อความปลอดภัย กรุณาเข้าสู่ระบบใหม่','ok');return}
   if(idleExpired()){await autoLogout('ออกจากระบบอัตโนมัติ เนื่องจากไม่ใช้งานเกิน 5 ชั่วโมง');return}
-  user=session.user;const {data:prof}=await sb.from('profiles').select('*').eq('id',user.id).single();profile=prof;isAdmin=profile?.role==='admin';$('userEmail').textContent=user.email||'';$('userRole').textContent=isAdmin?'แอดมิน':'พนักงาน';markAlive();await loadData();showApp();render()}catch(e){}}
+  await startSession(session)}catch(e){}}
 let authMode='login';
 $('authToggleMode').onclick=()=>{authMode=authMode==='login'?'signup':'login';$('authTitle').textContent=authMode==='login'?'เข้าสู่ระบบ':'สมัครสมาชิก';$('authSub').textContent=authMode==='login'?'จัดการสินค้าเข้า–ออกและตรวจนับสต๊อก':'สร้างบัญชีผู้ใช้ใหม่ (พนักงาน)';$('authSubmit').textContent=authMode==='login'?'เข้าสู่ระบบ':'สมัครสมาชิก';$('authToggleMode').textContent=authMode==='login'?'ยังไม่มีบัญชี? สมัครสมาชิก':'มีบัญชีแล้ว? เข้าสู่ระบบ';$('authConfirmField').classList.toggle('hidden',authMode==='login');authNote('')};
 $('authSubmit').onclick=async()=>{
@@ -359,7 +488,7 @@ $('authSubmit').onclick=async()=>{
   const {data,error}=await sb.auth.signInWithPassword({email,password:pass});if(error)return authNote(error.message);
 };
 if(sb){
-  sb.auth.onAuthStateChange(async(event,session)=>{if(event==='SIGNED_IN'&&session){markAlive();user=session.user;const {data:prof}=await sb.from('profiles').select('*').eq('id',user.id).single();profile=prof;isAdmin=profile?.role==='admin';$('userEmail').textContent=user.email||'';$('userRole').textContent=isAdmin?'แอดมิน':'พนักงาน';await loadData();showApp();render()}else if(event==='SIGNED_OUT'){clearAlive();$('appScreen').classList.add('hidden');$('authScreen').classList.remove('hidden')}});
+  sb.auth.onAuthStateChange((event,session)=>{if(event==='SIGNED_IN'&&session){if(user&&user.id===session.user.id&&db.products.length)return;startSession(session)}else if(event==='SIGNED_OUT'){clearAlive();$('appScreen').classList.add('hidden');$('authScreen').classList.remove('hidden')}});
   boot();
 }
 </script></body></html>
