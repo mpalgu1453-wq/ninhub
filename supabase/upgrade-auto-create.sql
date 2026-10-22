@@ -19,6 +19,8 @@ declare
   v_qty integer;
   v_name text;
   v_category text;
+  v_barcode text;
+  v_cost numeric;
   v_product public.products;
   v_diff integer;
   v_results jsonb := '[]'::jsonb;
@@ -38,6 +40,15 @@ begin
     v_qty := (r->>'qty')::integer;
     v_name := nullif(trim(coalesce(r->>'name','')),'');
     v_category := nullif(trim(coalesce(r->>'category','')),'');
+    v_barcode := nullif(trim(coalesce(r->>'barcode','')),'');
+    begin
+      v_cost := nullif(trim(coalesce(r->>'cost','')),'')::numeric;
+    exception when others then
+      v_cost := null;
+    end;
+    if v_cost is not null and v_cost < 0 then
+      v_cost := null;
+    end if;
 
     if v_code is null or v_code = '' then
       continue;
@@ -55,19 +66,20 @@ begin
         continue;
       end if;
 
-      insert into public.products (code, name, category, qty, cost, image)
+      insert into public.products (code, name, category, barcode, qty, cost, image)
       values (
         v_code,
         coalesce(v_name, v_code),
         coalesce(v_category, 'ไม่มีหมวดหมู่'),
+        v_barcode,
         v_qty,
-        0,
+        coalesce(v_cost, 0),
         null
       )
       returning * into v_product;
 
       insert into public.moves (kind, code, name, qty, price, note, before_qty, after_qty, created_by)
-      values ('รับเข้า', v_code, v_product.name, v_qty, 0, 'สร้างสินค้าใหม่จาก Excel', 0, v_qty, auth.uid());
+      values ('รับเข้า', v_code, v_product.name, v_qty, coalesce(v_cost, 0), 'สร้างสินค้าใหม่จาก Excel', 0, v_qty, auth.uid());
 
       v_results := v_results || jsonb_build_object('code', v_code, 'status', 'created', 'qty', v_qty);
       continue;
@@ -76,15 +88,17 @@ begin
     -- รหัสมีอยู่แล้ว
     if p_mode = 'reconcile' then
       v_diff := v_qty - v_product.qty;
+      if v_diff <> 0 or v_barcode is not null or v_cost is not null then
+        update public.products set qty = v_qty, barcode = coalesce(v_barcode, barcode), cost = coalesce(v_cost, cost), updated_at = now() where code = v_code;
+      end if;
       if v_diff <> 0 then
-        update public.products set qty = v_qty, updated_at = now() where code = v_code;
         insert into public.moves (kind, code, name, qty, price, note, before_qty, after_qty, created_by)
         values ('ตรวจนับ', v_code, v_product.name, abs(v_diff), v_product.cost,
                 'ปรับยอดจาก Excel ' || case when v_diff > 0 then '+' else '' end || v_diff, v_product.qty, v_qty, auth.uid());
       end if;
       v_results := v_results || jsonb_build_object('code', v_code, 'status', 'reconciled', 'diff', v_diff, 'qty', v_qty);
     elsif p_mode = 'add' then
-      update public.products set qty = qty + v_qty, updated_at = now() where code = v_code;
+      update public.products set qty = qty + v_qty, barcode = coalesce(v_barcode, barcode), cost = coalesce(v_cost, cost), updated_at = now() where code = v_code;
       insert into public.moves (kind, code, name, qty, price, note, before_qty, after_qty, created_by)
       values ('รับเข้า', v_code, v_product.name, v_qty, v_product.cost, 'นำเข้าจาก Excel (บวกจำนวน)', v_product.qty, v_product.qty + v_qty, auth.uid());
       v_results := v_results || jsonb_build_object('code', v_code, 'status', 'added', 'qty', v_qty);
