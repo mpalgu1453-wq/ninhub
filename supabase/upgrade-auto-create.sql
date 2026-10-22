@@ -59,7 +59,7 @@ begin
       values (
         v_code,
         coalesce(v_name, v_code),
-        coalesce(v_category, 'อื่นๆ'),
+        coalesce(v_category, 'ไม่มีหมวดหมู่'),
         v_qty,
         0,
         null
@@ -99,3 +99,6 @@ $$;
 
 grant execute on function public.apply_stock_count(jsonb, text) to authenticated;
 revoke execute on function public.apply_stock_count(jsonb, text) from anon, public;
+
+-- ย้ายสินค้าเก่าที่เคยอยู่ในหมวด "อื่นๆ" ให้เป็น "ไม่มีหมวดหมู่" (รันซ้ำได้)
+update public.products set category = 'ไม่มีหมวดหมู่' where category = 'อื่นๆ';

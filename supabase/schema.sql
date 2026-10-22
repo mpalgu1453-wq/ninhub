@@ -259,7 +259,7 @@ begin
       values (
         v_code,
         coalesce(v_name, v_code),
-        coalesce(v_category, 'อื่นๆ'),
+        coalesce(v_category, 'ไม่มีหมวดหมู่'),
         v_qty,
         0,
         null
