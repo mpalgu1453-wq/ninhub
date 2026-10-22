@@ -318,7 +318,7 @@ begin
   if not public.is_admin() then
     raise exception 'เฉพาะแอดมินเท่านั้นที่สามารถนำเข้า/ปรับสต๊อกจาก Excel ได้';
   end if;
-  if p_mode not in ('reconcile','add','report') then
+  if p_mode not in ('reconcile','add','meta','report') then
     raise exception 'โหมดการนำเข้าไม่ถูกต้อง';
   end if;
 
