@@ -70,7 +70,7 @@ begin
       values (
         v_code,
         coalesce(v_name, v_code),
-        coalesce(v_category, 'ไม่มีหมวดหมู่'),
+        'ไม่มีหมวดหมู่',
         v_barcode,
         v_qty,
         coalesce(v_cost, 0),
@@ -98,10 +98,22 @@ begin
       end if;
       v_results := v_results || jsonb_build_object('code', v_code, 'status', 'reconciled', 'diff', v_diff, 'qty', v_qty);
     elsif p_mode = 'add' then
-      update public.products set qty = qty + v_qty, barcode = coalesce(v_barcode, barcode), cost = coalesce(v_cost, cost), updated_at = now() where code = v_code;
-      insert into public.moves (kind, code, name, qty, price, note, before_qty, after_qty, created_by)
-      values ('รับเข้า', v_code, v_product.name, v_qty, v_product.cost, 'นำเข้าจาก Excel (บวกจำนวน)', v_product.qty, v_product.qty + v_qty, auth.uid());
-      v_results := v_results || jsonb_build_object('code', v_code, 'status', 'added', 'qty', v_qty);
+      -- จำนวนคงเดิม (หรือ 0) ไม่ต้องบวกเพิ่ม
+      if v_qty = 0 or v_qty = v_product.qty then
+        if v_barcode is not null or v_cost is not null then
+          update public.products set barcode = coalesce(v_barcode, barcode), cost = coalesce(v_cost, cost), updated_at = now() where code = v_code;
+        end if;
+        v_results := v_results || jsonb_build_object('code', v_code, 'status', 'unchanged', 'qty', v_qty, 'system_qty', v_product.qty);
+      else
+        update public.products set qty = qty + v_qty, barcode = coalesce(v_barcode, barcode), cost = coalesce(v_cost, cost), updated_at = now() where code = v_code;
+        insert into public.moves (kind, code, name, qty, price, note, before_qty, after_qty, created_by)
+        values ('รับเข้า', v_code, v_product.name, v_qty, v_product.cost, 'นำเข้าจาก Excel (บวกจำนวน)', v_product.qty, v_product.qty + v_qty, auth.uid());
+        v_results := v_results || jsonb_build_object('code', v_code, 'status', 'added', 'qty', v_qty, 'system_qty', v_product.qty);
+      end if;
+    elsif p_mode = 'meta' then
+      -- อัปเดตเฉพาะบาร์โค้ด/ราคา ไม่แตะจำนวน
+      update public.products set barcode = coalesce(v_barcode, barcode), cost = coalesce(v_cost, cost), updated_at = now() where code = v_code;
+      v_results := v_results || jsonb_build_object('code', v_code, 'status', 'updated', 'qty', v_product.qty);
     else -- report
       v_results := v_results || jsonb_build_object('code', v_code, 'status', 'reported', 'qty', v_qty, 'system_qty', v_product.qty, 'diff', v_qty - v_product.qty);
     end if;
@@ -114,5 +126,8 @@ $$;
 grant execute on function public.apply_stock_count(jsonb, text) to authenticated;
 revoke execute on function public.apply_stock_count(jsonb, text) from anon, public;
 
--- ย้ายสินค้าเก่าที่เคยอยู่ในหมวด "อื่นๆ" ให้เป็น "ไม่มีหมวดหมู่" (รันซ้ำได้)
-update public.products set category = 'ไม่มีหมวดหมู่' where category = 'อื่นๆ';
+-- ย้ายสินค้าที่มีชื่อหมวดหมู่นอกเหนือจากรายการหลัก (เช่น เครื่อง, JOY&ACC จาก Excel) ให้เป็น "ไม่มีหมวดหมู่" (รันซ้ำได้)
+update public.products
+set category = 'ไม่มีหมวดหมู่'
+where category is null
+   or btrim(category) not in ('เครื่องเกม', 'ตุ๊กตา', 'จอยเกม/ACC', 'แผ่นเกม', 'ของแถม', 'ไม่มีหมวดหมู่');
