@@ -665,18 +665,30 @@ function billGroups(){
   });
   return [...map.values()].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,30);
 }
+function canCancelBill(g){return isAdmin&&(Date.now()-new Date(g.date).getTime()<86400000)}
 function renderBills(){
   if(!$('billRows'))return;
   const gs=billGroups();
-  $('billRows').innerHTML=gs.map(g=>`<tr><td>${esc(new Date(g.date).toLocaleString('th-TH'))}</td><td>${g.bill?esc(g.bill):'<span class="small muted">บิลเดี่ยว</span>'}</td><td>${n(g.items.length)}</td><td>${n(g.qty)}</td><td>${n(g.total)}</td><td><button class="secondary" onclick="viewBill('${esc(g.key)}')">ดู</button></td></tr>`).join('')||'<tr><td colspan="6" class="empty">ยังไม่มีประวัติการขาย</td></tr>';
+  $('billRows').innerHTML=gs.map(g=>`<tr><td>${esc(new Date(g.date).toLocaleString('th-TH'))}</td><td>${g.bill?esc(g.bill):'<span class="small muted">บิลเดี่ยว</span>'}</td><td>${n(g.items.length)}</td><td>${n(g.qty)}</td><td>${n(g.total)}</td><td><div class="row" style="gap:6px;flex-wrap:nowrap"><button class="secondary" onclick="viewBill('${esc(g.key)}')">ดู</button>${canCancelBill(g)?`<button class="danger" onclick="cancelSale('${esc(g.key)}')">ยกเลิก</button>`:''}</div></td></tr>`).join('')||'<tr><td colspan="6" class="empty">ยังไม่มีประวัติการขาย</td></tr>';
 }
 window.viewBill=key=>{
   const g=billGroups().find(x=>x.key===key);if(!g)return;
   $('billTitle').textContent='บิลขาย'+(g.bill?' · '+g.bill:' (บิลเดี่ยว)');
-  $('billContent').innerHTML=`<p class="muted">${esc(new Date(g.date).toLocaleString('th-TH'))}</p><div class="tablewrap"><table><thead><tr><th>รหัส</th><th>สินค้า</th><th>จำนวน</th><th>ราคา/ชิ้น</th><th>รวม</th></tr></thead><tbody>${g.items.map(m=>`<tr><td>${esc(m.code)}</td><td>${esc(m.name)}</td><td>${n(m.qty)}</td><td>${n(m.price)}</td><td>${n(m.qty*(m.price||0))}</td></tr>`).join('')}</tbody></table></div><div class="row" style="justify-content:flex-end;gap:14px;margin-top:10px"><b>รวม ${n(g.qty)} ชิ้น</b><b>${n(g.total)} ฿</b></div>${g.items.find(m=>m.note)?`<div class="foot">${esc(g.items.find(m=>m.note).note)}</div>`:''}`;
+  $('billContent').innerHTML=`<p class="muted">${esc(new Date(g.date).toLocaleString('th-TH'))}</p><div class="tablewrap"><table><thead><tr><th>รหัส</th><th>สินค้า</th><th>จำนวน</th><th>ราคา/ชิ้น</th><th>รวม</th></tr></thead><tbody>${g.items.map(m=>`<tr><td>${esc(m.code)}</td><td>${esc(m.name)}</td><td>${n(m.qty)}</td><td>${n(m.price)}</td><td>${n(m.qty*(m.price||0))}</td></tr>`).join('')}</tbody></table></div><div class="row" style="justify-content:flex-end;gap:14px;margin-top:10px"><b>รวม ${n(g.qty)} ชิ้น</b><b>${n(g.total)} ฿</b></div>${g.items.find(m=>m.note)?`<div class="foot">${esc(g.items.find(m=>m.note).note)}</div>`:''}${canCancelBill(g)?`<div class="row" style="justify-content:flex-end;margin-top:12px"><button class="danger" onclick="cancelSale('${esc(g.key)}')">ยกเลิกบิลนี้</button></div>`:''}`;
   $('billModal').classList.remove('hidden');
 };
 window.closeBill=()=>$('billModal').classList.add('hidden');
+window.cancelSale=async key=>{
+  if(!isAdmin)return note('เฉพาะแอดมินเท่านั้นที่ยกเลิกบิลได้','err');
+  if(!sb)return note('ยังไม่ได้ตั้งค่า Supabase','err');
+  const g=billGroups().find(x=>x.key===key);if(!g)return;
+  if(!canCancelBill(g))return note('ยกเลิกได้ภายใน 24 ชั่วโมงหลังขายเท่านั้น','err');
+  const label=g.bill?('บิล '+g.bill):'บิลเดี่ยว';
+  if(!confirm('ยกเลิก '+label+'?\n\n• คืนสินค้า '+n(g.qty)+' ชิ้นเข้าคลัง\n• ลบรายการขายของบิลนี้ออกจากประวัติ\n• ยกเลิกได้ภายใน 24 ชั่วโมงหลังขายเท่านั้น'))return;
+  const {error}=await sb.rpc('cancel_sale',{p_bill:g.bill||null,p_id:g.bill?null:g.items[0].id});
+  if(error){const msg=/cancel_sale|Could not find the function|does not exist/i.test(error.message)?'ยังไม่ได้ติดตั้งฟังก์ชันยกเลิกใน Supabase — กรุณารันไฟล์ supabase/cancel-bill.sql ใน SQL Editor ก่อน':'ยกเลิกไม่สำเร็จ: '+error.message;return note(msg,'err')}
+  closeBill();await save();note('ยกเลิก'+label+'แล้ว · คืนสินค้า '+n(g.qty)+' ชิ้นเข้าคลัง','ok');
+};
 
 const numOf=v=>{if(typeof v==='number')return Number.isInteger(v)?v:NaN;let s=String(v??'').trim();if(!s)return NaN;const ints=n=>Number.isInteger(n)?n:NaN;if(/^-?\d+(\.\d+)?$/.test(s))return ints(Number(s));if(/^-?\d{1,3}(,\d{3})+(\.\d+)?$/.test(s))return ints(Number(s.replace(/,/g,'')));let m=s.match(/^(-?\d+(?:\.\d+)?)\s*[^\d].*$/);return m?ints(Number(m[1])):NaN};
 const normHead=s=>String(s??'').trim().toLowerCase().replace(/[\s_()\-.\/]/g,'');
