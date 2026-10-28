@@ -154,7 +154,7 @@ table{min-width:560px}th,td{padding:9px 8px}th{font-size:11px}td{font-size:13px}
 </style></head><body>
 <div id="authScreen" class="authwrap"><div class="authbox"><div class="brand" style="margin:0 0 14px"><span>●</span> Nintendo Stock</div><h1 id="authTitle">เข้าสู่ระบบ</h1><div class="muted" id="authSub">จัดการสินค้าเข้า–ออกและตรวจนับสต๊อก</div><div id="authNotice"></div><div class="field"><label>อีเมล</label><input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com"></div><div class="field"><label>รหัสผ่าน</label><input id="authPassword" type="password" autocomplete="current-password"></div><div class="field hidden" id="authConfirmField"><label>ยืนยันรหัสผ่าน</label><input id="authPassword2" type="password" autocomplete="new-password"></div><button id="authSubmit" style="width:100%;margin-top:10px">เข้าสู่ระบบ</button><button id="authToggleMode" class="secondary" style="width:100%;margin-top:10px">ยังไม่มีบัญชี? สมัครสมาชิก</button><div class="foot" style="text-align:center;margin-top:14px">แอดมิน: เพิ่ม/แก้ไขสินค้า ปรับสต๊อก · พนักงาน: บันทึกรับเข้า/ขาย/โอน และดูรายงาน</div></div></div>
 
-<div id="appScreen" class="shell hidden"><header class="mobilebar"><div class="brand" role="button" tabindex="0" title="กลับหน้าหลัก" onclick="page('dashboard');closeNav()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();page('dashboard');closeNav()}"><span>●</span> Nintendo Stock</div><button id="navMenuBtn" class="iconbtn" aria-label="เปิดเมนู" aria-expanded="false" aria-controls="navDrawer">☰</button></header><div id="navBackdrop"></div><aside class="side" id="navDrawer"><div class="brand" role="button" tabindex="0" title="กลับหน้าหลัก" onclick="page('dashboard');closeNav()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();page('dashboard');closeNav()}"><span>●</span> Nintendo Stock</div><div class="navs"><button class="nav active" data-page="dashboard">▦ ภาพรวม</button><button class="nav" data-page="inventory">▣ คลังสินค้า</button><button class="nav adminonly" data-page="movement">⇄ รับเข้า / ขาย / โอน</button><button class="nav" data-page="excel">▤ Excel นำเข้า–ส่งออก</button><button class="nav" data-page="reports">▥ รายงาน</button></div><div class="foot"><div id="userEmail" class="muted"></div><div id="userRole" class="muted"></div><button id="logoutBtn" class="secondary" style="width:100%;margin-top:10px">⏻ ออกจากระบบ</button></div></aside><main class="main"><div class="top"><div><h1 id="pageTitle">ภาพรวมคลังสินค้า</h1><div class="muted">จัดการสินค้าเข้า–ออกและตรวจนับสต๊อก</div></div><div class="row" style="max-width:470px"><input id="globalSearch" class="search" placeholder="ค้นหาชื่อ / รหัส / บาร์โค้ด..."><button id="quickScan" class="secondary fit">▦ สแกน</button></div></div><div id="notice"></div>
+<div id="appScreen" class="shell hidden"><header class="mobilebar"><div class="brand" role="button" tabindex="0" title="กลับหน้าหลัก" onclick="page('dashboard');closeNav()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();page('dashboard');closeNav()}"><span>●</span> Nintendo Stock</div><button id="navMenuBtn" class="iconbtn" aria-label="เปิดเมนู" aria-expanded="false" aria-controls="navDrawer">☰</button></header><div id="navBackdrop"></div><aside class="side" id="navDrawer"><div class="brand" role="button" tabindex="0" title="กลับหน้าหลัก" onclick="page('dashboard');closeNav()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();page('dashboard');closeNav()}"><span>●</span> Nintendo Stock</div><div class="navs"><button class="nav active" data-page="dashboard">▦ ภาพรวม</button><button class="nav" data-page="inventory">▣ คลังสินค้า</button><button class="nav adminonly" data-page="movement">⇄ รับเข้า / ขาย / โอน</button><button class="nav" data-page="excel">▤ Excel นำเข้า–ส่งออก</button><button class="nav" data-page="reports">▥ รายงาน</button><button class="nav adminonly" id="navCompact">🧹 บีบอัดรูป</button></div><div class="foot"><div id="userEmail" class="muted"></div><div id="userRole" class="muted"></div><button id="logoutBtn" class="secondary" style="width:100%;margin-top:10px">⏻ ออกจากระบบ</button></div></aside><main class="main"><div class="top"><div><h1 id="pageTitle">ภาพรวมคลังสินค้า</h1><div class="muted">จัดการสินค้าเข้า–ออกและตรวจนับสต๊อก</div></div><div class="row" style="max-width:470px"><input id="globalSearch" class="search" placeholder="ค้นหาชื่อ / รหัส / บาร์โค้ด..."><button id="quickScan" class="secondary fit">▦ สแกน</button></div></div><div id="notice"></div>
 <section id="dashboard"><div class="grid"><div class="card"><div class="metric-label">จำนวนสินค้าในคลัง</div><div class="metric" id="mUnits">0</div><div class="muted small">รวมทุกหมวดหมู่ (ชิ้น)</div></div><div class="card"><div class="metric-label">รหัสสินค้าทั้งหมด</div><div class="metric" id="mSkus">0</div><div class="muted small">SKU ที่ไม่ซ้ำกัน</div></div><div class="card"><div class="metric-label">รับเข้าเดือนนี้</div><div class="metric" id="mIn">0</div><div class="muted small">ชิ้น</div></div><div class="card"><div class="metric-label">ขายออกเดือนนี้</div><div class="metric" id="mOut">0</div><div class="muted small">ชิ้น</div></div></div><div class="card"><h2>หมวดหมู่สินค้า</h2><div class="grid"><div class="card catclick" onclick="openCategory('เครื่องเกม')"><div>🎮 เครื่องเกม</div><div class="metric" id="catConsole">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('ตุ๊กตา')"><div>🧸 ตุ๊กตา</div><div class="metric" id="catPlush">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('จอยเกม/ACC')"><div>🕹️ จอยเกม / ACC</div><div class="metric" id="catAcc">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('แผ่นเกม')"><div>💿 แผ่นเกม</div><div class="metric" id="catGame">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('ของแถม')"><div>🎁 ของแถม</div><div class="metric" id="catGift">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('ไม่มีหมวดหมู่')"><div>❔ ไม่มีหมวดหมู่</div><div class="metric" id="catNone">0</div><div class="muted small">ชิ้น</div></div><div class="card"><div>⚠️ สินค้าใกล้หมด</div><div class="metric" id="lowStock">0</div><div class="muted small">ตั้งแต่ 3 ชิ้นลงไป</div></div></div></div><div class="card"><h2>รายการเคลื่อนไหวล่าสุด</h2><div class="tablewrap"><table><thead><tr><th>วันเวลา</th><th>ประเภท</th><th>รหัส</th><th>สินค้า</th><th>จำนวน</th><th>หมายเหตุ</th></tr></thead><tbody id="recentRows"></tbody></table></div></div></section>
 <section id="inventory" class="hidden"><div class="card"><div class="row"><h2>คลังสินค้า</h2><div class="row" style="gap:8px;flex:0 0 auto"><select id="bulkCategory" class="hidden" style="max-width:170px;width:auto"><option value="">ย้ายไปหมวด…</option><option>เครื่องเกม</option><option>ตุ๊กตา</option><option>จอยเกม/ACC</option><option>แผ่นเกม</option><option>ของแถม</option><option>ไม่มีหมวดหมู่</option></select><button id="bulkMove" class="secondary hidden">ย้ายหมวดหมู่</button><button id="bulkDelete" class="danger hidden">🗑 ลบที่เลือก</button><button id="newProduct" class="fit adminonly">+ เพิ่มสินค้า</button></div></div><div class="row"><button id="catalogBtn" class="secondary fit">▧ เปิดแคตตาล็อก / พิมพ์เอกสาร</button><button id="catalogExcelBtn" class="secondary fit">⬇ ส่งออก Excel (แยกหมวดหมู่)</button><button id="showTableBtn" class="secondary fit">☷ มุมมองตาราง</button><button id="showGalleryBtn" class="secondary fit">▦ มุมมองรูปสินค้า</button></div><div class="row"><div class="field"><label>ค้นหาสินค้า</label><input id="invSearch" placeholder="รหัส ชื่อ หรือบาร์โค้ด"></div><div class="field"><label>หมวดหมู่</label><select id="invCategory"><option value="">ทุกหมวดหมู่</option><option>เครื่องเกม</option><option>ตุ๊กตา</option><option>จอยเกม/ACC</option><option>แผ่นเกม</option><option>ของแถม</option><option>ไม่มีหมวดหมู่</option></select></div><div class="field" style="max-width:150px"><label>แสดงต่อหน้า</label><select id="pageSize"><option value="20">20</option><option value="50" selected>50</option><option value="100">100</option><option value="0">ทั้งหมด</option></select></div></div><div id="productGallery" class="product-gallery hidden"></div><div id="inventoryTableWrap" class="tablewrap"><table><thead><tr><th class="adminonly" style="width:36px"><input type="checkbox" id="checkAll" title="เลือกทั้งหน้านี้"></th><th>รหัสสินค้า</th><th>ชื่อสินค้า</th><th>หมวดหมู่</th><th>บาร์โค้ด</th><th>คงเหลือ</th><th>ต้นทุน/ชิ้น</th><th class="adminonly">จัดการ</th></tr></thead><tbody id="inventoryRows"></tbody></table></div><div id="pager" class="pager"></div></div></section>
 <section id="movement" class="hidden"><div class="card"><h2>บันทึกสินค้าเคลื่อนไหว</h2><div class="tabs"><button class="pill active adminonly" data-kind="รับเข้า">รับสินค้าเข้า</button><button class="pill adminonly" data-kind="ขายออก">ขายสินค้า</button><button class="pill adminonly" data-kind="โอนออก">โอนให้ร้านอื่น</button></div><div class="two"><div class="field"><label>สแกนบาร์โค้ด / รหัสสินค้า</label><div class="row"><input id="moveCode" placeholder="ยิงบาร์โค้ดหรือพิมพ์รหัส"><button id="cameraBtn" class="secondary fit">📷 กล้อง</button></div><video id="camera" class="hidden" playsinline style="width:100%;border-radius:10px"></video></div><div class="field"><label>สินค้า</label><select id="moveProduct"></select></div><div class="field"><label>จำนวน (จำนวนเต็ม)</label><input id="moveQty" type="number" min="1" value="1"></div><div class="field"><label>ราคาต่อชิ้น (บาท) — สำหรับบันทึกยอดขาย/ต้นทุน</label><input id="movePrice" type="number" min="0" value="0"></div><div class="field"><label>ร้านปลายทาง (เฉพาะการโอน)</label><input id="moveStore" placeholder="ชื่อร้านที่รับโอน"></div><div class="field"><label>หมายเหตุ</label><input id="moveNote" placeholder="เลขที่บิล / ผู้รับผิดชอบ / หมายเหตุ"></div></div><div id="cartBox" class="hidden"><h3 style="margin:18px 0 8px">🧾 รายการในบิลนี้ <span class="small muted" id="billHint"></span></h3><div class="tablewrap"><table><thead><tr><th>รหัส</th><th>สินค้า</th><th>จำนวน</th><th>ราคา/ชิ้น</th><th>รวม</th><th></th></tr></thead><tbody id="cartRows"></tbody></table></div><div class="row" style="justify-content:space-between;align-items:center;margin-top:10px"><span class="small muted" id="cartCount">ยังไม่มีรายการ</span><b id="cartTotal">0 ฿</b></div><div class="row" style="gap:8px;margin-top:10px"><button id="saveBill">💾 บันทึกบิล</button><button id="clearBill" class="secondary">ล้างบิล</button></div></div><button id="saveMove">บันทึกรายการ</button><div class="foot">ระบบตรวจสอบยอดคงเหลือก่อนขายหรือโอนออก การบันทึกจะบันทึกลงฐานข้อมูลออนไลน์ร่วมกันทุกอุปกรณ์</div></div><div class="card" style="margin-top:18px"><div class="row"><h2>บิลขายล่าสุด</h2><button id="refreshBills" class="secondary fit">↻ รีเฟรช</button></div><div class="tablewrap"><table class="billtable"><thead><tr><th>วันเวลา</th><th>เลขบิล</th><th>รายการ</th><th>ชิ้น</th><th>ยอดรวม</th><th>จัดการ</th></tr></thead><tbody id="billRows"></tbody></table></div><div class="small muted" style="margin-top:8px">รวมรายการขายที่บันทึกไว้ล่าสุด — บิลที่บันทึกก่อนอัปเดตจะแสดงเป็น “บิลเดี่ยว”</div></div></section>
@@ -192,31 +192,65 @@ async function loadData(){
 async function save(){await loadData();render()}
 
 let imageMap=new Map(),imagePending=new Map();
+// แคชรูปในเครื่อง (IndexedDB) — เปิดดูซ้ำไม่ต้องโหลดจาก Supabase อีก ช่วยลด egress
+const IMG_DB='nh_images',IMG_STORE='img';
+let imgDB=null;
+function idbOpen(){
+  if(imgDB)return imgDB;
+  imgDB=new Promise((res,rej)=>{
+    if(!('indexedDB'in window))return rej(new Error('no idb'));
+    const r=indexedDB.open(IMG_DB,1);
+    r.onupgradeneeded=()=>{try{r.result.createObjectStore(IMG_STORE,{keyPath:'code'})}catch(e){}};
+    r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);
+  });
+  return imgDB;
+}
+async function imgCacheGet(code,ver){
+  try{
+    const d=await idbOpen();
+    return await new Promise(res=>{
+      try{const g=d.transaction(IMG_STORE,'readonly').objectStore(IMG_STORE).get(code);g.onsuccess=()=>{const v=g.result;res(v&&String(v.ver)===String(ver)?(v.img||''):null)};g.onerror=()=>res(null)}catch(e){res(null)}
+    });
+  }catch(e){return null}
+}
+function imgCachePut(code,ver,img){idbOpen().then(d=>{try{d.transaction(IMG_STORE,'readwrite').objectStore(IMG_STORE).put({code,ver:String(ver||''),img:img||'',t:Date.now()})}catch(e){}}).catch(()=>{})}
+function imgCacheDel(code){idbOpen().then(d=>{try{d.transaction(IMG_STORE,'readwrite').objectStore(IMG_STORE).delete(code)}catch(e){}}).catch(()=>{})}
+function imgVer(code){const p=db.products.find(x=>x.code===code);return String((p&&p.updated_at)||'')}
 function photo(p){return imageMap.get(p.code)||''}
 function getImage(code){
   if(imageMap.has(code))return Promise.resolve(imageMap.get(code));
   if(imagePending.has(code))return imagePending.get(code);
   const p=(async()=>{
     if(!sb)return '';
+    const ver=imgVer(code);
+    const hit=await imgCacheGet(code,ver);
+    if(hit!==null){imageMap.set(code,hit);return hit}
     const {data,error}=await sb.from('products').select('image').eq('code',code).maybeSingle();
     if(error)throw error;
     const img=(data&&data.image)||'';
-    imageMap.set(code,img);return img;
+    imageMap.set(code,img);
+    if(img)imgCachePut(code,ver,img);
+    return img;
   })().finally(()=>imagePending.delete(code));
   imagePending.set(code,p);return p;
 }
 async function loadImagesFor(codes){
   const need=[...new Set(codes)].filter(c=>!imageMap.has(c));
-  for(let i=0;i<need.length;i+=80){
-    const chunk=need.slice(i,i+80);if(!chunk.length)break;
+  const miss=[];
+  await Promise.all(need.map(async c=>{
+    const hit=await imgCacheGet(c,imgVer(c));
+    if(hit!==null)imageMap.set(c,hit);else miss.push(c);
+  }));
+  for(let i=0;i<miss.length;i+=60){
+    const chunk=miss.slice(i,i+60);if(!chunk.length)break;
     const {data,error}=await sb.from('products').select('code,image').in('code',chunk);
     if(error)throw error;
-    (data||[]).forEach(r=>imageMap.set(r.code,r.image||''));
+    (data||[]).forEach(r=>{imageMap.set(r.code,r.image||'');if(r.image)imgCachePut(r.code,imgVer(r.code),r.image)});
     chunk.forEach(c=>{if(!imageMap.has(c))imageMap.set(c,'')});
   }
   return imageMap;
 }
-async function compressImage(file,max=800,quality=0.72){
+async function compressImage(file,max=640,quality=0.62){
   const bmp=await new Promise((res,rej)=>{const url=URL.createObjectURL(file);const i=new Image();i.onload=()=>{URL.revokeObjectURL(url);res(i)};i.onerror=()=>{URL.revokeObjectURL(url);rej(new Error('อ่านรูปไม่สำเร็จ'))};i.src=url});
   const w=bmp.naturalWidth||bmp.width,h=bmp.naturalHeight||bmp.height,sc=Math.min(1,max/Math.max(w,h));
   const cw=Math.max(1,Math.round(w*sc)),ch=Math.max(1,Math.round(h*sc));
@@ -224,9 +258,33 @@ async function compressImage(file,max=800,quality=0.72){
   const ctx=c.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,cw,ch);ctx.drawImage(bmp,0,0,cw,ch);
   return c.toDataURL('image/jpeg',quality);
 }
+async function recompressDataUrl(dataUrl,max=640,quality=0.6){
+  const bmp=await new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=()=>rej(new Error('อ่านรูปไม่สำเร็จ'));i.src=dataUrl});
+  const w=bmp.naturalWidth||bmp.width,h=bmp.naturalHeight||bmp.height;
+  const sc=Math.min(1,max/Math.max(w,h));
+  const cw=Math.max(1,Math.round(w*sc)),ch=Math.max(1,Math.round(h*sc));
+  const c=document.createElement('canvas');c.width=cw;c.height=ch;
+  const ctx=c.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,cw,ch);ctx.drawImage(bmp,0,0,cw,ch);
+  return c.toDataURL('image/jpeg',quality);
+}
+function fmtBytes(n){if(!n||n<0)return '0 KB';const mb=n/1048576;return mb>=1?mb.toFixed(1)+' MB':Math.max(1,Math.round(n/1024))+' KB'}
+let gQueue=new Set(),gTimer=null;
+function fillTiles(codes){
+  codes.forEach(code=>{
+    const img=imageMap.get(code);if(!img)return;
+    document.querySelectorAll('#productGallery [data-img="'+String(code).replace(/"/g,'\\"')+'"]').forEach(el=>{
+      if(el.dataset.loaded)return;el.dataset.loaded='1';delete el.dataset.queued;
+      el.innerHTML=`<img src="${esc(img)}" alt="" loading="lazy" onerror="this.parentNode.innerHTML='🎮<br>รูปไม่พร้อมใช้งาน'">`;
+    });
+  });
+}
 function loadTile(el){
-  const code=el.dataset.img;if(!code||el.dataset.loaded)return;el.dataset.loaded='1';
-  getImage(code).then(img=>{if(!img)return;el.innerHTML=`<img src="${esc(img)}" alt="" loading="lazy" onerror="this.parentNode.innerHTML='🎮<br>รูปไม่พร้อมใช้งาน'">`}).catch(()=>{});
+  const code=el.dataset.img;if(!code||el.dataset.loaded||el.dataset.queued)return;
+  if(imageMap.has(code)){fillTiles([code]);return}
+  el.dataset.queued='1';
+  gQueue.add(code);
+  clearTimeout(gTimer);
+  gTimer=setTimeout(()=>{const codes=[...gQueue];gQueue.clear();loadImagesFor(codes).then(()=>fillTiles(codes)).catch(()=>{})},80);
 }
 function hydrateGallery(){
   const els=[...document.querySelectorAll('#productGallery [data-img]')];
@@ -238,7 +296,7 @@ function placeholder(){return '<div style="font-size:42px">🎮</div><div class=
 function openProduct(code){let p=db.products.find(x=>x.code===code);if(!p)return;getImage(p.code).catch(()=>{}).then(()=>{$('modalTitle').textContent=p.name;$('modalContent').innerHTML=`<div class="two"><div>${photo(p)?`<img class="detail-photo" src="${esc(photo(p))}" alt="${esc(p.name)}">`:`<div class="detail-photo" style="display:grid;place-content:center;text-align:center">${placeholder()}</div>`}</div><div><h2>${esc(p.name)}</h2><p class="muted">รหัสสินค้า: ${esc(p.code)}</p><p>หมวดหมู่: ${esc(p.category)}</p><p>บาร์โค้ด: ${esc(p.barcode||'—')}</p><p>คงเหลือ: <b>${n(p.qty)} ชิ้น</b></p><p>ต้นทุน/ชิ้น: ${n(p.cost)} บาท</p>${isAdmin?`<button onclick="closeProductModal();editProduct('${esc(p.code)}')">แก้ไขสินค้า / รูปภาพ</button>`:''}</div></div>`;$('productModal').classList.remove('hidden')})}
 function closeProductModal(){$('productModal').classList.add('hidden')}
 function openCategory(cat){page('inventory');$('invCategory').value=cat;$('invSearch').value='';pageNo=1;render();note('กำลังแสดงหมวดหมู่: '+cat)}
-async function exportCatalog(){let cat=$('invCategory').value;let list=db.products.filter(p=>!cat||p.category===cat);await loadImagesFor(list.map(p=>p.code)).catch(()=>{});let w=window.open('','_blank');if(!w)return note('เบราว์เซอร์บล็อกหน้าต่างเอกสาร กรุณาอนุญาตป๊อปอัป','err');w.document.write(`<!doctype html><html lang="th"><meta charset="utf-8"><title>แคตตาล็อกสินค้า Nintendo</title><style>body{font-family:Arial,sans-serif;padding:24px;color:#222}h1{margin-bottom:4px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.item{border:1px solid #ddd;border-radius:8px;padding:10px;break-inside:avoid}.item img{width:100%;height:150px;object-fit:contain}.ph{height:150px;display:grid;place-items:center;background:#f5f5f5}small{color:#555}@media print{button{display:none}}</style><h1>Nintendo Stock — แคตตาล็อกสินค้า</h1><p>หมวดหมู่: ${cat||'ทั้งหมด'} · วันที่ ${new Date().toLocaleDateString('th-TH')}</p><div class="grid">${list.map(p=>`<div class="item">${photo(p)?`<img src="${esc(photo(p))}">`:'<div class="ph">ไม่มีรูป</div>'}<h3>${esc(p.name)}</h3><p>รหัส: ${esc(p.code)}</p><p>หมวดหมู่: ${esc(p.category)}</p><p>คงเหลือ: ${n(p.qty)} ชิ้น</p><small>บาร์โค้ด: ${esc(p.barcode||'—')}</small></div>`).join('')}</div><p><button onclick="window.print()">พิมพ์ / บันทึกเป็น PDF</button><button id="xlsBtn" onclick="exportExcel()">⬇ ส่งออก Excel (แยกหมวดหมู่)</button></p><script>async function exportExcel(){const btn=document.getElementById('xlsBtn'),label=btn.textContent;btn.disabled=true;btn.textContent='กำลังสร้างไฟล์...';try{let X=window.XLSX;if(!X){try{X=window.opener&&window.opener.XLSX}catch(e){}}if(!X){await new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';s.onload=res;s.onerror=()=>rej(new Error('โหลดตัวสร้าง Excel ไม่สำเร็จ กรุณาเชื่อมต่ออินเทอร์เน็ต'));document.head.appendChild(s)});X=window.XLSX}const groups=${catalogGroupsJSON(list)};if(!groups.length)throw new Error('ไม่มีสินค้าให้ส่งออก');const wb=X.utils.book_new(),head=['รหัสสินค้า','ชื่อสินค้า','หมวดหมู่','บาร์โค้ด','จำนวน','ราคา/ต้นทุน'];groups.forEach(g=>{const ws=X.utils.aoa_to_sheet([head,...g.rows]);ws['!cols']=[{wch:16},{wch:46},{wch:16},{wch:20},{wch:10},{wch:12}];X.utils.book_append_sheet(wb,ws,g.sheet)});X.writeFile(wb,'nintendo-catalog-'+new Date().toISOString().slice(0,10)+'.xlsx');btn.textContent='✅ ดาวน์โหลดแล้ว';setTimeout(()=>{btn.textContent=label},2000)}catch(e){alert('ส่งออกไม่สำเร็จ: '+e.message);btn.textContent=label}finally{btn.disabled=false}}<\/script></html>`);w.document.close()}
+async function exportCatalog(){let cat=$('invCategory').value;let list=db.products.filter(p=>!cat||p.category===cat);if(list.length>40&&!confirm('แคตตาล็อกจะโหลดรูป '+list.length+' รายการ (ใช้เน็ตมาก) ดำเนินการต่อ?'))return;await loadImagesFor(list.map(p=>p.code)).catch(()=>{});let w=window.open('','_blank');if(!w)return note('เบราว์เซอร์บล็อกหน้าต่างเอกสาร กรุณาอนุญาตป๊อปอัป','err');w.document.write(`<!doctype html><html lang="th"><meta charset="utf-8"><title>แคตตาล็อกสินค้า Nintendo</title><style>body{font-family:Arial,sans-serif;padding:24px;color:#222}h1{margin-bottom:4px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.item{border:1px solid #ddd;border-radius:8px;padding:10px;break-inside:avoid}.item img{width:100%;height:150px;object-fit:contain}.ph{height:150px;display:grid;place-items:center;background:#f5f5f5}small{color:#555}@media print{button{display:none}}</style><h1>Nintendo Stock — แคตตาล็อกสินค้า</h1><p>หมวดหมู่: ${cat||'ทั้งหมด'} · วันที่ ${new Date().toLocaleDateString('th-TH')}</p><div class="grid">${list.map(p=>`<div class="item">${photo(p)?`<img src="${esc(photo(p))}">`:'<div class="ph">ไม่มีรูป</div>'}<h3>${esc(p.name)}</h3><p>รหัส: ${esc(p.code)}</p><p>หมวดหมู่: ${esc(p.category)}</p><p>คงเหลือ: ${n(p.qty)} ชิ้น</p><small>บาร์โค้ด: ${esc(p.barcode||'—')}</small></div>`).join('')}</div><p><button onclick="window.print()">พิมพ์ / บันทึกเป็น PDF</button><button id="xlsBtn" onclick="exportExcel()">⬇ ส่งออก Excel (แยกหมวดหมู่)</button></p><script>async function exportExcel(){const btn=document.getElementById('xlsBtn'),label=btn.textContent;btn.disabled=true;btn.textContent='กำลังสร้างไฟล์...';try{let X=window.XLSX;if(!X){try{X=window.opener&&window.opener.XLSX}catch(e){}}if(!X){await new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';s.onload=res;s.onerror=()=>rej(new Error('โหลดตัวสร้าง Excel ไม่สำเร็จ กรุณาเชื่อมต่ออินเทอร์เน็ต'));document.head.appendChild(s)});X=window.XLSX}const groups=${catalogGroupsJSON(list)};if(!groups.length)throw new Error('ไม่มีสินค้าให้ส่งออก');const wb=X.utils.book_new(),head=['รหัสสินค้า','ชื่อสินค้า','หมวดหมู่','บาร์โค้ด','จำนวน','ราคา/ต้นทุน'];groups.forEach(g=>{const ws=X.utils.aoa_to_sheet([head,...g.rows]);ws['!cols']=[{wch:16},{wch:46},{wch:16},{wch:20},{wch:10},{wch:12}];X.utils.book_append_sheet(wb,ws,g.sheet)});X.writeFile(wb,'nintendo-catalog-'+new Date().toISOString().slice(0,10)+'.xlsx');btn.textContent='✅ ดาวน์โหลดแล้ว';setTimeout(()=>{btn.textContent=label},2000)}catch(e){alert('ส่งออกไม่สำเร็จ: '+e.message);btn.textContent=label}finally{btn.disabled=false}}<\/script></html>`);w.document.close()}
 function findProduct(s){s=String(s||'').trim().toLowerCase();return db.products.find(p=>p.code.toLowerCase()===s||String(p.barcode).toLowerCase()===s||p.name.toLowerCase()===s)}
 
 function render(){
@@ -418,7 +476,8 @@ $('saveProduct').onclick=async()=>{
   if(!sb||!isAdmin)return note('เฉพาะแอดมินเท่านั้น หรือยังไม่ได้ตั้งค่า Supabase','err');
   if(editing)await getImage(editing).catch(()=>{});
   let oldImage=editing?photo(db.products.find(x=>x.code===editing)||{code:editing}):'';let image=$('pImage').value.trim()||oldImage;let file=$('pImageFile').files[0];
-  if(file){if(file.size>8000000)return note('รูปใหญ่เกิน 8 MB กรุณาเลือกรูปที่เล็กลง','err');try{image=await compressImage(file,800,0.72)}catch(e){return note('อ่านรูปไม่สำเร็จ: '+e.message,'err')}}
+  if(file){if(file.size>8000000)return note('รูปใหญ่เกิน 8 MB กรุณาเลือกรูปที่เล็กลง','err');try{image=await compressImage(file,640,0.62)}catch(e){return note('อ่านรูปไม่สำเร็จ: '+e.message,'err')}}
+  if(image&&image.startsWith('data:image')&&image.length>120000){try{const small=await recompressDataUrl(image,640,0.62);if(small.length<image.length)image=small}catch(e){}}
   let p={code:$('pCode').value.trim(),name:$('pName').value.trim(),barcode:$('pBarcode').value.trim(),category:$('pCategory').value,qty:Number($('pQty').value),cost:Number($('pCost').value),image};
   if(!p.code||!p.name||!Number.isInteger(p.qty)||p.qty<0||p.cost<0)return note('กรอกรหัส ชื่อ จำนวนเต็มไม่ติดลบ และต้นทุนให้ถูกต้อง','err');
   if(!editing&&db.products.some(x=>x.code===p.code))return note('รหัสสินค้านี้มีอยู่แล้ว','err');
@@ -426,10 +485,10 @@ $('saveProduct').onclick=async()=>{
   try{
     if(editing){const {error}=await sb.from('products').update({name:p.name,barcode:p.barcode,category:p.category,qty:p.qty,cost:p.cost,image}).eq('code',editing);if(error)throw error}
     else{const {error}=await sb.from('products').insert(p);if(error)throw error}
-    $('pCode').disabled=false;$('productForm').classList.add('hidden');if(imageMap)imageMap.set(p.code,image||'');await save();note('บันทึกสินค้าและรูปภาพแล้ว');
+    $('pCode').disabled=false;$('productForm').classList.add('hidden');if(imageMap)imageMap.set(p.code,image||'');await save();const saved=db.products.find(x=>x.code===p.code);if(image&&saved)imgCachePut(p.code,String(saved.updated_at||''),image);note('บันทึกสินค้าและรูปภาพแล้ว');
   }catch(e){note('บันทึกไม่สำเร็จ: '+e.message,'err')}
 };
-$('deleteProduct').onclick=async()=>{if(!sb||!isAdmin||!editing)return; if(!confirm('ลบสินค้านี้จริงหรือไม่?'))return;const {error}=await sb.from('products').delete().eq('code',editing);if(error)return note('ลบไม่สำเร็จ: '+error.message,'err');$('productForm').classList.add('hidden');editing=null;await save();note('ลบสินค้าแล้ว')};
+$('deleteProduct').onclick=async()=>{if(!sb||!isAdmin||!editing)return; if(!confirm('ลบสินค้านี้จริงหรือไม่?'))return;const {error}=await sb.from('products').delete().eq('code',editing);if(error)return note('ลบไม่สำเร็จ: '+error.message,'err');imgCacheDel(editing);$('productForm').classList.add('hidden');editing=null;await save();note('ลบสินค้าแล้ว')};
 
 function setKind(k){if(!isAdmin)return note('เฉพาะแอดมินเท่านั้นที่บันทึกการเคลื่อนไหวสินค้าได้','err');kind=k;document.querySelectorAll('[data-kind]').forEach(x=>x.classList.toggle('active',x.dataset.kind===k));syncKindUI()}
 document.querySelectorAll('[data-kind]').forEach(b=>b.onclick=()=>setKind(b.dataset.kind));
@@ -597,6 +656,45 @@ $('confirmImport').onclick=async()=>{
 async function download(rows,name){try{await ensureXLSX()}catch(e){return note(e.message,'err')}let ws=XLSX.utils.json_to_sheet(rows);let wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Stock');XLSX.writeFile(wb,name)}
 $('exportBtn').onclick=async()=>{if(!sb)return note('ยังไม่ได้ตั้งค่า Supabase','err');let cat=$('exportCategory').value,t=$('exportType').value;const KIND_EXPORT={in:'รับเข้า',out:'ขายออก',transfer:'โอนออก'};if(t!=='stock'){const {data:moves,error}=await sb.from('moves').select('*').order('date',{ascending:false});if(error)return note('โหลดข้อมูลไม่สำเร็จ: '+error.message,'err');const kind=KIND_EXPORT[t]||'';let rows=(moves||[]).filter(m=>(!kind||m.kind===kind)&&(!cat||db.products.find(p=>p.code===m.code)?.category===cat)).map(m=>({'วันเวลา':new Date(m.date).toLocaleString('th-TH'),'ประเภท':m.kind,'เลขบิล':m.bill_id||'','รหัสสินค้า':m.code,'ชื่อสินค้า':m.name,'จำนวน':m.qty,'ราคาต่อชิ้น':m.price,'มูลค่า':m.qty*m.price,'หมายเหตุ':m.note}));if(!rows.length)return note('ไม่มีข้อมูลสำหรับหมวดหมู่ที่เลือก','err');const names={transactions:'nintendo-transactions',in:'nintendo-receive',out:'nintendo-sales',transfer:'nintendo-transfers'};download(rows,(names[t]||'nintendo-history')+'.xlsx')}else{let rows=db.products.filter(p=>!cat||p.category===cat).map(p=>({'รหัสสินค้า':p.code,'ชื่อสินค้า':p.name,'หมวดหมู่':p.category,'บาร์โค้ด':p.barcode,'จำนวน':p.qty,'ต้นทุนต่อชิ้น':p.cost}));if(!rows.length)return note('ไม่มีข้อมูลสำหรับหมวดหมู่ที่เลือก','err');download(rows,'nintendo-stock.xlsx')}};
 $('templateBtn').onclick=()=>download(db.products.map(p=>({'รหัสสินค้า':p.code,'ชื่อสินค้า':p.name,'หมวดหมู่':p.category,'จำนวน':p.qty})),'stock-count-template.xlsx');
+$('navCompact').onclick=async()=>{
+  closeNav();
+  if(!isAdmin)return note('เฉพาะแอดมินเท่านั้น','err');
+  if(!sb)return note('ยังไม่ได้ตั้งค่า Supabase','err');
+  const btn=$('navCompact');
+  if(btn.disabled)return;
+  const list=db.products.slice();
+  if(!list.length)return note('ไม่พบสินค้าในคลัง','err');
+  const label=btn.innerHTML;
+  btn.disabled=true;
+  let done=0,changed=0,skipped=0,failed=0,before=0,after=0;
+  const prog=()=>{btn.textContent='🧹 กำลังย่อ '+done+'/'+list.length;if(done%10===0||done===list.length)note('⏳ กำลังบีบอัดรูป '+done+'/'+list.length+' · เปลี่ยน '+changed+' · ข้าม '+skipped+(failed?' · พลาด '+failed:''))};
+  prog();
+  try{
+    for(let i=0;i<list.length;i+=5){
+      await Promise.all(list.slice(i,i+5).map(async p=>{
+        try{
+          const {data,error}=await sb.from('products').select('image').eq('code',p.code).maybeSingle();
+          if(error)throw error;
+          const old=(data&&data.image)||'';
+          if(!old.startsWith('data:image')){skipped++;return}
+          before+=old.length;
+          const small=await recompressDataUrl(old,640,0.6);
+          after+=small.length;
+          if(small.length>=old.length*0.92){skipped++;return}
+          const {error:uErr}=await sb.from('products').update({image:small,updated_at:new Date().toISOString()}).eq('code',p.code);
+          if(uErr)throw uErr;
+          imageMap.set(p.code,small);
+          changed++;
+        }catch(e){failed++}
+        finally{done++;prog()}
+      }));
+    }
+    await save();
+    db.products.forEach(p=>{const img=imageMap.get(p.code);if(img&&img.startsWith('data:image'))imgCachePut(p.code,String(p.updated_at||''),img)});
+    note('บีบอัดรูปเสร็จ · เปลี่ยน '+changed+' · ข้าม '+skipped+(failed?' · พลาด '+failed:'')+' · '+fmtBytes(before)+' → '+fmtBytes(after),'ok');
+  }catch(e){note('บีบอัดรูปไม่สำเร็จ: '+e.message,'err')}
+  finally{btn.disabled=false;btn.innerHTML=label}
+};
 
 const localISO=d=>new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10);
 function updateReportLabel(){let f=$('reportFrom').value,t=$('reportTo').value,fmt=v=>new Date(v+'T00:00:00').toLocaleDateString('th-TH',{day:'2-digit',month:'short',year:'numeric'});$('reportRangeLabel').textContent=(!f&&!t)?'ช่วงรายงาน: ทั้งหมด':`ช่วงรายงาน: ${f?fmt(f):'เริ่มต้น'} – ${t?fmt(t):'วันนี้'}`}
