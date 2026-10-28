@@ -167,6 +167,10 @@ begin
     raise exception 'ต้องล็อกอินก่อนบันทึกรายการ';
   end if;
 
+  if not public.is_admin() then
+    raise exception 'เฉพาะแอดมินเท่านั้นที่บันทึกการเคลื่อนไหวสินค้าได้';
+  end if;
+
   select * into v_product from public.products where code = p_code for update;
   if not found then
     raise exception 'ไม่พบรหัสสินค้า: %', p_code;
@@ -235,6 +239,9 @@ begin
   end if;
   if p_kind is null or p_kind not in ('รับเข้า', 'ขายออก', 'โอนออก') then
     raise exception 'ประเภทรายการไม่ถูกต้อง: %', p_kind;
+  end if;
+  if not public.is_admin() then
+    raise exception 'เฉพาะแอดมินเท่านั้นที่บันทึกการเคลื่อนไหวสินค้าได้';
   end if;
   if p_items is null or jsonb_typeof(p_items) <> 'array' or jsonb_array_length(p_items) = 0 then
     raise exception 'ไม่มีรายการสินค้าในบิล';
