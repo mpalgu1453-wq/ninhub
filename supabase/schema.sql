@@ -481,8 +481,22 @@ revoke execute on function public.apply_stock_count(jsonb, text) from anon, publ
 -- 8) Realtime สำหรับอัปเดตอัตโนมัติหลายอุปกรณ์ (เปิดใน Supabase Dashboard > Database > Replication)
 -- alter publication supabase_realtime add table public.products, public.moves;
 
--- 9) Storage bucket สำหรับรูปสินค้า (ถ้าต้องการอัปโหลดรูปจริงจัง ค่อยเปิดใช้ทีหลัง)
--- insert into storage.buckets (id, name, public) values ('product-images', 'product-images', true) on conflict do nothing;
+-- 9) Storage bucket สำหรับรูปสินค้า (เก็บไฟล์จริง + แชร์เป็นลิงก์)
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values ('product-images','product-images',true,5242880,array['image/jpeg','image/png','image/webp','image/gif'])
+on conflict (id) do update set public=true, file_size_limit=5242880, allowed_mime_types=array['image/jpeg','image/png','image/webp','image/gif'];
+
+drop policy if exists "product_images_read" on storage.objects;
+create policy "product_images_read" on storage.objects for select using (bucket_id='product-images');
+
+drop policy if exists "product_images_insert" on storage.objects;
+create policy "product_images_insert" on storage.objects for insert to authenticated with check (bucket_id='product-images' and public.is_admin());
+
+drop policy if exists "product_images_update" on storage.objects;
+create policy "product_images_update" on storage.objects for update to authenticated using (bucket_id='product-images' and public.is_admin()) with check (bucket_id='product-images' and public.is_admin());
+
+drop policy if exists "product_images_delete" on storage.objects;
+create policy "product_images_delete" on storage.objects for delete to authenticated using (bucket_id='product-images' and public.is_admin());
 
 -- 10) ผู้ใช้คนแรก: หลัง signup ให้ปรับ role เป็น admin ด้วย SQL นี้ (แทนที่ YOUR_EMAIL)
 -- update public.profiles set role = 'admin' where email = 'YOUR_EMAIL';
