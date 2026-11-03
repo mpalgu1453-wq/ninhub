@@ -18,6 +18,7 @@ create table if not exists public.products (
   barcode text,
   qty integer not null default 0 check (qty >= 0),
   cost numeric not null default 0 check (cost >= 0),
+  price numeric not null default 0 check (price >= 0),
   image text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
