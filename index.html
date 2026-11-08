@@ -134,6 +134,14 @@ tbody tr:hover{background:var(--panel2)}
 .catalogprice.ask{font-size:13px;font-weight:500;color:var(--muted)}
 .catalogprice.big{font-size:26px;margin:4px 0 10px}
 .catalogprice.big.ask{font-size:18px}
+.catalogprice.sale{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap}
+.catalogprice .old{font-size:12px;font-weight:500;color:var(--muted);text-decoration:line-through}
+.catalogprice .new{color:#c9143a;font-weight:700}
+.catalogprice .off{font-size:11px;font-weight:700;color:#fff;background:#c9143a;border-radius:999px;padding:2px 8px;line-height:1.5}
+.catalogprice.big.sale .old{font-size:16px}
+.catalogprice.big.sale .new{font-size:26px}
+.catalogprice.big.sale .off{font-size:12px}
+.tag.muted{background:#f0f0f2;color:var(--muted)}
 .catalogmeta{font-size:12px;color:var(--muted)}
 .print-only{display:none}
 .authwrap{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:16px;z-index:200}
@@ -197,14 +205,14 @@ table{min-width:560px}th,td{padding:9px 8px}th{font-size:11px}td{font-size:13px}
 </style></head><body>
 <div id="authScreen" class="authwrap"><div class="authbox"><div class="brand" style="margin:0 0 14px"><span>●</span> Nintendo Stock</div><h1 id="authTitle">เข้าสู่ระบบ</h1><div class="muted" id="authSub">จัดการสินค้าเข้า–ออกและตรวจนับสต๊อก</div><div id="authNotice"></div><div class="field"><label>อีเมล</label><input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com"></div><div class="field"><label>รหัสผ่าน</label><input id="authPassword" type="password" autocomplete="current-password"></div><div class="field hidden" id="authConfirmField"><label>ยืนยันรหัสผ่าน</label><input id="authPassword2" type="password" autocomplete="new-password"></div><button id="authSubmit" style="width:100%;margin-top:10px">เข้าสู่ระบบ</button><button id="authToggleMode" class="secondary" style="width:100%;margin-top:10px">ยังไม่มีบัญชี? สมัครสมาชิก</button><div class="foot" style="text-align:center;margin-top:14px">แอดมิน: เพิ่ม/แก้ไขสินค้า ปรับสต๊อก · พนักงาน: บันทึกรับเข้า/ขาย/โอน และดูรายงาน</div><button id="publicCatalogBtn" class="catalogbtn">🛍️ ดูสินค้าสำหรับลูกค้า (ไม่ต้องเข้าสู่ระบบ)</button></div></div>
 
-<div id="catalogScreen" class="catalogwrap hidden"><div class="catalogtop"><div class="brand"><span>●</span> Nintendo Stock</div><button id="catalogBack" class="secondary">← กลับเข้าสู่ระบบ</button></div><div class="cataloghero"><h1>สินค้าทั้งหมด</h1><div class="muted">เลือกดูสินค้าที่มีจำหน่าย · สอบถามราคา/สั่งซื้อได้ที่ร้าน</div></div><div class="row catalogfilters"><input id="catalogSearch" class="search" placeholder="ค้นหาชื่อสินค้า..."><select id="catalogCategory" class="catalogselect"><option value="">ทุกหมวดหมู่</option><option>เครื่องเกม</option><option>ตุ๊กตา</option><option>จอยเกม/ACC</option><option>แผ่นเกม</option><option>ของแถม</option><option>ไม่มีหมวดหมู่</option></select></div><div id="catalogNotice"></div><div id="catalogGrid" class="cataloggrid"></div></div><div id="catalogModal" class="modal hidden" onclick="if(event.target===this)closeCatalogModal()"><div class="modalbox"><div class="row"><h2 id="catalogModalTitle">รายละเอียดสินค้า</h2><button class="secondary fit" onclick="closeCatalogModal()">ปิด ✕</button></div><div id="catalogModalContent"></div></div></div><div id="appScreen" class="shell hidden"><header class="mobilebar"><div class="brand" role="button" tabindex="0" title="กลับหน้าหลัก" onclick="page('dashboard');closeNav()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();page('dashboard');closeNav()}"><span>●</span> Nintendo Stock</div><button id="navMenuBtn" class="iconbtn" aria-label="เปิดเมนู" aria-expanded="false" aria-controls="navDrawer">☰</button></header><div id="navBackdrop"></div><aside class="side" id="navDrawer"><div class="brand" role="button" tabindex="0" title="กลับหน้าหลัก" onclick="page('dashboard');closeNav()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();page('dashboard');closeNav()}"><span>●</span> Nintendo Stock</div><div class="navs"><button class="nav active" data-page="dashboard">▦ ภาพรวม</button><button class="nav" data-page="inventory">▣ คลังสินค้า</button><button class="nav adminonly" data-page="movement">⇄ รับเข้า / โอน</button><button class="nav adminonly" data-page="sale">🧾 ขายสินค้า</button><button class="nav" data-page="excel">▤ Excel นำเข้า–ส่งออก</button><button class="nav" data-page="reports">▥ รายงาน</button><button class="nav adminonly" id="navCompact">🧹 บีบอัดรูป</button></div><div class="foot"><div id="userEmail" class="muted"></div><div id="userRole" class="muted"></div><button id="logoutBtn" class="secondary" style="width:100%;margin-top:10px">⏻ ออกจากระบบ</button></div></aside><main class="main"><div class="top"><div><h1 id="pageTitle">ภาพรวมคลังสินค้า</h1><div class="muted">จัดการสินค้าเข้า–ออกและตรวจนับสต๊อก</div></div><div class="row" style="max-width:470px"><input id="globalSearch" class="search" placeholder="ค้นหาชื่อ / รหัส / บาร์โค้ด..."><button id="quickScan" class="secondary fit">▦ สแกน</button></div></div><div id="notice"></div>
+<div id="catalogScreen" class="catalogwrap hidden"><div class="catalogtop"><div class="brand"><span>●</span> Nintendo Stock</div><button id="catalogBack" class="secondary">← กลับเข้าสู่ระบบ</button></div><div class="cataloghero"><h1>สินค้าทั้งหมด</h1><div class="muted">เลือกดูสินค้าที่มีจำหน่าย · สอบถามราคา/สั่งซื้อได้ที่ร้าน</div></div><div class="row catalogfilters"><input id="catalogSearch" class="search" placeholder="ค้นหาชื่อสินค้า..."><select id="catalogCategory" class="catalogselect"><option value="">ทุกหมวดหมู่</option><option>เครื่องเกม</option><option>ตุ๊กตา</option><option>จอยเกม/ACC</option><option>แผ่นเกม</option><option>ของแถม</option><option>ไม่มีหมวดหมู่</option></select></div><div id="catalogNotice"></div><div id="catalogGrid" class="cataloggrid"></div></div><div id="catalogModal" class="modal hidden" onclick="if(event.target===this)closeCatalogModal()"><div class="modalbox"><div class="row"><h2 id="catalogModalTitle">รายละเอียดสินค้า</h2><button class="secondary fit" onclick="closeCatalogModal()">ปิด ✕</button></div><div id="catalogModalContent"></div></div></div><div id="appScreen" class="shell hidden"><header class="mobilebar"><div class="brand" role="button" tabindex="0" title="กลับหน้าหลัก" onclick="page('dashboard');closeNav()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();page('dashboard');closeNav()}"><span>●</span> Nintendo Stock</div><button id="navMenuBtn" class="iconbtn" aria-label="เปิดเมนู" aria-expanded="false" aria-controls="navDrawer">☰</button></header><div id="navBackdrop"></div><aside class="side" id="navDrawer"><div class="brand" role="button" tabindex="0" title="กลับหน้าหลัก" onclick="page('dashboard');closeNav()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();page('dashboard');closeNav()}"><span>●</span> Nintendo Stock</div><div class="navs"><button class="nav active" data-page="dashboard">▦ ภาพรวม</button><button class="nav" data-page="inventory">▣ คลังสินค้า</button><button class="nav adminonly" data-page="movement">⇄ รับเข้า / โอน</button><button class="nav adminonly" data-page="sale">🧾 ขายสินค้า</button><button class="nav adminonly" data-page="discounts">🏷️ ส่วนลด</button><button class="nav" data-page="excel">▤ Excel นำเข้า–ส่งออก</button><button class="nav" data-page="reports">▥ รายงาน</button><button class="nav adminonly" id="navCompact">🧹 บีบอัดรูป</button></div><div class="foot"><div id="userEmail" class="muted"></div><div id="userRole" class="muted"></div><button id="logoutBtn" class="secondary" style="width:100%;margin-top:10px">⏻ ออกจากระบบ</button></div></aside><main class="main"><div class="top"><div><h1 id="pageTitle">ภาพรวมคลังสินค้า</h1><div class="muted">จัดการสินค้าเข้า–ออกและตรวจนับสต๊อก</div></div><div class="row" style="max-width:470px"><input id="globalSearch" class="search" placeholder="ค้นหาชื่อ / รหัส / บาร์โค้ด..."><button id="quickScan" class="secondary fit">▦ สแกน</button></div></div><div id="notice"></div>
 <section id="dashboard"><div class="grid"><div class="card"><div class="metric-label">จำนวนสินค้าในคลัง</div><div class="metric" id="mUnits">0</div><div class="muted small">รวมทุกหมวดหมู่ (ชิ้น)</div></div><div class="card"><div class="metric-label">รหัสสินค้าทั้งหมด</div><div class="metric" id="mSkus">0</div><div class="muted small">SKU ที่ไม่ซ้ำกัน</div></div><div class="card"><div class="metric-label">รับเข้าเดือนนี้</div><div class="metric" id="mIn">0</div><div class="muted small">ชิ้น</div></div><div class="card"><div class="metric-label">ขายออกเดือนนี้</div><div class="metric" id="mOut">0</div><div class="muted small">ชิ้น</div></div></div><div class="card"><h2>หมวดหมู่สินค้า</h2><div class="grid"><div class="card catclick" onclick="openCategory('เครื่องเกม')"><div>🎮 เครื่องเกม</div><div class="metric" id="catConsole">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('ตุ๊กตา')"><div>🧸 ตุ๊กตา</div><div class="metric" id="catPlush">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('จอยเกม/ACC')"><div>🕹️ จอยเกม / ACC</div><div class="metric" id="catAcc">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('แผ่นเกม')"><div>💿 แผ่นเกม</div><div class="metric" id="catGame">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('ของแถม')"><div>🎁 ของแถม</div><div class="metric" id="catGift">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('ไม่มีหมวดหมู่')"><div>❔ ไม่มีหมวดหมู่</div><div class="metric" id="catNone">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openLowStock()"><div>⚠️ สินค้าใกล้หมด</div><div class="metric" id="lowStock">0</div><div class="muted small">เหลือ 0: <b id="lowZero">0</b> · เหลือ 1–3: <b id="lowFew">0</b> · กดเพื่อดู</div></div></div></div><div class="card"><div class="row" style="justify-content:space-between;align-items:center;gap:10px"><h2 style="margin:0">🏆 สินค้าขายดี</h2><div class="tabs" id="bestTabs" style="margin:0"><button class="pill active" data-range="day">วันนี้</button><button class="pill" data-range="month">เดือนนี้</button><button class="pill" data-range="year">ปีนี้</button></div></div><div class="row" style="justify-content:space-between;align-items:center;gap:8px;margin:8px 0 12px"><div class="small muted" id="bestSummary">—</div><button id="bestExport" class="secondary fit" style="font-size:12px;padding:6px 10px;white-space:nowrap">⬇ Excel</button></div><div id="bestList" class="best"></div></div><div class="card"><h2>รายการเคลื่อนไหวล่าสุด</h2><div class="tablewrap"><table><thead><tr><th>วันเวลา</th><th>ประเภท</th><th>รหัส</th><th>สินค้า</th><th>จำนวน</th><th>หมายเหตุ</th></tr></thead><tbody id="recentRows"></tbody></table></div></div></section>
 <section id="inventory" class="hidden"><div class="card"><div class="row"><h2>คลังสินค้า</h2><div class="row" style="gap:8px;flex:0 0 auto"><select id="bulkCategory" class="hidden" style="max-width:170px;width:auto"><option value="">ย้ายไปหมวด…</option><option>เครื่องเกม</option><option>ตุ๊กตา</option><option>จอยเกม/ACC</option><option>แผ่นเกม</option><option>ของแถม</option><option>ไม่มีหมวดหมู่</option></select><button id="bulkMove" class="secondary hidden">ย้ายหมวดหมู่</button><button id="bulkDelete" class="danger hidden">🗑 ลบที่เลือก</button><button id="newProduct" class="fit adminonly">+ เพิ่มสินค้า</button></div></div><div class="row"><button id="catalogBtn" class="secondary fit">▧ เปิดแคตตาล็อก / พิมพ์เอกสาร</button><button id="catalogExcelBtn" class="secondary fit">⬇ ส่งออก Excel (แยกหมวดหมู่)</button><button id="showTableBtn" class="secondary fit">☷ มุมมองตาราง</button><button id="showGalleryBtn" class="secondary fit">▦ มุมมองรูปสินค้า</button><button id="lowFilter" class="secondary fit">⚠️ ใกล้หมด</button></div><div class="row"><div class="field"><label>ค้นหาสินค้า</label><input id="invSearch" placeholder="รหัส ชื่อ หรือบาร์โค้ด"></div><div class="field"><label>หมวดหมู่</label><select id="invCategory"><option value="">ทุกหมวดหมู่</option><option>เครื่องเกม</option><option>ตุ๊กตา</option><option>จอยเกม/ACC</option><option>แผ่นเกม</option><option>ของแถม</option><option>ไม่มีหมวดหมู่</option></select></div><div class="field" style="max-width:150px"><label>แสดงต่อหน้า</label><select id="pageSize"><option value="20">20</option><option value="50" selected>50</option><option value="100">100</option><option value="0">ทั้งหมด</option></select></div></div><div id="productGallery" class="product-gallery hidden"></div><div id="inventoryTableWrap" class="tablewrap"><table><thead><tr><th class="adminonly" style="width:36px"><input type="checkbox" id="checkAll" title="เลือกทั้งหน้านี้"></th><th>รหัสสินค้า</th><th>ชื่อสินค้า</th><th>หมวดหมู่</th><th>บาร์โค้ด</th><th>คงเหลือ</th><th>ต้นทุน/ชิ้น</th><th class="adminonly">จัดการ</th></tr></thead><tbody id="inventoryRows"></tbody></table></div><div id="pager" class="pager"></div></div></section>
 <section id="movement" class="hidden"><div class="card"><h2>รับสินค้าเข้า / โอนออก</h2><div class="tabs"><button class="pill active adminonly" data-kind="รับเข้า">รับสินค้าเข้า</button><button class="pill adminonly" data-kind="โอนออก">โอนให้ร้านอื่น</button></div><div class="two"><div class="field"><label>สแกนบาร์โค้ด / รหัสสินค้า</label><div class="row"><input id="moveCode" placeholder="ยิงบาร์โค้ดหรือพิมพ์รหัส"><button id="cameraBtn" class="secondary fit">📷 กล้อง</button></div><video id="camera" class="hidden" playsinline style="width:100%;border-radius:10px"></video></div><div class="field"><label>สินค้า</label><select id="moveProduct"></select></div><div class="field"><label>จำนวน (จำนวนเต็ม)</label><input id="moveQty" type="number" min="1" value="1"></div><div class="field"><label>ราคาต่อชิ้น (บาท) — ต้นทุน/มูลค่าที่บันทึก</label><input id="movePrice" type="number" min="0" value="0"></div><div class="field" id="storeField"><label>ร้านปลายทาง (เฉพาะการโอน)</label><input id="moveStore" placeholder="ชื่อร้านที่รับโอน"></div><div class="field"><label>หมายเหตุ</label><input id="moveNote" placeholder="ผู้รับผิดชอบ / หมายเหตุ"></div></div><button id="saveMove">บันทึกรายการ</button><div class="foot">ระบบตรวจสอบยอดคงเหลือก่อนโอนออก การบันทึกจะบันทึกลงฐานข้อมูลออนไลน์ร่วมกันทุกอุปกรณ์</div></div></section><section id="sale" class="hidden"><div class="card"><h2>ขายสินค้า</h2><div class="two"><div class="field"><label>สแกนบาร์โค้ด / รหัสสินค้า</label><div class="row"><input id="saleCode" placeholder="ยิงบาร์โค้ดหรือพิมพ์รหัส"><button id="saleCameraBtn" class="secondary fit">📷 กล้อง</button></div><video id="saleCamera" class="hidden" playsinline style="width:100%;border-radius:10px"></video></div><div class="field"><label>สินค้า</label><select id="saleProduct"></select></div><div class="field"><label>จำนวน (จำนวนเต็ม)</label><input id="saleQty" type="number" min="1" value="1"></div><div class="field"><label>ราคาต่อชิ้น (บาท)</label><input id="salePrice" type="number" min="0" value="0"></div><div class="field"><label>หมายเหตุ</label><input id="saleNote" placeholder="ชื่อผู้ขาย / หมายเหตุ"></div></div><button id="addToBill">＋ เพิ่มลงบิล</button><div id="cartBox"><h3 style="margin:18px 0 8px">🧾 รายการในบิลนี้ <span class="small muted" id="billHint"></span></h3><div class="tablewrap"><table><thead><tr><th>รหัส</th><th>สินค้า</th><th>จำนวน</th><th>ราคา/ชิ้น</th><th>รวม</th><th></th></tr></thead><tbody id="cartRows"></tbody></table></div><div class="row" style="justify-content:space-between;align-items:center;margin-top:10px"><span class="small muted" id="cartCount">ยังไม่มีรายการ</span><b id="cartTotal">0 ฿</b></div><div class="row" style="gap:8px;margin-top:10px"><button id="saveBill">💾 บันทึกบิล</button><button id="clearBill" class="secondary">ล้างบิล</button></div></div><div class="foot">ระบบตรวจสอบยอดคงเหลือก่อนขาย การบันทึกบิลจะตัดสต๊อกทุกรายการพร้อมกัน และบันทึกลงฐานข้อมูลออนไลน์ร่วมกันทุกอุปกรณ์</div></div><div class="card" style="margin-top:18px"><div class="row"><h2>บิลขายล่าสุด</h2><button id="refreshBills" class="secondary fit">↻ รีเฟรช</button></div><div class="tablewrap"><table class="billtable"><thead><tr><th>วันเวลา</th><th>เลขบิล</th><th>รายการ</th><th>ชิ้น</th><th>ยอดรวม</th><th>จัดการ</th></tr></thead><tbody id="billRows"></tbody></table></div><div class="small muted" style="margin-top:8px">รวมรายการขายที่บันทึกไว้ล่าสุด — บิลที่บันทึกก่อนอัปเดตจะแสดงเป็น “บิลเดี่ยว”</div></div></section>
-<section id="excel" class="hidden"><div class="two"><div class="card adminonly"><h2>↑ นำเข้า Excel</h2><p class="muted">รองรับ .xlsx และ .xls โดยใช้คอลัมน์ <b>รหัสสินค้า, จำนวน</b> (ชื่อสินค้า / หมวดหมู่ / บาร์โค้ด / ราคา ใส่ได้ถ้ามี — รองรับหัวตารางภาษาอังกฤษและรายงาน POS) · <b>รหัสที่ยังไม่มีในคลัง ระบบจะสร้างสินค้าใหม่ให้อัตโนมัติในหมวด “ไม่มีหมวดหมู่”</b> · บาร์โค้ดใช้คอลัมน์ SBC ก่อน ถ้าว่างจะใช้ IBC แทน · <b>ค่าเริ่มต้น: ตั้งจำนวนคงเหลือตามจำนวนในไฟล์ (ไม่บวกกับยอดเดิม)</b></p><div class="upload"><input id="excelFile" type="file" accept=".xlsx,.xls,.csv"><div class="small muted">เลือกไฟล์ที่นับจากคลังสินค้า</div></div><div class="field"><label>เมื่อยืนยันผลตรวจนับ</label><select id="importMode"><option value="reconcile" selected>ตั้งยอดคงเหลือตามจำนวนในไฟล์ (ใช้จำนวนในไฟล์เป็นยอดจริง)</option><option value="meta">อัปเดตเฉพาะบาร์โค้ด/ราคา (ไม่แตะจำนวน)</option><option value="report">เก็บเป็นรายงานตรวจนับ ไม่เปลี่ยนสต๊อก</option><option value="add">บวกจำนวนเพิ่มเข้าสต๊อก (รับเข้า) — เฉพาะกรณีเพิ่มของใหม่</option></select><div class="small muted" style="margin-top:6px">ค่าเริ่มต้น: ระบบจะ <b>ตั้งจำนวนคงเหลือเท่ากับจำนวนในไฟล์</b> (ไม่บวกกับยอดเดิม) — ถ้าจำนวนในไฟล์น้อยกว่า ระบบจะลดยอดลง</div></div><div id="importSummary" class="notice">เลือกไฟล์เพื่อเริ่มตรวจสอบ</div><div class="tablewrap"><table><thead><tr><th>รหัส</th><th>ชื่อ</th><th>บาร์โค้ด</th><th>ราคา</th><th>จำนวนในไฟล์</th><th>ในระบบ</th><th>ผลต่าง</th><th>สถานะ</th></tr></thead><tbody id="importRows"></tbody></table></div><button id="confirmImport" disabled>✓ ยืนยันนำเข้าข้อมูล</button></div><div class="card"><h2>↓ ส่งออก Excel</h2><p class="muted">ส่งออกจำนวนคงเหลือปัจจุบัน พร้อมรหัสสินค้า ชื่อสินค้า และหมวดหมู่</p><div class="field"><label>หมวดหมู่</label><select id="exportCategory"><option value="">ทุกหมวดหมู่</option><option>เครื่องเกม</option><option>ตุ๊กตา</option><option>จอยเกม/ACC</option><option>แผ่นเกม</option><option>ของแถม</option><option>ไม่มีหมวดหมู่</option></select></div><div class="field"><label>ชนิดข้อมูล</label><select id="exportType"><option value="stock">สินค้าคงเหลือปัจจุบัน</option><option value="transactions">ประวัติรับเข้า–ขาย–โอน</option><option value="in">ประวัติรับเข้า</option><option value="out">ประวัติขาย</option><option value="transfer">ประวัติโอน</option></select></div><button id="exportBtn" class="green">ดาวน์โหลดไฟล์ Excel</button><button id="templateBtn" class="secondary">ดาวน์โหลดแม่แบบตรวจนับ</button><div class="notice">ก่อนนำเข้า ระบบจะแสดงรหัสที่ไม่พบ จำนวนผิดรูปแบบ และผลต่างให้ตรวจสอบก่อนยืนยันเสมอ</div></div></div></section>
+<section id="discounts" class="hidden"><div class="card"><div class="row"><h2>🏷️ ส่วนลด / โปรโมชั่น</h2><div class="row" style="gap:8px;flex:0 0 auto"><button id="newDiscount" class="fit">+ เพิ่มส่วนลด</button><button id="refreshDiscounts" class="secondary fit">↻ รีเฟรช</button></div></div><div id="discountNotice"></div><div class="tablewrap"><table><thead><tr><th>สินค้า</th><th>ส่วนลด</th><th>ราคาหลังลด</th><th>ช่วงวันที่</th><th>สถานะ</th><th>จัดการ</th></tr></thead><tbody id="discountRows"></tbody></table></div><div class="foot">ส่วนลดจะขึ้นบนแคตตาล็อกลูกค้าอัตโนมัติเมื่อถึงวันเริ่ม และหายไปเมื่อเลยวันสิ้นสุด · ตั้งได้หลายรายการต่อสินค้า ระบบจะใช้ส่วนลดที่ถูกที่สุด</div></div></section><section id="excel" class="hidden"><div class="two"><div class="card adminonly"><h2>↑ นำเข้า Excel</h2><p class="muted">รองรับ .xlsx และ .xls โดยใช้คอลัมน์ <b>รหัสสินค้า, จำนวน</b> (ชื่อสินค้า / หมวดหมู่ / บาร์โค้ด / ราคา ใส่ได้ถ้ามี — รองรับหัวตารางภาษาอังกฤษและรายงาน POS) · <b>รหัสที่ยังไม่มีในคลัง ระบบจะสร้างสินค้าใหม่ให้อัตโนมัติในหมวด “ไม่มีหมวดหมู่”</b> · บาร์โค้ดใช้คอลัมน์ SBC ก่อน ถ้าว่างจะใช้ IBC แทน · <b>ค่าเริ่มต้น: ตั้งจำนวนคงเหลือตามจำนวนในไฟล์ (ไม่บวกกับยอดเดิม)</b></p><div class="upload"><input id="excelFile" type="file" accept=".xlsx,.xls,.csv"><div class="small muted">เลือกไฟล์ที่นับจากคลังสินค้า</div></div><div class="field"><label>เมื่อยืนยันผลตรวจนับ</label><select id="importMode"><option value="reconcile" selected>ตั้งยอดคงเหลือตามจำนวนในไฟล์ (ใช้จำนวนในไฟล์เป็นยอดจริง)</option><option value="meta">อัปเดตเฉพาะบาร์โค้ด/ราคา (ไม่แตะจำนวน)</option><option value="report">เก็บเป็นรายงานตรวจนับ ไม่เปลี่ยนสต๊อก</option><option value="add">บวกจำนวนเพิ่มเข้าสต๊อก (รับเข้า) — เฉพาะกรณีเพิ่มของใหม่</option></select><div class="small muted" style="margin-top:6px">ค่าเริ่มต้น: ระบบจะ <b>ตั้งจำนวนคงเหลือเท่ากับจำนวนในไฟล์</b> (ไม่บวกกับยอดเดิม) — ถ้าจำนวนในไฟล์น้อยกว่า ระบบจะลดยอดลง</div></div><div id="importSummary" class="notice">เลือกไฟล์เพื่อเริ่มตรวจสอบ</div><div class="tablewrap"><table><thead><tr><th>รหัส</th><th>ชื่อ</th><th>บาร์โค้ด</th><th>ราคา</th><th>จำนวนในไฟล์</th><th>ในระบบ</th><th>ผลต่าง</th><th>สถานะ</th></tr></thead><tbody id="importRows"></tbody></table></div><button id="confirmImport" disabled>✓ ยืนยันนำเข้าข้อมูล</button></div><div class="card"><h2>↓ ส่งออก Excel</h2><p class="muted">ส่งออกจำนวนคงเหลือปัจจุบัน พร้อมรหัสสินค้า ชื่อสินค้า และหมวดหมู่</p><div class="field"><label>หมวดหมู่</label><select id="exportCategory"><option value="">ทุกหมวดหมู่</option><option>เครื่องเกม</option><option>ตุ๊กตา</option><option>จอยเกม/ACC</option><option>แผ่นเกม</option><option>ของแถม</option><option>ไม่มีหมวดหมู่</option></select></div><div class="field"><label>ชนิดข้อมูล</label><select id="exportType"><option value="stock">สินค้าคงเหลือปัจจุบัน</option><option value="transactions">ประวัติรับเข้า–ขาย–โอน</option><option value="in">ประวัติรับเข้า</option><option value="out">ประวัติขาย</option><option value="transfer">ประวัติโอน</option></select></div><button id="exportBtn" class="green">ดาวน์โหลดไฟล์ Excel</button><button id="templateBtn" class="secondary">ดาวน์โหลดแม่แบบตรวจนับ</button><div class="notice">ก่อนนำเข้า ระบบจะแสดงรหัสที่ไม่พบ จำนวนผิดรูปแบบ และผลต่างให้ตรวจสอบก่อนยืนยันเสมอ</div></div></div></section>
 <section id="reports" class="hidden"><div class="card"><h2>รายงานการเคลื่อนไหว</h2><div class="row"><div class="field"><label>จากวันที่</label><input id="reportFrom" type="date"></div><div class="field"><label>ถึงวันที่</label><input id="reportTo" type="date"></div><div class="field"><label>ช่วงด่วน</label><select id="reportPreset"><option value="today">วันนี้</option><option value="7">7 วันล่าสุด</option><option value="month" selected>เดือนนี้</option><option value="year">ปีนี้</option><option value="all">ทั้งหมด</option><option value="custom">กำหนดเอง</option></select></div><div class="field"><label>ประเภท</label><select id="reportKind"><option value="">ทั้งหมด</option><option>รับเข้า</option><option>ขายออก</option><option>โอนออก</option><option>ตรวจนับ</option></select></div><button id="runReport" class="fit">แสดงรายงาน</button></div><div class="small muted" id="reportRangeLabel"></div><div class="grid"><div class="card"><div class="muted">รับเข้า (ชิ้น)</div><div class="metric" id="rIn">0</div></div><div class="card"><div class="muted">ขายออก (ชิ้น)</div><div class="metric" id="rSold">0</div></div><div class="card"><div class="muted">โอนออก (ชิ้น)</div><div class="metric" id="rTransfer">0</div></div><div class="card"><div class="muted">ยอดขาย (บาท)</div><div class="metric" id="rSales">0</div></div></div><div class="tablewrap"><table><thead><tr><th>วันเวลา</th><th>ประเภท</th><th>รหัส</th><th>สินค้า</th><th>จำนวน</th><th>มูลค่า</th><th>หมายเหตุ</th></tr></thead><tbody id="reportRows"></tbody></table></div><button id="reportExport" class="secondary">ส่งออกรายงาน Excel</button></div></section>
 <div class="foot">ข้อมูลเก็บในฐานข้อมูลออนไลน์ (Supabase) ร่วมกันทุกอุปกรณ์ · ต้องล็อกอินก่อนใช้งาน · สิทธิ์: แอดมิน/พนักงาน</div></main></div><div id="productModal" class="modal hidden" onclick="if(event.target===this)closeProductModal()"><div class="modalbox"><div class="row"><h2 id="modalTitle">รายละเอียดสินค้า</h2><button class="secondary fit" onclick="closeProductModal()">ปิด ✕</button></div><div id="modalContent"></div></div></div><div id="productForm" class="modal hidden" onclick="if(event.target===this)closeProductForm()"><div class="modalbox"><div class="row"><h2 id="productFormTitle">เพิ่มสินค้า</h2><button class="secondary fit" onclick="closeProductForm()">ปิด ✕</button></div><div class="two"><div class="field"><label>รหัสสินค้า (ต้องไม่ซ้ำ)</label><input id="pCode"></div><div class="field"><label>ชื่อสินค้า</label><input id="pName"></div><div class="field"><label>หมวดหมู่</label><select id="pCategory"><option>เครื่องเกม</option><option>ตุ๊กตา</option><option>จอยเกม/ACC</option><option>แผ่นเกม</option><option>ของแถม</option><option>ไม่มีหมวดหมู่</option></select></div><div class="field"><label>บาร์โค้ด</label><input id="pBarcode"></div><div class="field"><label>จำนวนคงเหลือ</label><input id="pQty" type="number" min="0" value="0"></div><div class="field"><label>ต้นทุนต่อชิ้น (บาท)</label><input id="pCost" type="number" min="0" value="0"></div><div class="field"><label>ราคาขายหน้าร้าน (บาท)</label><input id="pPrice" type="number" min="0" value="0"><div class="small muted" style="margin-top:4px">ราคานี้จะแสดงในแคตตาล็อกลูกค้า · ใส่ 0 = แสดง “สอบถามราคา”</div></div><div class="field"><label>ลิงก์รูปสินค้า (ถ้ามี)</label><input id="pImage" placeholder="https://.../รูป.jpg"><div class="small muted" style="margin-top:4px">วาง <b>ลิงก์รูปโดยตรง</b> (เช่น https://.../a.jpg) หรือลิงก์แชร์ <b>Google Drive / Dropbox</b> — ระบบแปลงให้อัตโนมัติ (Google Drive ต้องแชร์ “ทุกคนที่มีลิงก์”) · ลิงก์หน้าสินค้า (Powerbuy / Shopee / Lazada / Facebook) ใช้ไม่ได้</div></div><div class="field"><label>หรืออัปโหลดรูปจากอุปกรณ์</label><input id="pImageFile" type="file" accept="image/*"><div class="small muted">ระบบย่อรูปให้อัตโนมัติ (ด้านยาวสุดไม่เกิน 600 px, JPEG) แล้วเก็บขึ้น Supabase Storage พร้อมสร้างลิงก์ให้ — ไฟล์ต้นฉบับไม่เกิน 8 MB</div></div><div class="field" style="grid-column:1/-1"><label>ตัวอย่างรูป</label><div id="pImagePreview" class="imgpreview"><span class="small muted">ยังไม่มีรูป</span></div></div></div><div class="row" style="margin-top:14px"><button id="saveProduct">บันทึกสินค้า</button><button id="cancelProduct" class="secondary">ยกเลิก</button><button id="deleteProduct" class="danger hidden">ลบสินค้า</button></div></div></div>
-<div id="scanModal" class="modal hidden" onclick="if(event.target===this)closeScan()"><div class="modalbox" style="max-width:560px"><div class="row"><h2>สแกนบาร์โค้ด</h2><button class="secondary fit" onclick="closeScan()">ปิด ✕</button></div><video id="scanVideo" playsinline style="width:100%;border-radius:14px;background:#000;min-height:220px"></video><div class="muted small" style="margin-top:10px">ส่องบาร์โค้ดให้อยู่ในกรอบ ระบบจะค้นหาสินค้าในคลังให้อัตโนมัติ — หรือใช้เครื่องสแกนยิงที่ช่องค้นหาก็ได้</div></div></div>
+<div id="discountForm" class="modal hidden" onclick="if(event.target===this)closeDiscountForm()"><div class="modalbox"><div class="row"><h2 id="discountFormTitle">เพิ่มส่วนลด</h2><button class="secondary fit" onclick="closeDiscountForm()">ปิด ✕</button></div><div class="two"><div class="field" style="grid-column:1/-1"><label>สแกนบาร์โค้ด / พิมพ์รหัสสินค้า</label><div class="row" style="gap:8px"><input id="dScanCode" placeholder="ยิงบาร์โค้ดหรือพิมพ์รหัส แล้วกด Enter"><button id="dScan" class="secondary fit" type="button">📷 กล้อง</button></div><div id="dScanMsg" class="small muted" style="margin-top:4px"></div></div><div class="field"><label>หมวดหมู่ (กรองสินค้า)</label><select id="dCategory"></select></div><div class="field"><label>สินค้า</label><select id="dCode"></select></div><div class="field"><label>ประเภทส่วนลด</label><select id="dKind"><option value="percent">เปอร์เซ็นต์ (%)</option><option value="amount">จำนวนเงิน (บาท)</option></select></div><div class="field"><label>มูลค่าส่วนลด</label><input id="dValue" type="number" min="0" step="0.01" value="0"></div><div class="field"><label>วันที่เริ่ม</label><input id="dStart" type="date"></div><div class="field"><label>วันที่สิ้นสุด</label><input id="dEnd" type="date"></div><div class="field"><label>หมายเหตุ</label><input id="dNote" placeholder="เช่น ลดพิเศษปีใหม่"></div></div><label style="display:flex;align-items:center;gap:8px;margin:10px 0"><input id="dActive" type="checkbox" checked> เปิดใช้งาน</label><div class="row"><button id="saveDiscount">บันทึกส่วนลด</button><button id="deleteDiscount" class="danger hidden">ลบส่วนลด</button></div><div class="foot">ตัวอย่าง: สินค้าราคา 1,000 บาท · ลด 10% → ลูกค้าเห็น 900 บาท · ลด 100 บาท → ลูกค้าเห็น 900 บาท</div></div></div><div id="scanModal" class="modal hidden" onclick="if(event.target===this)closeScan()"><div class="modalbox" style="max-width:560px"><div class="row"><h2>สแกนบาร์โค้ด</h2><button class="secondary fit" onclick="closeScan()">ปิด ✕</button></div><video id="scanVideo" playsinline style="width:100%;border-radius:14px;background:#000;min-height:220px"></video><div class="muted small" style="margin-top:10px">ส่องบาร์โค้ดให้อยู่ในกรอบ ระบบจะค้นหาสินค้าในคลังให้อัตโนมัติ — หรือใช้เครื่องสแกนยิงที่ช่องค้นหาก็ได้</div></div></div>
 <div id="billModal" class="modal hidden" onclick="if(event.target===this)closeBill()"><div class="modalbox"><div class="row"><h2 id="billTitle">รายละเอียดบิล</h2><button class="secondary fit" onclick="closeBill()">ปิด ✕</button></div><div id="billContent"></div></div></div>
 <script>
 const $=id=>document.getElementById(id);
@@ -527,7 +535,7 @@ function render(){
 
 function moveRows(moves,full=true){return moves.map(m=>`<tr><td>${esc(new Date(m.date).toLocaleString('th-TH'))}</td><td>${esc(m.kind)}</td><td>${esc(m.code)}</td><td>${esc(m.name)}</td><td>${n(m.qty)}</td>${full?`<td>${n(m.price*m.qty)}</td>`:''}<td>${esc(m.note||'—')}</td></tr>`).join('')||`<tr><td colspan="${full?7:6}" class="empty">ยังไม่มีรายการ</td></tr>`}
 
-function page(name){if((name==='movement'||name==='sale')&&!isAdmin)name='dashboard';document.querySelectorAll('main section').forEach(s=>s.classList.toggle('hidden',s.id!==name));document.querySelectorAll('.nav').forEach(b=>b.classList.toggle('active',b.dataset.page===name));$('pageTitle').textContent=({dashboard:'ภาพรวมคลังสินค้า',inventory:'คลังสินค้า',movement:'รับเข้า / โอน',sale:'ขายสินค้า',excel:'นำเข้า–ส่งออก Excel',reports:'รายงานสต๊อก'})[name];if(name==='dashboard')loadBest();if(name==='sale'){renderCart();if(!Number($('salePrice').value))autoFillSalePrice()}if(name==='excel')ensureXLSX().catch(()=>{})}
+function page(name){if((name==='movement'||name==='sale'||name==='discounts')&&!isAdmin)name='dashboard';document.querySelectorAll('main section').forEach(s=>s.classList.toggle('hidden',s.id!==name));document.querySelectorAll('.nav').forEach(b=>b.classList.toggle('active',b.dataset.page===name));$('pageTitle').textContent=({dashboard:'ภาพรวมคลังสินค้า',inventory:'คลังสินค้า',movement:'รับเข้า / โอน',sale:'ขายสินค้า',discounts:'ส่วนลด / โปรโมชั่น',excel:'นำเข้า–ส่งออก Excel',reports:'รายงานสต๊อก'})[name];if(name==='dashboard')loadBest();if(name==='sale'){renderCart();if(!Number($('salePrice').value))autoFillSalePrice()}if(name==='discounts')loadDiscounts();if(name==='excel')ensureXLSX().catch(()=>{})}
 const navOpen=()=>$('navDrawer').classList.contains('open');
 function openNav(){const d=$('navDrawer'),b=$('navBackdrop'),btn=$('navMenuBtn');if(!d)return;clearTimeout(navAnim);d.classList.remove('dragging');d.style.transition='';d.style.transform='';if(b){b.classList.remove('dragging');b.style.transition='';b.style.opacity=''}d.classList.add('open');if(b)b.classList.add('open');if(btn)btn.setAttribute('aria-expanded','true');document.body.style.overflow='hidden'}
 function closeNav(){const d=$('navDrawer'),b=$('navBackdrop'),btn=$('navMenuBtn');clearTimeout(navAnim);if(d){d.classList.remove('dragging','open');d.style.transition='';d.style.transform=''}if(b){b.classList.remove('dragging','open');b.style.transition='';b.style.opacity=''}if(btn)btn.setAttribute('aria-expanded','false');document.body.style.overflow=''}
@@ -729,10 +737,16 @@ function autoFillSalePrice(){const p=currentSaleProduct();if(p)$('salePrice').va
 $('saleCode').onchange=()=>{let p=findScanProduct($('saleCode').value)||findProduct($('saleCode').value);if(p){$('saleCode').value=p.barcode||p.code;$('saleProduct').value=p.code;autoFillSalePrice()}else note('ไม่พบสินค้าที่ตรงกับ "'+$('saleCode').value.trim()+'" ในคลัง','err')};
 $('saleProduct').onchange=()=>{let p=db.products.find(x=>x.code===$('saleProduct').value);if(p){$('saleCode').value=p.barcode||p.code;autoFillSalePrice()}};
 $('saleCode').addEventListener('keydown',e=>{if(e.key!=='Enter')return;e.preventDefault();const p=findScanProduct($('saleCode').value)||findProduct($('saleCode').value);if(!p)return note('ไม่พบสินค้าที่ตรงกับ "'+$('saleCode').value.trim()+'" ในคลัง','err');$('saleCode').value=p.barcode||p.code;$('saleProduct').value=p.code;autoFillSalePrice();$('saleQty').focus()});
-let scanStream=null,scanTimer=null;
-async function openScan(){
-  if(!('BarcodeDetector'in window))return note('เบราว์เซอร์นี้ไม่รองรับสแกนผ่านกล้อง (แนะนำ Chrome บน Android) — ใช้เครื่องสแกนยิงที่ช่องค้นหาได้เลย','err');
-  page('inventory');$('scanModal').classList.remove('hidden');
+let scanStream=null,scanTimer=null,scanTarget='inventory';
+async function openScan(target='inventory'){
+  scanTarget=target;
+  if(!('BarcodeDetector'in window)){
+    const msg='เบราว์เซอร์นี้ไม่รองรับสแกนผ่านกล้อง (แนะนำ Chrome บน Android) — พิมพ์รหัสหรือเลือกจากรายการแทนได้';
+    if(scanTarget==='discount'){dScanNote(msg,'err');scanTarget='inventory';return}
+    return note(msg,'err');
+  }
+  if(scanTarget!=='discount')page('inventory');
+  $('scanModal').classList.remove('hidden');
   const video=$('scanVideo');
   try{
     scanStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}});
@@ -743,9 +757,9 @@ async function openScan(){
       try{const codes=await det.detect(video);if(codes&&codes.length){const v=String(codes[0].rawValue||'').trim();if(v)return handleScan(v)}}catch(e){}
       scanTimer=setTimeout(tick,350);
     };tick();
-  }catch(e){closeScan();note('เปิดกล้องไม่สำเร็จ: '+e.message,'err')}
+  }catch(e){const msg='เปิดกล้องไม่สำเร็จ: '+e.message;closeScan();if(target==='discount')dScanNote(msg,'err');else note(msg,'err')}
 }
-window.closeScan=()=>{if(scanTimer){clearTimeout(scanTimer);scanTimer=null}if(scanStream){scanStream.getTracks().forEach(t=>t.stop());scanStream=null}const v=$('scanVideo');if(v)v.srcObject=null;$('scanModal').classList.add('hidden')};
+window.closeScan=()=>{if(scanTimer){clearTimeout(scanTimer);scanTimer=null}if(scanStream){scanStream.getTracks().forEach(t=>t.stop());scanStream=null}const v=$('scanVideo');if(v)v.srcObject=null;$('scanModal').classList.add('hidden');scanTarget='inventory'};
 function findScanProduct(val){
   const norm=v=>String(v||'').trim().toLowerCase(),digits=v=>String(v||'').replace(/\D/g,'').replace(/^0+/,'');
   let t=norm(val),d=digits(val);
@@ -754,8 +768,10 @@ function findScanProduct(val){
     ||db.products.find(p=>norm(p.name)===t)||findProductByName(val);
 }
 function handleScan(val){
-  const p=findScanProduct(val);
-  closeScan();page('inventory');
+  const p=findScanProduct(val),target=scanTarget;
+  closeScan();
+  if(target==='discount'){pickDiscountProduct(val);return}
+  page('inventory');
   $('invCategory').value='';$('invSearch').value=p?p.code:val;pageNo=1;render();
   if(p){openProduct(p.code);note('พบสินค้า: '+p.name+' · คงเหลือ '+n(p.qty)+' ชิ้น','ok')}
   else note('ไม่พบสินค้าที่ตรงกับ "'+val+'" ในคลัง','err');
@@ -1043,7 +1059,7 @@ async function openPublicCatalog(){
   try{
     const {data,error}=await sb.rpc('public_catalog');
     if(error)throw error;
-    catalogData=(data||[]).map(p=>{const img=String(p.image||'');return {code:String(p.code||''),name:String(p.name||''),category:String(p.category||''),qty:Number(p.qty)||0,price:Number(p.price)||0,image:/^https:\/\//i.test(img)?img:''}});
+    catalogData=(data||[]).map(p=>{const img=String(p.image||'');return {code:String(p.code||''),name:String(p.name||''),category:String(p.category||''),qty:Number(p.qty)||0,price:Number(p.price)||0,sale_price:(p.sale_price===null||p.sale_price===undefined)?null:Number(p.sale_price),discount_kind:String(p.discount_kind||''),discount_value:Number(p.discount_value)||0,discount_until:String(p.discount_until||''),image:/^https:\/\//i.test(img)?img:''}});
     catalogNote('');
     renderPublicCatalog();
   }catch(e){
@@ -1053,19 +1069,30 @@ async function openPublicCatalog(){
 }
 function closePublicCatalog(){$('catalogModal').classList.add('hidden');$('catalogScreen').classList.add('hidden');$('authScreen').classList.remove('hidden');authNote('')}
 function catalogStatus(qty){return qty<=0?'<span class="tag bad">สินค้าหมด</span>':qty<=3?'<span class="tag warn">เหลือน้อย</span>':'<span class="tag">พร้อมจำหน่าย</span>'}
+function catalogHasDiscount(p){const price=Number(p.price)||0;if(!(price>0)||p.sale_price===null||p.sale_price===undefined)return false;const sale=Number(p.sale_price);return !isNaN(sale)&&sale<price}
+function catalogDiscountBadge(p){const v=Number(p.discount_value)||0;if(!(v>0))return '';return p.discount_kind==='amount'?'-฿'+n(v):'-'+v+'%'}
+function catalogDiscountText(p){const v=Number(p.discount_value)||0;if(!(v>0))return '';return p.discount_kind==='amount'?'ลด ฿'+n(v):'ลด '+v+'%'}
+function catalogPriceHtml(p){
+  const price=Number(p.price)||0,sale=Number(p.sale_price)||0;
+  if(catalogHasDiscount(p))return `<div class="catalogprice sale"><span class="old">฿${n(price)}</span><span class="new">฿${n(sale)}</span><span class="off">${catalogDiscountBadge(p)}</span></div>`;
+  return `<div class="catalogprice${price>0?'':' ask'}">${price>0?'฿'+n(price):'สอบถามราคา'}</div>`;
+}
 function renderPublicCatalog(){
   const q=$('catalogSearch').value.trim().toLowerCase(),cat=$('catalogCategory').value;
   const list=catalogData.filter(p=>(!cat||p.category===cat)&&(!q||p.name.toLowerCase().includes(q)||p.code.toLowerCase().includes(q)));
   $('catalogGrid').innerHTML=list.map(p=>{
-    const qty=Number(p.qty),price=Number(p.price)||0;
-    return `<div class="catalogcard" role="button" tabindex="0" data-code="${esc(p.code)}"><div class="catalogphoto">${p.image?`<img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentNode.innerHTML='🎮'">`:'🎮'}</div><div class="cataloginfo"><h3>${esc(p.name)}</h3><div class="catalogmeta">${esc(p.category||'—')}</div><div class="catalogprice${price>0?'':' ask'}">${price>0?'฿'+n(price):'สอบถามราคา'}</div><div class="catalogfoot">${catalogStatus(qty)}<span class="catalogqty">คงเหลือ <b>${n(qty)}</b> ชิ้น</span></div></div></div>`;
+    const qty=Number(p.qty);
+    return `<div class="catalogcard" role="button" tabindex="0" data-code="${esc(p.code)}"><div class="catalogphoto">${p.image?`<img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentNode.innerHTML='🎮'">`:'🎮'}</div><div class="cataloginfo"><h3>${esc(p.name)}</h3><div class="catalogmeta">${esc(p.category||'—')}</div>${catalogPriceHtml(p)}<div class="catalogfoot">${catalogStatus(qty)}<span class="catalogqty">คงเหลือ <b>${n(qty)}</b> ชิ้น</span></div></div></div>`;
   }).join('')||'<div class="muted" style="grid-column:1/-1;padding:28px;text-align:center">ไม่พบสินค้า</div>';
 }
 function openCatalogProduct(code){
   const p=catalogData.find(x=>x.code===code);if(!p)return;
   const qty=Number(p.qty),price=Number(p.price)||0;
+  const priceHtml=catalogHasDiscount(p)
+    ? `<div class="catalogprice big sale"><span class="old">฿${n(price)}</span><span class="new">฿${n(p.sale_price)}</span><span class="off">${catalogDiscountBadge(p)}</span></div><p class="small muted">${catalogDiscountText(p)} · ถึง ${thDate(p.discount_until)}</p>`
+    : `<div class="catalogprice big${price>0?'':' ask'}">${price>0?'฿'+n(price):'สอบถามราคา'}</div>`;
   $('catalogModalTitle').textContent=p.name;
-  $('catalogModalContent').innerHTML=`<div class="two"><div>${p.image?`<img class="detail-photo" src="${esc(p.image)}" alt="${esc(p.name)}" referrerpolicy="no-referrer" onerror="catalogImgFail(this)">`:`<div class="detail-photo" style="display:grid;place-content:center;font-size:56px">🎮</div>`}</div><div><p class="muted">หมวดหมู่: ${esc(p.category||'—')}</p><div class="catalogprice big${price>0?'':' ask'}">${price>0?'฿'+n(price):'สอบถามราคา'}</div><p>${catalogStatus(qty)}</p><p>คงเหลือ <b>${n(qty)}</b> ชิ้น</p><p class="muted small">สอบถามหรือสั่งซื้อได้ที่ร้าน</p></div></div>`;
+  $('catalogModalContent').innerHTML=`<div class="two"><div>${p.image?`<img class="detail-photo" src="${esc(p.image)}" alt="${esc(p.name)}" referrerpolicy="no-referrer" onerror="catalogImgFail(this)">`:`<div class="detail-photo" style="display:grid;place-content:center;font-size:56px">🎮</div>`}</div><div><p class="muted">หมวดหมู่: ${esc(p.category||'—')}</p>${priceHtml}<p>${catalogStatus(qty)}</p><p>คงเหลือ <b>${n(qty)}</b> ชิ้น</p><p class="muted small">สอบถามหรือสั่งซื้อได้ที่ร้าน</p></div></div>`;
   $('catalogModal').classList.remove('hidden');
 }
 window.catalogImgFail=el=>{const box=document.createElement('div');box.className='detail-photo';box.style.cssText='display:grid;place-content:center;font-size:56px';box.textContent='🎮';el.replaceWith(box)};
@@ -1077,6 +1104,139 @@ $('publicCatalogBtn').onclick=openPublicCatalog;
 $('catalogBack').onclick=closePublicCatalog;
 $('catalogSearch').addEventListener('input',renderPublicCatalog);
 $('catalogCategory').addEventListener('change',renderPublicCatalog);
+let discountRows=[],editingDiscount=null;
+function todayISO(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function thDate(v){if(!v)return '—';const s=String(v).slice(0,10),d=new Date(s+'T00:00:00');return isNaN(d.getTime())?s:d.toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'numeric'})}
+function salePriceOf(price,kind,value){const p=Number(price)||0,v=Number(value)||0;if(!(p>0)||!(v>0))return p;const sale=kind==='percent'?p*(1-v/100):p-v;return Math.max(0,Math.round(sale*100)/100)}
+function discountText(d){return d.kind==='percent'?'ลด '+Number(d.value)+'%':'ลด ฿'+n(d.value)}
+function discountStatus(d){
+  const today=todayISO(),s=String(d.starts_on||'').slice(0,10),e=String(d.ends_on||'').slice(0,10);
+  if(!d.active)return '<span class="tag muted">ปิดใช้งาน</span>';
+  if(today<s)return '<span class="tag warn">รอเริ่ม '+thDate(s)+'</span>';
+  if(today>e)return '<span class="tag muted">หมดโปร</span>';
+  return '<span class="tag">กำลังใช้งาน</span>';
+}
+async function loadDiscounts(){
+  if(!sb)return;
+  $('discountNotice').innerHTML='';
+  $('discountRows').innerHTML='<tr><td colspan="6" class="empty">กำลังโหลด…</td></tr>';
+  try{
+    const {data,error}=await sb.from('discounts').select('id,code,kind,value,starts_on,ends_on,note,active').order('starts_on',{ascending:false});
+    if(error)throw error;
+    discountRows=data||[];
+    renderDiscounts();
+  }catch(e){
+    const msg=String(e.message||e);
+    if(/discounts|does not exist|schema cache|relation/i.test(msg)){
+      $('discountRows').innerHTML='<tr><td colspan="6" class="empty">ยังไม่มีตารางส่วนลด</td></tr>';
+      $('discountNotice').innerHTML='<div class="notice err">ยังไม่มีตารางส่วนลด — รันไฟล์ supabase/public-catalog.sql ใน Supabase → SQL Editor ก่อน แล้วกด “↻ รีเฟรช”</div>';
+    }else{
+      $('discountRows').innerHTML='<tr><td colspan="6" class="empty">โหลดส่วนลดไม่สำเร็จ: '+esc(msg)+'</td></tr>';
+    }
+  }
+}
+function renderDiscounts(){
+  if(!$('discountRows'))return;
+  $('discountRows').innerHTML=discountRows.map(d=>{
+    const p=db.products.find(x=>x.code===d.code)||{};
+    const price=Number(p.price)||0,sale=salePriceOf(price,d.kind,d.value);
+    const saleHtml=price>0?'฿'+n(sale):'<span class="small muted">ยังไม่ตั้งราคา</span>';
+    return `<tr><td>${esc(p.name||d.code)}<div class="small muted">${esc(d.code)}${p.category?' · '+esc(p.category):''}${d.note?' · '+esc(d.note):''}</div></td><td>${discountText(d)}</td><td>${saleHtml}</td><td>${thDate(d.starts_on)} – ${thDate(d.ends_on)}</td><td>${discountStatus(d)}</td><td><div class="row" style="gap:6px;flex-wrap:nowrap"><button class="secondary" onclick="openDiscountForm(${Number(d.id)})">แก้ไข</button><button class="danger" onclick="deleteDiscountForm(${Number(d.id)})">ลบ</button></div></td></tr>`;
+  }).join('')||'<tr><td colspan="6" class="empty">ยังไม่มีส่วนลด — กด “+ เพิ่มส่วนลด” เพื่อเริ่ม</td></tr>';
+}
+const DISCOUNT_CAT_ORDER=['เครื่องเกม','ตุ๊กตา','จอยเกม/ACC','แผ่นเกม','ของแถม','ไม่มีหมวดหมู่'];
+function discountCats(){
+  const cats=[...new Set(db.products.map(p=>p.category||'ไม่มีหมวดหมู่'))];
+  return cats.sort((a,b)=>{const ia=DISCOUNT_CAT_ORDER.indexOf(a),ib=DISCOUNT_CAT_ORDER.indexOf(b);return (ia<0?99:ia)-(ib<0?99:ib)||a.localeCompare(b,'th')});
+}
+function fillDiscountCategories(){
+  $('dCategory').innerHTML='<option value="">ทุกหมวดหมู่</option>'+discountCats().map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
+}
+function fillDiscountProducts(selected){
+  const cat=$('dCategory').value;
+  let list=db.products.filter(p=>!cat||(p.category||'ไม่มีหมวดหมู่')===cat);
+  if(selected&&!list.some(p=>p.code===selected)){
+    const sel=db.products.find(p=>p.code===selected);
+    if(sel)list=[sel,...list];
+  }
+  const groups=new Map();
+  list.forEach(p=>{const c=p.category||'ไม่มีหมวดหมู่';if(!groups.has(c))groups.set(c,[]);groups.get(c).push(p)});
+  const order=discountCats().filter(c=>groups.has(c));
+  const html=order.map(c=>`<optgroup label="${esc(c)}">${groups.get(c).map(p=>`<option value="${esc(p.code)}" ${p.code===selected?'selected':''}>${esc(p.code)} — ${esc(p.name)}${Number(p.price)>0?' (฿'+n(p.price)+')':' (ยังไม่ตั้งราคา)'}</option>`).join('')}</optgroup>`).join('');
+  $('dCode').innerHTML=html||'<option value="">— ไม่พบสินค้าในหมวดนี้ —</option>';
+}
+function dScanNote(msg,type='ok'){const el=$('dScanMsg');if(!el)return;el.textContent=msg||'';el.style.color=type==='err'?'#c9143a':''}
+function pickDiscountProduct(val){
+  const raw=String(val||'').trim();
+  if(!raw)return;
+  const p=findScanProduct(raw);
+  if(!p){dScanNote('ไม่พบสินค้าที่ตรงกับ "'+raw+'" ในคลัง','err');return}
+  $('dCategory').value='';
+  fillDiscountProducts(p.code);
+  $('dCode').value=p.code;
+  $('dScanCode').value='';
+  dScanNote('เลือกแล้ว: '+p.name+(Number(p.price)>0?' · ฿'+n(p.price):' · ยังไม่ตั้งราคา'),'ok');
+}
+function openDiscountForm(id){
+  if(!isAdmin)return note('เฉพาะแอดมินเท่านั้น','err');
+  editingDiscount=id?discountRows.find(d=>Number(d.id)===Number(id))||null:null;
+  const d=editingDiscount;
+  $('discountFormTitle').textContent=d?'แก้ไขส่วนลด':'เพิ่มส่วนลด';
+  $('deleteDiscount').classList.toggle('hidden',!d);
+  fillDiscountCategories();
+  const dp=d?db.products.find(x=>x.code===d.code):null;
+  $('dCategory').value=dp?(dp.category||'ไม่มีหมวดหมู่'):'';
+  fillDiscountProducts(d?d.code:'');
+  $('dScanCode').value='';
+  dScanNote('');
+  $('dKind').value=d?d.kind:'percent';
+  $('dValue').value=d?Number(d.value):0;
+  $('dStart').value=d?String(d.starts_on).slice(0,10):todayISO();
+  $('dEnd').value=d?String(d.ends_on).slice(0,10):todayISO();
+  $('dNote').value=d?(d.note||''):'';
+  $('dActive').checked=d?!!d.active:true;
+  $('discountForm').classList.remove('hidden');
+}
+window.openDiscountForm=openDiscountForm;
+window.closeDiscountForm=()=>{$('discountForm').classList.add('hidden');editingDiscount=null};
+async function saveDiscountForm(){
+  if(!sb||!isAdmin)return note('เฉพาะแอดมินเท่านั้น','err');
+  const code=$('dCode').value,kind=$('dKind').value,value=Number($('dValue').value),starts=$('dStart').value,ends=$('dEnd').value,noteText=$('dNote').value.trim(),active=$('dActive').checked;
+  if(!code)return note('เลือกสินค้าที่จะลดราคา','err');
+  if(!(value>0))return note('กรอกมูลค่าส่วนลดมากกว่า 0','err');
+  if(kind==='percent'&&value>100)return note('ส่วนลดเปอร์เซ็นต์ต้องไม่เกิน 100','err');
+  if(!starts||!ends)return note('เลือกวันที่เริ่มและวันที่สิ้นสุด','err');
+  if(ends<starts)return note('วันที่สิ้นสุดต้องไม่ก่อนวันที่เริ่ม','err');
+  const isEdit=!!editingDiscount,row={code,kind,value,starts_on:starts,ends_on:ends,note:noteText||null,active};
+  $('saveDiscount').disabled=true;
+  try{
+    if(isEdit){const {error}=await sb.from('discounts').update({...row,updated_at:new Date().toISOString()}).eq('id',editingDiscount.id);if(error)throw error}
+    else{const {error}=await sb.from('discounts').insert(row);if(error)throw error}
+    closeDiscountForm();
+    await loadDiscounts();
+    note(isEdit?'แก้ไขส่วนลดแล้ว':'เพิ่มส่วนลดแล้ว');
+  }catch(e){
+    const msg=String(e.message||e);
+    note(/discounts|does not exist|schema cache|relation/i.test(msg)?'ยังไม่มีตารางส่วนลด — รันไฟล์ supabase/public-catalog.sql ใน Supabase ก่อน':'บันทึกส่วนลดไม่สำเร็จ: '+msg,'err');
+  }finally{$('saveDiscount').disabled=false}
+}
+async function deleteDiscountForm(id){
+  if(!sb||!isAdmin)return note('เฉพาะแอดมินเท่านั้น','err');
+  const d=discountRows.find(x=>Number(x.id)===Number(id));if(!d)return;
+  const p=db.products.find(x=>x.code===d.code);
+  if(!confirm('ลบส่วนลด '+(p?p.name:d.code)+' ('+discountText(d)+') ใช่หรือไม่?'))return;
+  const {error}=await sb.from('discounts').delete().eq('id',id);
+  if(error)return note('ลบส่วนลดไม่สำเร็จ: '+error.message,'err');
+  await loadDiscounts();note('ลบส่วนลดแล้ว');
+}
+window.deleteDiscountForm=deleteDiscountForm;
+$('newDiscount').onclick=()=>openDiscountForm();
+$('refreshDiscounts').onclick=()=>{loadDiscounts();note('กำลังรีเฟรชส่วนลด…')};
+$('saveDiscount').onclick=saveDiscountForm;
+$('deleteDiscount').onclick=()=>{if(editingDiscount)deleteDiscountForm(editingDiscount.id)};
+$('dCategory').onchange=()=>fillDiscountProducts('');
+$('dScan').onclick=()=>openScan('discount');
+$('dScanCode').addEventListener('keydown',e=>{if(e.key!=='Enter')return;e.preventDefault();pickDiscountProduct($('dScanCode').value)});
 let authMode='login';
 $('authToggleMode').onclick=()=>{authMode=authMode==='login'?'signup':'login';$('authTitle').textContent=authMode==='login'?'เข้าสู่ระบบ':'สมัครสมาชิก';$('authSub').textContent=authMode==='login'?'จัดการสินค้าเข้า–ออกและตรวจนับสต๊อก':'สร้างบัญชีผู้ใช้ใหม่ (พนักงาน)';$('authSubmit').textContent=authMode==='login'?'เข้าสู่ระบบ':'สมัครสมาชิก';$('authToggleMode').textContent=authMode==='login'?'ยังไม่มีบัญชี? สมัครสมาชิก':'มีบัญชีแล้ว? เข้าสู่ระบบ';$('authConfirmField').classList.toggle('hidden',authMode==='login');authNote('')};
 $('authSubmit').onclick=async()=>{
