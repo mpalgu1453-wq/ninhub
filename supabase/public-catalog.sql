@@ -69,33 +69,46 @@ stable
 security definer
 set search_path = public
 as $$
+  with base as (
+    select
+      p.code, p.name, p.category, p.qty, p.image,
+      -- ใช้ราคาขายถ้าตั้งไว้แล้ว ถ้ายังไม่ตั้ง (0) ใช้ราคาที่นำเข้า/ต้นทุนที่บันทึกไว้
+      -- ถ้ายังเป็น 0 อีก ใช้ราคาจากประวัติรับเข้า/ขายล่าสุดที่มีราคา
+      coalesce(
+        nullif(p.price, 0),
+        nullif(p.cost, 0),
+        (select m.price from public.moves m where m.code = p.code and coalesce(m.price, 0) > 0 order by m.date desc limit 1),
+        0
+      ) as base_price
+    from public.products p
+  )
   select
-    p.code,
-    p.name,
-    p.category,
-    p.qty,
-    p.price,
+    b.code,
+    b.name,
+    b.category,
+    b.qty,
+    b.base_price as price,
     dc.sale_price,
     dc.kind as discount_kind,
     dc.value as discount_value,
     dc.ends_on as discount_until,
-    case when p.image like 'https://%' then p.image else null end as image
-  from public.products p
+    case when b.image like 'https://%' then b.image else null end as image
+  from base b
   left join lateral (
     select
-      greatest(0, round(case when d.kind = 'percent' then p.price * (1 - d.value / 100) else p.price - d.value end, 2)) as sale_price,
+      greatest(0, round(case when d.kind = 'percent' then b.base_price * (1 - d.value / 100) else b.base_price - d.value end, 2)) as sale_price,
       d.kind,
       d.value,
       d.ends_on
     from public.discounts d
-    where d.code = p.code
+    where d.code = b.code
       and d.active
       and current_date between d.starts_on and d.ends_on
-      and p.price > 0
-    order by (case when d.kind = 'percent' then p.price * (1 - d.value / 100) else p.price - d.value end) asc
+      and b.base_price > 0
+    order by (case when d.kind = 'percent' then b.base_price * (1 - d.value / 100) else b.base_price - d.value end) asc
     limit 1
   ) dc on true
-  order by p.name;
+  order by b.name;
 $$;
 
 revoke all on function public.public_catalog() from public;
