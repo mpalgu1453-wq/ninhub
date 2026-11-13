@@ -110,6 +110,10 @@ begin
     raise exception 'วันที่รับสินค้าต้องไม่เป็นวันในอดีต';
   end if;
 
+  if p_pickup_date is not null and p_pickup_date > current_date + 2 then
+    raise exception 'วันที่รับสินค้าต้องอยู่ภายใน 3 วัน (ถึง %)', to_char(current_date + 2, 'DD/MM/YYYY');
+  end if;
+
   select * into v_product from public.products where code = p_code;
   if not found then
     raise exception 'ไม่พบสินค้านี้ในระบบ';
