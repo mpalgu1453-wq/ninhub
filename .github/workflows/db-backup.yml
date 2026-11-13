@@ -1,0 +1,52 @@
+name: Database backup
+
+# สำรองฐานข้อมูล Supabase อัตโนมัติทุกวัน 01:00 น. (เวลาไทย)
+# ต้องตั้งค่า secret ชื่อ SUPABASE_DB_URL ก่อน (Settings → Secrets and variables → Actions)
+# ค่า = Connection string แบบ Session pooler จาก Supabase → Project Settings → Database
+
+on:
+  schedule:
+    - cron: '0 18 * * *' # 18:00 UTC = 01:00 ICT
+  workflow_dispatch: # กดรันเองได้จากแท็บ Actions
+
+permissions:
+  contents: read
+
+jobs:
+  dump:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: ตรวจสอบ secret
+        env:
+          DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          if [ -z "$DB_URL" ]; then
+            echo "::error::ยังไม่ได้ตั้ง secret SUPABASE_DB_URL"
+            exit 1
+          fi
+
+      - name: สำรองข้อมูล (pg_dump 17 ผ่าน Session pooler)
+        env:
+          DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          mkdir -p backup
+          docker run --rm -e DB_URL -v "$PWD/backup:/backup" postgres:17 \
+            bash -c 'pg_dump "$DB_URL" --no-owner --no-privileges --clean --if-exists | gzip > "/backup/db-$(date -u +%Y-%m-%d).sql.gz"'
+
+      - name: ตรวจว่าไฟล์ไม่ว่าง
+        run: |
+          ls -lh backup
+          SIZE=$(stat -c%s backup/*.sql.gz)
+          if [ "$SIZE" -lt 1024 ]; then
+            echo "::error::ไฟล์สำรองเล็กผิดปกติ ($SIZE bytes) — ยกเลิกเพื่อแจ้งเตือน"
+            exit 1
+          fi
+
+      - name: เก็บไฟล์สำรอง (90 วัน)
+        uses: actions/upload-artifact@v4
+        with:
+          name: db-backup-${{ github.run_number }}
+          path: backup/*.sql.gz
+          retention-days: 90
+          if-no-files-found: error

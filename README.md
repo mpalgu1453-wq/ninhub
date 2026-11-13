@@ -268,6 +268,29 @@ python -m http.server 8000
 - `create_reservation()` จำกัด **5 รายการ/เบอร์/24 ชั่วโมง** (นอกจากกันกดซ้ำ 10 นาที และบังคับรับของภายใน 3 วัน)
 - สิ่งที่ต้องทำเองใน Dashboard: เปิด **2FA** (Supabase/GitHub/Vercel), **Network Restrictions** ที่ Database, ตั้งรหัสผ่านขั้นต่ำ 12 ตัวอักษร + Leaked password protection ที่ Authentication
 
+## สำรองฐานข้อมูลอัตโนมัติ (GitHub Actions)
+
+ไฟล์ **`.github/workflows/db-backup.yml`** รัน `pg_dump` ทุกวัน **01:00 น. (เวลาไทย)** แล้วเก็บไฟล์ `.sql.gz` เป็น artifact 90 วัน
+
+**ตั้งค่าครั้งเดียว**
+1. Supabase → Project Settings → Database → **Connection string → Session pooler** → คัดลอกมา (มีรหัสผ่านอยู่ในนั้น)
+2. GitHub repo `ninhub` → **Settings → Secrets and variables → Actions → New repository secret**
+   - Name: `SUPABASE_DB_URL`
+   - Secret: วาง connection string ทั้งเส้น (เช่น `postgresql://postgres.lpezkbshtubprljdyikq:รหัส@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres`)
+3. ไปที่แท็บ **Actions → Database backup → Run workflow** เพื่อทดสอบครั้งแรก
+
+**ดาวน์โหลดไฟล์สำรอง**: Actions → เลือก run → เลื่อนลงหัวข้อ **Artifacts** → `db-backup-<เลข>`
+
+**กู้คืน (ทำเมื่อจำเป็น)**
+```powershell
+# แตกไฟล์ก่อน
+gunzip db-2026-11-15.sql.gz
+# กู้เข้าฐานข้อมูล (ระวัง: สคริปต์มี DROP TABLE ของเดิม)
+docker run --rm -i -e DB_URL postgres:17 bash -c 'psql "$DB_URL" -v ON_ERROR_STOP=1' < db-2026-11-15.sql
+```
+> ไฟล์สำรองนี้ครอบคลุม **ฐานข้อมูล** เท่านั้น — รูปสินค้าใน Storage ต้องสำรองแยก (ดาวน์โหลดทั้ง bucket `product-images`)
+> หมายเหตุ: GitHub Free ให้ storage artifact 500 MB / 2,000 นาทีต่อเดือน — dump ของร้านนี้เล็กมาก ไม่ชนเพดาน
+
 ## แยกเว็บลูกค้า (repo: ninhub-shop) + ระบบจอง
 
 repo นี้คือ **เว็บสต๊อก/หลังบ้าน** ส่วนเว็บลูกค้าแยกเป็นอีก repo หนึ่ง แต่ใช้ **Supabase โปรเจกต์เดียวกัน** ข้อมูลสินค้า/ราคา/ส่วนลด/รูป/การจอง จึงเชื่อมกันทันที
