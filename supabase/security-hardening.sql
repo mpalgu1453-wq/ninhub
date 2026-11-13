@@ -22,7 +22,7 @@ security definer
 set search_path = public, pg_catalog
 as $$
 begin
-  if not public.is_admin() then
+  if auth.uid() is not null and not public.is_admin() then
     raise exception 'ต้องเป็นแอดมินเท่านั้น';
   end if;
 
@@ -63,6 +63,7 @@ select
 from public.reservations;
 
 comment on view public.reservations_safe is 'การจองสำหรับผู้ใช้ฐานข้อมูลแบบอ่านอย่างเดียว (เบอร์โทรถูกปิดบางส่วน)';
+revoke all on public.reservations_safe from public;
 
 -- 3) view สินค้าที่ไม่เปิดต้นทุน/บาร์โค้ด
 drop view if exists public.products_safe;
@@ -71,12 +72,13 @@ select code, name, category, qty, price, image, created_at, updated_at
 from public.products;
 
 comment on view public.products_safe is 'สินค้าสำหรับผู้ใช้ฐานข้อมูลแบบอ่านอย่างเดียว (ไม่มีต้นทุน/บาร์โค้ด)';
+revoke all on public.products_safe from public;
 
 -- 4) role อ่านอย่างเดียว (ไม่เก็บรหัสผ่านใน repo) -----------------------------
 do $$
 begin
   if not exists (select 1 from pg_roles where rolname = 'readonly_login') then
-    create role readonly_login;
+    execute 'create role readonly_login';
   end if;
 end;
 $$;
@@ -105,7 +107,7 @@ as $$
 declare
   v_deleted integer;
 begin
-  if not public.is_admin() then
+  if auth.uid() is not null and not public.is_admin() then
     raise exception 'ต้องเป็นแอดมินเท่านั้น';
   end if;
 
