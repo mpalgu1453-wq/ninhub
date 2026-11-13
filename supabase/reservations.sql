@@ -134,6 +134,15 @@ begin
     raise exception 'มีการจองสินค้านี้จากเบอร์นี้แล้ว กรุณารอการยืนยันจากร้าน';
   end if;
 
+  -- เพดานการจองต่อเบอร์ต่อวัน (กันสแปม/กลั่นแกล้งร้าน)
+  if (
+    select count(*) from public.reservations r
+    where r.phone = v_phone
+      and r.created_at > now() - interval '24 hours'
+  ) >= 5 then
+    raise exception 'เบอร์นี้จองครบ 5 รายการใน 24 ชั่วโมงแล้ว กรุณาติดต่อร้านโดยตรง';
+  end if;
+
   insert into public.reservations (code, product_name, qty, customer_name, phone, note, pickup_date)
   values (p_code, v_product.name, v_qty, v_name, v_phone, v_note, p_pickup_date)
   returning public.reservations.id, public.reservations.created_at into v_id, v_created;

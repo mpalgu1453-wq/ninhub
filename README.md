@@ -251,6 +251,23 @@ python -m http.server 8000
 - **ห้าม** ใช้ `service_role` key ในหน้าเว็บเด็ดขาด
 - ถ้าเปลี่ยนรหัสผ่าน Supabase หรือลบโปรเจกต์ ต้องอัปเดต `js/config.js` ใหม่
 
+## ความปลอดภัย (security hardening)
+
+รันไฟล์ **`supabase/security-hardening.sql`** ครั้งเดียวใน SQL Editor (รันซ้ำได้) เพื่อเปิดของพวกนี้:
+
+| สิ่งที่ได้ | ใช้ทำอะไร |
+|---|---|
+| `public.security_audit()` | ตรวจว่าทุกตารางใน `public` เปิด RLS ครบ + นับ policy (แอดมินเท่านั้น) |
+| `public.reservations_safe` | view การจองที่ **ปิดเบอร์โทร** (`081****678`) สำหรับ pgAdmin |
+| `public.products_safe` | view สินค้าที่ไม่แสดงต้นทุน/บาร์โค้ด |
+| role `readonly_login` | ผู้ใช้ฐานข้อมูลแบบ **อ่านอย่างเดียว** (ตั้งรหัสผ่านเอง ไม่เก็บใน repo) |
+| `public.purge_old_reservations(days)` | ล้างการจอง `completed`/`cancelled` ที่เก่ากว่า N วัน (ขั้นต่ำ 30) |
+
+เพิ่มเติม:
+- `vercel.json` ใน repo นี้ตั้ง **security headers** ไว้แล้ว (HSTS, CSP, X-Frame-Options, Referrer-Policy, Permissions-Policy)
+- `create_reservation()` จำกัด **5 รายการ/เบอร์/24 ชั่วโมง** (นอกจากกันกดซ้ำ 10 นาที และบังคับรับของภายใน 3 วัน)
+- สิ่งที่ต้องทำเองใน Dashboard: เปิด **2FA** (Supabase/GitHub/Vercel), **Network Restrictions** ที่ Database, ตั้งรหัสผ่านขั้นต่ำ 12 ตัวอักษร + Leaked password protection ที่ Authentication
+
 ## แยกเว็บลูกค้า (repo: ninhub-shop) + ระบบจอง
 
 repo นี้คือ **เว็บสต๊อก/หลังบ้าน** ส่วนเว็บลูกค้าแยกเป็นอีก repo หนึ่ง แต่ใช้ **Supabase โปรเจกต์เดียวกัน** ข้อมูลสินค้า/ราคา/ส่วนลด/รูป/การจอง จึงเชื่อมกันทันที
