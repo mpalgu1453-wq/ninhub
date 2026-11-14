@@ -141,183 +141,133 @@ tbody tr:hover{background:var(--panel2)}
 .catalogprice.big.sale .off{font-size:12px}
 .tag.muted{background:#f0f0f2;color:var(--muted)}
 .catalogmeta{font-size:12px;color:var(--muted)}
-/* ===== Customer storefront ===== */
-.shopwrap{min-height:100vh;background-color:#f2f2f2;background-image:radial-gradient(circle at 8% 12%,rgba(230,0,18,.045) 0 2px,transparent 3px),radial-gradient(circle at 92% 38%,rgba(0,0,0,.035) 0 2px,transparent 3px);background-size:38px 38px,54px 54px;padding:0 0 56px;font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
-.shophead{position:sticky;top:0;z-index:80;display:flex;align-items:center;justify-content:space-between;gap:16px;background:linear-gradient(90deg,#b8000d 0%,#e60012 52%,#a5000c 100%);color:#fff;padding:11px clamp(14px,3vw,32px);box-shadow:0 6px 24px rgba(0,0,0,.2)}
-.shopbrand{display:flex;align-items:center;gap:14px;min-width:0}
-.shopbrandtext{display:flex;flex-direction:column;line-height:1;min-width:0}
-.shopbrandtext b{font-size:clamp(26px,3.4vw,38px);font-weight:900;letter-spacing:-.055em;white-space:nowrap;text-shadow:0 2px 0 rgba(0,0,0,.12)}
-.shopbrandtext span{font-size:clamp(11px,1.3vw,14px);font-weight:600;color:rgba(255,255,255,.92);letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}
+/* ===== Customer storefront (synced with ninhub-shop) ===== */
+.shopwrap{min-height:100vh;background:#fff;padding:0 0 64px;font-family:'Plus Jakarta Sans','Noto Sans Thai',system-ui,-apple-system,sans-serif;color:#0f172a}
+.shophead{position:sticky;top:0;z-index:80;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;background:rgba(255,255,255,.92);backdrop-filter:saturate(180%) blur(12px);color:#0f172a;padding:12px clamp(16px,3vw,32px);border-bottom:1px solid #f1f5f9}
+.shopbrand{display:flex;align-items:center;gap:16px;min-width:0;flex:0 0 auto}
+.shopbrandtext{display:flex;flex-direction:column;line-height:1.05;min-width:0}
+.shopbrandtext b{font-size:26px;font-weight:800;letter-spacing:-.03em;color:#e60012;white-space:nowrap}
+.shopbrandtext span{font-size:13px;font-weight:500;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}
+.shopnav-search{display:flex;align-items:center;gap:8px;flex:1 1 320px;max-width:620px;margin:0 auto;background:#f8fafc;border:1px solid #f1f5f9;border-radius:999px;padding:5px 5px 5px 18px}
+.shopnav-input{flex:1 1 auto;min-width:0;border:0;background:transparent;color:#0f172a;font-size:14px;padding:8px 4px;outline:none}
+.shopnav-go{flex:0 0 auto;background:#e60012;color:#fff;border-radius:999px;padding:9px 20px;font-size:13px;font-weight:700;line-height:1.2;white-space:nowrap}
 .shophead-actions{display:flex;align-items:center;gap:10px;flex:0 0 auto}
-.shopback{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.55);color:#fff;border-radius:999px;padding:9px 16px;font-size:13px;font-weight:700;white-space:nowrap}
-.shopback:hover{background:rgba(255,255,255,.25);color:#fff}
-.shopmenu{width:42px;height:42px;padding:0;display:grid;place-items:center;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.55);color:#fff;border-radius:12px;font-size:20px;line-height:1}
-.shopmenu:hover{background:rgba(255,255,255,.25);color:#fff}
-.shopmenu-panel{position:fixed;top:72px;right:clamp(14px,3vw,32px);z-index:90;background:#fff;border:1px solid #e7e7e7;border-radius:16px;box-shadow:0 18px 50px rgba(0,0,0,.24);padding:8px;min-width:240px}
-.shopmenu-panel button{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;background:transparent;color:#1d1d1f;border-radius:10px;padding:10px 12px;font-size:14px;font-weight:600;text-align:left}
-.shopmenu-panel button:hover{background:#fff0f1;color:#e60012}
-.shopmenu-panel button span{color:#b5b5b5}
-.shopmenu-sep{height:1px;background:#eee;margin:6px 4px}
-.shopmain{max-width:1180px;margin:0 auto;padding:18px clamp(12px,3vw,24px) 0}
-.shophero{position:relative;overflow:hidden;border-radius:22px;min-height:300px;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;background:radial-gradient(circle at 82% 18%,rgba(255,255,255,.18),transparent 32%),linear-gradient(115deg,#9d000b 0%,#e60012 46%,#17265c 100%);color:#fff;box-shadow:0 18px 40px rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.18)}
-.shophero:before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.16) 1.5px,transparent 1.5px);background-size:22px 22px;opacity:.32;pointer-events:none}
-.shophero-copy{position:relative;z-index:2;padding:clamp(22px,4vw,44px)}
-.shophero-kicker{display:inline-block;background:#fff;color:#e60012;border-radius:6px;padding:5px 12px;font-weight:900;font-size:clamp(14px,1.8vw,20px);transform:rotate(-2deg);box-shadow:3px 3px 0 rgba(0,0,0,.18)}
-.shophero h1{margin:10px 0 4px;font-size:clamp(38px,6vw,68px);line-height:.92;letter-spacing:-.06em;font-weight:900;text-shadow:0 4px 0 rgba(0,0,0,.16)}
-.shophero h1 span{display:block;font-size:.62em;color:#fff;text-shadow:none}
-.shophero p{margin:8px 0 18px;font-size:clamp(14px,1.8vw,19px);font-weight:700;color:#ffe9ea}
-.shophero-btn{background:#fff;color:#e60012;border-radius:999px;padding:11px 20px;font-weight:800;box-shadow:0 8px 18px rgba(0,0,0,.2);display:inline-flex;align-items:center;gap:8px}
-.shophero-btn:hover{background:#fff5f5;color:#c4000f}
-.shophero-art{position:relative;z-index:2;height:100%;min-height:260px;display:flex;align-items:center;justify-content:center;padding:20px}
-.shophero-art img{max-width:100%;max-height:300px;object-fit:contain;background:#fff;border-radius:18px;padding:12px;filter:drop-shadow(0 18px 24px rgba(0,0,0,.35));transform:rotate(-2deg)}
-.shophero-art .hero-emoji{font-size:clamp(80px,12vw,150px);filter:drop-shadow(0 18px 24px rgba(0,0,0,.35));transform:rotate(-4deg)}
-.shopcats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:18px 0 28px}
-.shopcat{position:relative;border:2px solid #e60012;background:linear-gradient(160deg,#fff,#f0f0f0);border-radius:16px;min-height:138px;overflow:hidden;color:#1d1d1f;padding:0;display:flex;flex-direction:column;justify-content:flex-end;text-align:left;box-shadow:0 8px 18px rgba(0,0,0,.12);transition:transform .18s,box-shadow .18s}
-.shopcat:hover{transform:translateY(-4px);box-shadow:0 14px 26px rgba(0,0,0,.2)}
-.shopcat:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 70% 18%,rgba(230,0,18,.1),transparent 48%);pointer-events:none}
-.shopcat-img{position:absolute;inset:8px 8px 40px;display:flex;align-items:center;justify-content:center;font-size:48px;overflow:hidden}
-.shopcat-img img{max-width:100%;max-height:100%;object-fit:contain;mix-blend-mode:multiply;filter:drop-shadow(0 8px 10px rgba(0,0,0,.18));transform:scale(1.45)}
-.shopcat-label{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:8px;background:linear-gradient(90deg,#e60012,#b0000b);padding:9px 12px;font-weight:800;font-size:14px;color:#fff;border-top:2px solid rgba(255,255,255,.2)}
-.shopcat-label span{opacity:.9}
-.shopcat.active{box-shadow:0 0 0 3px #fff,0 0 0 6px #e60012}
-.shopsection{margin-top:8px}
-#shopProducts{scroll-margin-top:86px}
-.shopsectionhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 14px;flex-wrap:wrap}
-.shopsectionhead h2{display:flex;align-items:center;gap:10px;margin:0;font-size:clamp(24px,3.4vw,36px);font-weight:900;letter-spacing:-.04em}
-.shopsectionhead h2:before{content:"";width:6px;height:1.1em;background:#e60012;border-radius:3px;transform:skewX(-12deg)}
-.shopsectionhead h2:after{content:"///";color:#e60012;font-size:.55em;letter-spacing:-.12em;margin-left:2px;transform:skewX(-18deg)}
-.shopall{background:#7a0007;color:#fff;border:2px solid #fff;box-shadow:0 4px 0 #4d0004;border-radius:999px;padding:8px 16px;font-size:13px;font-weight:800;white-space:nowrap}
-.shopall:hover{background:#e60012;color:#fff}
-.shopcount{font-size:12px;color:#6e6e73;margin-left:auto}
-.shopfilters{display:flex;gap:10px;align-items:stretch;margin:0 0 16px;flex-wrap:wrap}
-.shopfilters .search{flex:1 1 280px;border-radius:999px;border:2px solid #e5e5e5;background:#fff;padding:12px 18px;font-size:14px}
-.shopfilters .search:focus{border-color:#e60012;box-shadow:0 0 0 4px rgba(230,0,18,.12)}
-.shopfilters .catalogselect{flex:0 1 240px;border:2px solid #e5e5e5;background-color:#fff}
-.shopfilters .catalogselect:focus{border-color:#e60012;box-shadow:0 0 0 4px rgba(230,0,18,.12)}
+.shopback,.shopadminbtn{display:inline-flex;align-items:center;gap:6px;background:#f8fafc;border:1px solid #e2e8f0;color:#334155;border-radius:999px;padding:9px 16px;font-size:13px;font-weight:700;white-space:nowrap}
+.shopadminbtn{background:#fff0f1;border-color:#fecdd3;color:#c4000f}
+.shopback:hover{background:#eef2f7;color:#0f172a}
+.shopadminbtn:hover{background:#ffe4e6}
+.shopmenu{width:42px;height:42px;padding:0;display:grid;place-items:center;background:#0f172a;border:0;color:#fff;border-radius:999px;font-size:18px;line-height:1}
+.shopmenu-panel{position:fixed;top:74px;right:clamp(16px,3vw,32px);z-index:90;background:#fff;border:1px solid #f1f5f9;border-radius:16px;box-shadow:0 12px 30px -8px rgba(15,23,42,.12);padding:8px;min-width:250px}
+.shopmenu-panel button{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;background:transparent;color:#334155;border-radius:12px;padding:10px 12px;font-size:14px;font-weight:600;text-align:left}
+.shopmenu-panel button:hover{background:#f8fafc;color:#0f172a}
+.shopmenu-panel button span{color:#94a3b8}
+.shopmenu-sep{height:1px;background:#f1f5f9;margin:6px 4px}
+.shopmain{max-width:1200px;margin:0 auto;padding:32px clamp(16px,3vw,24px) 0}
+.shophero{position:relative;overflow:hidden;border-radius:24px;box-shadow:0 4px 20px -2px rgba(0,0,0,.05);background:linear-gradient(135deg,#fff 0%,#fdf4f5 58%,#f1f5fd 100%)}
+.herotrack{display:flex;transition:transform .45s cubic-bezier(.4,0,.2,1);will-change:transform}
+.heroslide{position:relative;flex:0 0 100%;min-width:100%;aspect-ratio:20/7;overflow:hidden;background:linear-gradient(135deg,#fff 0%,#fdf4f5 58%,#f1f5fd 100%)}
+.heroslide--banner{background:#f1f5f9}
+.heroslide--banner>img{position:absolute;inset:0;display:block;width:100%;height:100%;object-position:center}
+.heroslide--banner>.hero-bg{object-fit:cover;filter:blur(28px) saturate(1.2);transform:scale(1.2);opacity:.9}
+.heroslide--banner>.hero-fg{z-index:1;object-fit:contain}
+.heroslide--banner.is-cover>.hero-fg{object-fit:cover}
+.heroslide--banner.is-cover>.hero-bg{display:none}
+.heroslide-promo{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:20px;width:100%;height:100%;padding:clamp(24px,3.2vw,46px)}
+.promo-copy{display:flex;flex-direction:column;align-items:flex-start;gap:10px;min-width:0}
+.promo-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(230,0,18,.08);color:#c4000f;border-radius:999px;padding:5px 13px;font-size:12px;font-weight:700}
+.promo-title{margin:0;font-size:clamp(24px,3vw,38px);line-height:1.12;font-weight:800;letter-spacing:-.025em;color:#0f172a;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.promo-sub{margin:0;font-size:15px;line-height:1.5;font-weight:500;color:#64748b}
+.promo-btn{display:inline-flex;align-items:center;gap:10px;background:#e60012;color:#fff;border-radius:999px;padding:12px 28px;font-size:15px;font-weight:700;margin-top:4px;box-shadow:0 10px 24px -6px rgba(230,0,18,.3)}
+.promo-art{display:flex;align-items:center;justify-content:center;height:100%;min-width:0;overflow:hidden}
+.promo-art img{display:block;height:100%;width:auto;max-width:100%;object-fit:contain;background:#fff;border-radius:16px;padding:clamp(12px,1.6vw,22px);box-shadow:0 18px 34px -22px rgba(15,23,42,.35)}
+.promo-art .ph-emoji{font-size:clamp(70px,10vw,130px)}
+.herodots{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:3;display:flex;align-items:center;gap:7px;padding:6px 11px;border-radius:999px;background:rgba(255,255,255,.72);backdrop-filter:blur(8px)}
+.herodot{width:8px;height:8px;padding:0;border:0;border-radius:999px;background:rgba(15,23,42,.28);transition:width .25s,background .25s}
+.herodot.on{width:22px;background:#0f172a}
+.promo-section{margin:36px 0 12px}
+.promo-bento{margin:0;display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+.promo-bento-sub{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.promo-bento-card{position:relative;display:block;overflow:hidden;border-radius:16px;box-shadow:0 12px 30px -8px rgba(15,23,42,.1);background:#f8fafc;transition:transform .3s;cursor:pointer}
+.promo-bento-main{aspect-ratio:16/9}
+.promo-bento-sub .promo-bento-card{aspect-ratio:10/7}
+.promo-bento-card:hover{transform:scale(1.02)}
+.promo-bento-card img{display:block;width:100%;height:100%;object-fit:cover}
+@media(min-width:640px){.promo-bento-sub{gap:16px}.promo-bento-main{aspect-ratio:16/8}}
+@media(min-width:768px){.promo-bento{grid-template-columns:repeat(3,minmax(0,1fr))}.promo-bento-main{grid-column:span 1/span 1;aspect-ratio:auto}.promo-bento-sub{grid-column:span 2/span 2}}
+/* top-right edit button on every image for admin */
+.shop-edit-corner{position:absolute;top:10px;right:10px;z-index:12;display:inline-flex;align-items:center;gap:4px;padding:6px 10px;border-radius:999px;background:rgba(15,23,42,.86);color:#fff;border:1px solid rgba(255,255,255,.28);font-size:11.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.22);backdrop-filter:blur(6px)}
+.shop-edit-corner:hover{background:#e60012;color:#fff}
+.shopcats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin:24px 0 56px}
+.shopcat{position:relative;border:1px solid #f1f5f9;background:#f8fafc;border-radius:16px;overflow:hidden;color:#0f172a;padding:20px 20px 18px;display:flex;flex-direction:column;justify-content:flex-end;text-align:left;transition:transform .2s,box-shadow .2s,background .2s}
+.shopcat:hover{transform:translateY(-4px);box-shadow:0 12px 30px -8px rgba(15,23,42,.1);background:#fff}
+.shopcat-img{display:flex;align-items:center;justify-content:center;width:100%;height:144px;margin:0 0 14px;font-size:52px;overflow:hidden}
+.shopcat-img img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
+.shopcat-label{display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:700;font-size:15px;color:#0f172a}
+.shopcat-label span{color:#94a3b8;font-size:16px}
+.shopcat.active{background:#fff;border-color:rgba(230,0,18,.35);box-shadow:0 0 0 3px rgba(230,0,18,.12),0 12px 30px -8px rgba(15,23,42,.1)}
+.shopsection{margin-top:56px}
+#shopProducts{scroll-margin-top:90px}
+.shopsectionhead{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 24px;flex-wrap:wrap}
+.shopsectionhead h2{margin:0;font-size:30px;line-height:1.15;font-weight:800;letter-spacing:-.02em;color:#0f172a}
+.shopall{background:#f8fafc;color:#0f172a;border:1px solid #e2e8f0;border-radius:999px;padding:10px 18px;font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.shopcount{font-size:14px;color:#64748b;margin-left:auto}
+.shopfilters{display:flex;gap:12px;align-items:stretch;margin:0 0 24px;flex-wrap:wrap}
+.shopfilters .search{flex:1 1 280px;border-radius:999px;border:1px solid transparent;background:#f8fafc;padding:13px 20px;font-size:15px;outline:none}
+.shopfilters .catalogselect{flex:0 1 240px;border:1px solid transparent;border-radius:999px;background:#f8fafc;padding:13px 20px;font-size:15px;outline:none}
 .shopgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
-.shopgrid-featured{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:30px}
-.shopcard{position:relative;background:#fff;border:1px solid #e8e8e8;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;cursor:pointer;transition:transform .18s,box-shadow .18s;box-shadow:0 4px 14px rgba(0,0,0,.05)}
-.shopcard:hover{transform:translateY(-4px);box-shadow:0 16px 30px rgba(0,0,0,.14)}
-.shopcard:focus-visible{outline:none;box-shadow:0 0 0 4px rgba(230,0,18,.25)}
-.shopphoto{position:relative;height:190px;background:linear-gradient(135deg,#f7f7f7,#fff 45%,#f1f1f1);display:flex;align-items:center;justify-content:center;padding:18px;overflow:hidden}
-.shopphoto:before{content:"";position:absolute;inset:0;background-image:linear-gradient(45deg,rgba(0,0,0,.025) 25%,transparent 25%,transparent 75%,rgba(0,0,0,.025) 75%),linear-gradient(45deg,rgba(0,0,0,.025) 25%,transparent 25%,transparent 75%,rgba(0,0,0,.025) 75%);background-size:28px 28px;background-position:0 0,14px 14px;opacity:.55}
-.shopphoto img{position:relative;z-index:1;max-width:100%;max-height:100%;object-fit:contain;filter:drop-shadow(0 10px 12px rgba(0,0,0,.12))}
-.ph-emoji{position:relative;z-index:1;font-size:64px}
-.shopbadge{position:absolute;left:10px;top:10px;z-index:3;background:linear-gradient(90deg,#e60012,#b0000b);color:#fff;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;display:flex;align-items:center;gap:5px;box-shadow:0 3px 8px rgba(0,0,0,.18)}
-.shopbadge.alt{background:linear-gradient(90deg,#2b2b2b,#111)}
-.shopfav{position:absolute;right:10px;top:10px;z-index:4;width:34px;height:34px;padding:0;display:grid;place-items:center;background:rgba(255,255,255,.94);border:1px solid #eee;border-radius:50%;color:#9a9a9a;font-size:18px;line-height:1;box-shadow:0 2px 8px rgba(0,0,0,.08)}
-.shopfav:hover{color:#e60012;background:#fff}
+.shopgrid-featured{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:32px}
+.shopcard{position:relative;background:#fff;border:0;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 20px -2px rgba(0,0,0,.05)}
+.shopcard:hover{transform:translateY(-4px);box-shadow:0 12px 30px -8px rgba(15,23,42,.1)}
+.shopphoto{position:relative;height:200px;margin:12px;border-radius:12px;background:#f8fafc;display:flex;align-items:center;justify-content:center;padding:16px;overflow:hidden}
+.shopphoto img{position:relative;z-index:1;max-width:100%;max-height:100%;object-fit:contain}
+.ph-emoji{position:relative;z-index:1;font-size:56px}
+.shopbadge{position:absolute;left:12px;top:12px;z-index:3;background:#e60012;color:#fff;border-radius:999px;padding:5px 12px;font-size:12px;font-weight:700}
+.shopbadge.alt{background:#0f172a}
+.shopfav{position:absolute;right:12px;top:12px;z-index:4;width:36px;height:36px;padding:0;display:grid;place-items:center;background:#fff;border:0;border-radius:999px;color:#94a3b8;font-size:17px;box-shadow:0 4px 12px rgba(15,23,42,.1)}
 .shopfav.on{color:#e60012}
-.shopinfo{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
-.shopinfo h3{font-size:14px;line-height:1.35;margin:0;min-height:38px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-weight:700;letter-spacing:-.01em}
-.shopmeta{font-size:11px;color:#8a8a8a}
-.shopstock{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#2e9e44}
-.shopstock.low{color:#c98a00}
-.shopstock.out{color:#c9143a}
-.shopstock .dot{width:16px;height:16px;border-radius:50%;background:#2e9e44;color:#fff;display:grid;place-items:center;font-size:10px;font-weight:900;flex:0 0 auto}
-.shopstock.low .dot{background:#f5b301;color:#3a2a00}
-.shopstock.out .dot{background:#c9143a}
-.shopprice-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto;padding-top:4px}
-.shopprice{display:flex;flex-direction:column;line-height:1.05;min-width:0}
-.shopprice .old{font-size:11px;color:#9a9a9a;text-decoration:line-through;font-weight:500}
-.shopprice .now{font-size:20px;font-weight:900;color:#e60012;letter-spacing:-.03em;white-space:nowrap}
-.shopprice .now small{font-size:11px;font-weight:600;color:#8a8a8a;letter-spacing:0}
-.shopprice .ask{font-size:13px;font-weight:700;color:#6e6e73}
-.shopbuy{background:#e60012;color:#fff;border-radius:999px;padding:9px 14px;font-size:12px;font-weight:800;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;box-shadow:0 4px 0 #a5000c;flex:0 0 auto}
-.shopbuy:hover{background:#c4000f;color:#fff}
-.shopbuy:active{transform:translateY(2px);box-shadow:0 2px 0 #a5000c}
-.shopempty{grid-column:1/-1;text-align:center;padding:48px 20px;color:#6e6e73;background:#fff;border:1px dashed #d8d8d8;border-radius:18px}
-.shopfoot{max-width:1180px;margin:28px auto 0;padding:0 clamp(12px,3vw,24px);color:#8a8a8a;font-size:12px;text-align:center}
-.shopmodalbox{width:min(860px,100%);padding:22px}
-.shopmodal-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}
-.shopmodal-photo{min-height:280px;background:linear-gradient(135deg,#f7f7f7,#fff);border-radius:18px;display:flex;align-items:center;justify-content:center;padding:16px;overflow:hidden}
-.shopmodal-photo img{max-width:100%;max-height:320px;object-fit:contain;filter:drop-shadow(0 10px 14px rgba(0,0,0,.12))}
-.shopmodal-info{display:flex;flex-direction:column;gap:8px}
-.shopmodal-cat{font-size:12px;font-weight:700;color:#8a8a8a;text-transform:uppercase;letter-spacing:.06em}
-.shopmodal-info .catalogprice.big{margin:0}
-.shopmodal-info .shopstock{font-size:13px}
-.shopmodalbox .secondary{border-color:#e60012;color:#e60012}
-.shopmodalbox .secondary:hover{background:#fff0f1}
-@media(max-width:980px){.shopgrid{grid-template-columns:repeat(3,minmax(0,1fr))}.shopgrid-featured{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:760px){.shophero{grid-template-columns:1fr;min-height:0}.shophero-art{min-height:180px;padding:0 22px 22px}.shophero-art img{max-height:220px}.shophero-copy{padding-bottom:10px}.shopcats{grid-template-columns:repeat(2,minmax(0,1fr))}.shopgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.shopmodal-grid{grid-template-columns:1fr}.shopmodal-photo{min-height:220px}.shopbrandtext b{font-size:24px}.shopbrandtext span{font-size:10px}.shopback{display:none}.shophead{padding:10px 14px}.shopmenu-panel{top:66px;right:14px}}
-.shopadminbtn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.62);color:#fff;border-radius:999px;padding:9px 14px;font-size:13px;font-weight:700;white-space:nowrap}
-.shopadminbtn:hover{background:rgba(255,255,255,.3);color:#fff}
+.shopinfo{padding:2px 16px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
+.shopinfo h3{font-size:16px;line-height:1.45;margin:0;min-height:46px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-weight:700;color:#0f172a}
+.shopmeta{font-size:14px;color:#64748b}
+.shopstock{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#059669}
+.shopstock.low{color:#d97706}
+.shopstock.out{color:#dc2626}
+.shopstock .dot{width:16px;height:16px;border-radius:999px;background:#059669;color:#fff;display:grid;place-items:center;font-size:10px;font-weight:800}
+.shopstock.low .dot{background:#d97706}
+.shopstock.out .dot{background:#dc2626}
+.shopprice-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;padding-top:6px}
+.shopprice{display:flex;flex-direction:column;line-height:1.1;min-width:0}
+.shopprice .old{font-size:13px;color:#94a3b8;text-decoration:line-through}
+.shopprice .now{font-size:22px;font-weight:800;color:#e60012;letter-spacing:-.02em}
+.shopprice .ask{font-size:14px;font-weight:600;color:#64748b}
+.shopbuy{background:#e60012;color:#fff;border-radius:999px;padding:10px 16px;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.shopempty{grid-column:1/-1;text-align:center;padding:48px 20px;color:#64748b;background:#f8fafc;border-radius:16px}
+.shopfoot{max-width:1200px;margin:56px auto 0;padding:32px 24px;color:#64748b;font-size:14px;text-align:center;background:#f8fafc;border-radius:24px}
+.shopmodalbox{width:min(860px,100%);padding:24px}
+.shopmodal-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.shopmodal-photo{min-height:280px;background:#f8fafc;border-radius:16px;display:flex;align-items:center;justify-content:center;padding:20px;overflow:hidden}
+.shopmodal-photo img{max-width:100%;max-height:320px;object-fit:contain}
+.shopmodal-info{display:flex;flex-direction:column;gap:10px}
+.shopmodal-cat{font-size:13px;font-weight:600;color:#64748b}
 .shopimgbox{width:min(720px,100%);max-height:88vh;display:flex;flex-direction:column;padding:20px}
 .shopimgtools{display:flex;align-items:center;gap:10px;margin:12px 0 10px;flex-wrap:wrap}
-.shopimgtools .search{flex:1 1 220px;border:2px solid #e5e5e5;border-radius:999px;background:#fff;padding:10px 16px;font-size:14px}
-.shopimgtools .search:focus{border-color:#e60012;box-shadow:0 0 0 4px rgba(230,0,18,.12)}
-.shopimglist{overflow:auto;display:flex;flex-direction:column;gap:8px;padding:2px 4px 2px 0;min-height:80px;flex:1 1 auto}
+.shopimgtools .search{flex:1 1 220px;border:1px solid #e2e8f0;border-radius:999px;background:#fff;padding:10px 16px;font-size:14px}
+.shopimglist{overflow:auto;display:flex;flex-direction:column;gap:8px;min-height:80px;flex:1 1 auto}
 .shopimgrow{display:flex;align-items:center;gap:10px;border:1px solid #ececec;border-radius:14px;padding:8px 10px;background:#fff}
 .shopimgthumb{width:56px;height:56px;border-radius:10px;background:#f5f5f5;display:grid;place-items:center;overflow:hidden;flex:0 0 auto;font-size:24px}
 .shopimgthumb img{max-width:100%;max-height:100%;object-fit:contain}
 .shopimgmeta{flex:1;min-width:0}
-.shopimgmeta b{display:block;font-size:13px;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.shopimgmeta span{display:block;font-size:11px;color:#8a8a8a;margin-top:2px}
+.shopimgmeta b{display:block;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.shopimgmeta span{display:block;font-size:11px;color:#8a8a8a}
 .shopimgacts{display:flex;align-items:center;gap:6px;flex:0 0 auto}
-.shopimgacts .mini{padding:7px 10px;font-size:11px;border-radius:999px;font-weight:700;white-space:nowrap}
+.shopimgacts .mini{padding:7px 10px;font-size:11px;border-radius:999px;font-weight:700}
 .shopimgacts .mini.upload{background:#e60012;color:#fff}
 .shopimgacts .mini.link{background:#fff;color:#e60012;border:1px solid #e60012}
 .shopimgacts .mini.remove{background:#fff;color:#c9143a;border:1px solid #f2c3ca}
 .shopimgempty{text-align:center;padding:28px 12px;color:#8a8a8a}
-@media(max-width:560px){
-.shopmain{padding:10px 10px 0}
-.shophead{padding:9px 12px;gap:10px}
-.shopbrandtext b{font-size:23px}
-.shopbrandtext span{font-size:9.5px}
-.shophead-actions{gap:7px}
-.shopmenu{width:38px;height:38px;font-size:18px;border-radius:10px}
-.shopadminbtn{padding:8px 10px;font-size:11px;border-radius:10px}
-.shophero{border-radius:16px}
-.shophero-copy{padding:16px 16px 4px}
-.shophero-kicker{font-size:12px;padding:4px 10px}
-.shophero h1{font-size:32px;line-height:.95;margin:8px 0 2px}
-.shophero h1 span{font-size:.66em}
-.shophero p{font-size:13px;margin:4px 0 10px}
-.shophero-btn{padding:8px 15px;font-size:13px;box-shadow:0 5px 12px rgba(0,0,0,.18)}
-.shophero-art{min-height:0;padding:2px 16px 16px}
-.shophero-art img{max-height:132px;border-radius:14px;padding:8px;transform:rotate(-1.5deg)}
-.shophero-art .hero-emoji{font-size:64px}
-.shopcats{gap:8px;margin:12px 0 18px}
-.shopcat{min-height:96px;border-radius:12px}
-.shopcat-img{inset:6px 6px 32px;font-size:30px}
-.shopcat-img img{transform:scale(1.2)}
-.shopcat-label{font-size:11px;padding:6px 9px}
-.shopsectionhead{margin-bottom:10px}
-.shopsectionhead h2{font-size:22px}
-.shopall{padding:6px 12px;font-size:11px}
-.shopgrid{gap:8px}
-.shopphoto{height:auto;aspect-ratio:4/3;padding:8px}
-.ph-emoji{font-size:40px}
-.shopinfo{padding:8px 9px 10px;gap:4px}
-.shopinfo h3{font-size:12px;min-height:32px}
-.shopmeta{font-size:10px}
-.shopstock{font-size:10.5px;gap:4px}
-.shopstock .dot{width:14px;height:14px;font-size:9px}
-.shopprice .now{font-size:15.5px}
-.shopprice .old{font-size:10px}
-.shopprice .ask{font-size:11px}
-.shopprice-row{flex-wrap:wrap;gap:4px;padding-top:2px}
-.shopbuy{padding:7px 9px;font-size:10.5px;width:100%;justify-content:center;box-shadow:0 3px 0 #a5000c}
-.shopmodalbox{padding:14px}
-.shopmodal-photo{min-height:0;height:220px}
-.shopmodal-photo img{max-height:200px}
-.shopimgbox{padding:12px;max-height:92vh}
-.shopimgrow{gap:8px;padding:7px}
-.shopimgthumb{width:44px;height:44px;border-radius:8px}
-.shopimgacts{flex-wrap:wrap;justify-content:flex-end;gap:4px}
-.shopimgacts .mini{padding:6px 8px;font-size:10px}
-}
-@media(max-width:380px){
-.shopbrandtext b{font-size:21px}
-.shopadminbtn{padding:7px 9px;font-size:10.5px}
-.shophero h1{font-size:29px}
-.shophero-art img{max-height:112px}
-.shopcat{min-height:88px}
-.shopphoto{aspect-ratio:1/1}
-.shopinfo h3{font-size:11.5px}
-.shopprice .now{font-size:14.5px}
-.shopbuy{font-size:10px;padding:6px 8px}
-}
+@media(max-width:1024px){.shopgrid{grid-template-columns:repeat(3,minmax(0,1fr))}.shopgrid-featured{grid-template-columns:repeat(2,minmax(0,1fr))}.heroslide{aspect-ratio:19/7}}
+@media(max-width:860px){.shopgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.shopmodal-grid{grid-template-columns:1fr}.shopnav-search{order:3;flex:1 1 100%;max-width:none;margin:0}.heroslide{aspect-ratio:16/9}}
+@media(max-width:760px){.shopcats{grid-template-columns:repeat(2,minmax(0,1fr))}.shopback{display:none}}
+@media(max-width:640px){.shopmain{padding:20px 16px 0}.shophead{padding:10px 14px;gap:10px}.shopbrandtext b{font-size:21px}.shopbrandtext span{font-size:12px}.shopnav-search{padding:4px 4px 4px 14px;gap:4px}.shopnav-input{font-size:13px;padding:8px 2px}.shopnav-go{padding:9px 14px;font-size:12px}.heroslide{aspect-ratio:4/3}.heroslide--promo{aspect-ratio:1/1}.heroslide-promo{grid-template-columns:1fr;padding:16px 16px 30px}.promo-art{order:-1;height:132px}.promo-section{margin:24px 0 8px}.promo-bento{gap:10px}.promo-bento-card{border-radius:12px}.shopcats{gap:12px;margin:16px 0 36px}.shopcat{padding:14px 14px 12px}.shopcat-img{height:112px;margin-bottom:10px}.shopgrid{gap:12px}.shopphoto{height:auto;aspect-ratio:4/3;margin:10px;padding:12px}.shopinfo{padding:0 12px 14px}.shopbuy{width:100%;justify-content:center}.shop-edit-corner{top:7px;right:7px;padding:5px 8px;font-size:10.5px}}
 .print-only{display:none}
 .authwrap{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:16px;z-index:200}
 .authbox{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:32px;width:100%;max-width:420px}
@@ -383,6 +333,10 @@ table{min-width:560px}th,td{padding:9px 8px}th{font-size:11px}td{font-size:13px}
 <div id="catalogScreen" class="shopwrap hidden">
 <header class="shophead">
 <div class="shopbrand"><div class="shopbrandtext"><b>Nintendo</b><span>Power Buy Central Northville</span></div></div>
+<form id="catalogNavForm" class="shopnav-search" onsubmit="event.preventDefault();$('catalogSearch').value=$('catalogNavInput').value;renderPublicCatalog();catalogScrollToProducts()">
+  <input id="catalogNavInput" class="shopnav-input" type="search" placeholder="ค้นหาชื่อสินค้า / รหัส...">
+  <button class="shopnav-go" type="submit">ค้นหา</button>
+</form>
 <div class="shophead-actions"><button id="catalogAdminImages" class="shopadminbtn hidden" type="button">🖼️ จัดการรูป</button><button id="catalogBack" class="shopback">← กลับเข้าสู่ระบบ</button><button id="catalogMenuBtn" class="shopmenu" aria-label="เปิดเมนู" aria-expanded="false" aria-controls="catalogMenu">☰</button></div>
 </header>
 <div id="catalogMenu" class="shopmenu-panel hidden">
@@ -395,14 +349,13 @@ table{min-width:560px}th,td{padding:9px 8px}th{font-size:11px}td{font-size:13px}
 <button type="button" data-action="back">← กลับเข้าสู่ระบบ</button>
 </div>
 <main class="shopmain">
-<section class="shophero">
-<div class="shophero-copy">
-<span class="shophero-kicker">Nintendo Switch 2</span>
-<h1>Nintendo <span>Switch 2</span></h1>
-<p>เล่นได้มากกว่า สนุกกว่าเดิม!</p>
-<button class="shophero-btn" onclick="catalogHeroAction()">ดูรายละเอียด <span>→</span></button>
-</div>
-<div id="catalogHeroArt" class="shophero-art"><span class="hero-emoji">🎮</span></div>
+<section class="shophero" id="catalogHero">
+  <div class="herotrack" id="catalogHeroTrack"></div>
+  <div class="herodots" id="catalogHeroDots"></div>
+</section>
+<section class="promo-section" aria-label="โปรโมชั่นพิเศษ">
+  <div class="shopsectionhead"><h2>โปรโมชั่นพิเศษ</h2></div>
+  <div id="catalogPromoBento" class="promo-bento"></div>
 </section>
 <section id="catalogCats" class="shopcats" aria-label="หมวดหมู่สินค้า"></section>
 <section class="shopsection">
@@ -417,7 +370,7 @@ table{min-width:560px}th,td{padding:9px 8px}th{font-size:11px}td{font-size:13px}
 </section>
 <footer class="shopfoot">Nintendo Stock · สินค้าพร้อมจำหน่าย · สอบถามหรือจองได้ที่ร้าน</footer>
 </main>
-</div><div id="catalogModal" class="modal hidden" onclick="if(event.target===this)closeCatalogModal()"><div class="modalbox shopmodalbox"><div class="row"><h2 id="catalogModalTitle">รายละเอียดสินค้า</h2><button class="secondary fit" onclick="closeCatalogModal()">ปิด ✕</button></div><div id="catalogModalContent"></div></div></div><div id="catalogImageModal" class="modal hidden" onclick="if(event.target===this)closeCatalogImageManager()"><div class="modalbox shopimgbox"><div class="row"><h2>🖼️ จัดการรูปสินค้า</h2><button class="secondary fit" type="button" onclick="closeCatalogImageManager()">ปิด ✕</button></div><div class="shopimgtools"><input id="catalogImageSearch" class="search" placeholder="ค้นหาชื่อหรือรหัสสินค้า..."><span id="catalogImageCount" class="small muted"></span></div><div id="catalogImageList" class="shopimglist"></div><input id="catalogImageFile" type="file" accept="image/*" class="hidden"></div></div><div id="appScreen" class="shell hidden"><header class="mobilebar"><div class="brand" role="button" tabindex="0" title="กลับหน้าหลัก" onclick="page('dashboard');closeNav()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();page('dashboard');closeNav()}"><span>●</span> Nintendo Stock</div><button id="navMenuBtn" class="iconbtn" aria-label="เปิดเมนู" aria-expanded="false" aria-controls="navDrawer">☰</button></header><div id="navBackdrop"></div><aside class="side" id="navDrawer"><div class="brand" role="button" tabindex="0" title="กลับหน้าหลัก" onclick="page('dashboard');closeNav()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();page('dashboard');closeNav()}"><span>●</span> Nintendo Stock</div><div class="navs"><button class="nav active" data-page="dashboard">▦ ภาพรวม</button><button class="nav" data-page="inventory">▣ คลังสินค้า</button><button class="nav adminonly" data-page="movement">⇄ รับเข้า / โอน</button><button class="nav adminonly" data-page="sale">🧾 ขายสินค้า</button><button class="nav adminonly" data-page="discounts">🏷️ ส่วนลด</button><button class="nav adminonly" data-page="reservations">📋 การจอง</button><button class="nav" data-page="excel">▤ Excel นำเข้า–ส่งออก</button><button class="nav" data-page="reports">▥ รายงาน</button><button class="nav adminonly" id="navCompact">🧹 บีบอัดรูป</button><button class="nav" id="navStorefront">🛍️ หน้าร้านลูกค้า</button></div><div class="foot"><div id="userEmail" class="muted"></div><div id="userRole" class="muted"></div><button id="logoutBtn" class="secondary" style="width:100%;margin-top:10px">⏻ ออกจากระบบ</button></div></aside><main class="main"><div class="top"><div><h1 id="pageTitle">ภาพรวมคลังสินค้า</h1><div class="muted">จัดการสินค้าเข้า–ออกและตรวจนับสต๊อก</div></div><div class="row" style="max-width:470px"><input id="globalSearch" class="search" placeholder="ค้นหาชื่อ / รหัส / บาร์โค้ด..."><button id="quickScan" class="secondary fit">▦ สแกน</button></div></div><div id="notice"></div>
+</div><div id="catalogModal" class="modal hidden" onclick="if(event.target===this)closeCatalogModal()"><div class="modalbox shopmodalbox"><div class="row"><h2 id="catalogModalTitle">รายละเอียดสินค้า</h2><button class="secondary fit" onclick="closeCatalogModal()">ปิด ✕</button></div><div id="catalogModalContent"></div></div></div><div id="catalogImageModal" class="modal hidden" onclick="if(event.target===this)closeCatalogImageManager()"><div class="modalbox shopimgbox"><div class="row"><h2>🖼️ จัดการรูปสินค้า</h2><button class="secondary fit" type="button" onclick="closeCatalogImageManager()">ปิด ✕</button></div><div class="shopimgtools"><input id="catalogImageSearch" class="search" placeholder="ค้นหาชื่อหรือรหัสสินค้า..."><span id="catalogImageCount" class="small muted"></span></div><div id="catalogImageList" class="shopimglist"></div><input id="catalogImageFile" type="file" accept="image/*" class="hidden"></div></div><div id="promoEditModal" class="modal hidden" onclick="if(event.target===this)closePromoEdit()"><div class="modalbox shopmodalbox" style="max-width:560px"><div class="row"><h2 id="promoEditTitle">✏️ แก้ไขโปรโมชั่น</h2><button class="secondary fit" type="button" onclick="closePromoEdit()">ปิด ✕</button></div><div id="promoEditNotice"></div><div class="field"><label>หัวข้อโปรโมชั่น</label><input id="peTitle" placeholder="เช่น โปรโมชั่น Nintendo Switch 2"></div><div class="field"><label>คำโปรย / หัวข้อย่อย</label><input id="peSub" placeholder="เช่น ดีลพิเศษประจำเดือน"></div><div class="field"><label>ป้าย Tag (Badge)</label><input id="peBadge" placeholder="เช่น โปรโมชั่นพิเศษ"></div><div class="field"><label>รายละเอียดเพิ่มเติม (แสดงในหน้าโปรโมชั่น)</label><textarea id="peDesc" rows="3" placeholder="รายละเอียดเงื่อนไขโปรโมชั่น..."></textarea></div><div class="field"><label>ลิงก์รูปภาพ (หรืออัปโหลดด้านล่าง)</label><input id="peImg" placeholder="https://..."></div><div class="row" style="gap:8px;align-items:center"><input id="peFile" type="file" accept="image/*" style="flex:1"><select id="peFit" style="width:150px"><option value="auto">Auto-fit</option><option value="cover">เต็มกรอบ (Cover)</option><option value="contain">ครบทั้งรูป (Contain)</option></select></div><div class="field"><label>รหัสสินค้าที่ร่วมโปรโมชั่น (คั่นด้วยลูกน้ำ ,)</label><input id="peCodes" placeholder="เช่น NSW001, ACC001"></div><div class="row" style="justify-content:space-between;align-items:center;margin-top:12px"><label style="display:flex;align-items:center;gap:6px;font-size:13px"><input id="peActive" type="checkbox" checked> แสดงผลบนหน้าเว็บ</label><button id="peSaveBtn" type="button" onclick="savePromoEdit()">💾 บันทึกโปรโมชั่น</button></div></div></div><div id="appScreen" class="shell hidden"><header class="mobilebar"><div class="brand" role="button" tabindex="0" title="กลับหน้าหลัก" onclick="page('dashboard');closeNav()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();page('dashboard');closeNav()}"><span>●</span> Nintendo Stock</div><button id="navMenuBtn" class="iconbtn" aria-label="เปิดเมนู" aria-expanded="false" aria-controls="navDrawer">☰</button></header><div id="navBackdrop"></div><aside class="side" id="navDrawer"><div class="brand" role="button" tabindex="0" title="กลับหน้าหลัก" onclick="page('dashboard');closeNav()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();page('dashboard');closeNav()}"><span>●</span> Nintendo Stock</div><div class="navs"><button class="nav active" data-page="dashboard">▦ ภาพรวม</button><button class="nav" data-page="inventory">▣ คลังสินค้า</button><button class="nav adminonly" data-page="movement">⇄ รับเข้า / โอน</button><button class="nav adminonly" data-page="sale">🧾 ขายสินค้า</button><button class="nav adminonly" data-page="discounts">🏷️ ส่วนลด</button><button class="nav adminonly" data-page="reservations">📋 การจอง</button><button class="nav" data-page="excel">▤ Excel นำเข้า–ส่งออก</button><button class="nav" data-page="reports">▥ รายงาน</button><button class="nav adminonly" id="navCompact">🧹 บีบอัดรูป</button><button class="nav" id="navStorefront">🛍️ หน้าร้านลูกค้า</button></div><div class="foot"><div id="userEmail" class="muted"></div><div id="userRole" class="muted"></div><button id="logoutBtn" class="secondary" style="width:100%;margin-top:10px">⏻ ออกจากระบบ</button></div></aside><main class="main"><div class="top"><div><h1 id="pageTitle">ภาพรวมคลังสินค้า</h1><div class="muted">จัดการสินค้าเข้า–ออกและตรวจนับสต๊อก</div></div><div class="row" style="max-width:470px"><input id="globalSearch" class="search" placeholder="ค้นหาชื่อ / รหัส / บาร์โค้ด..."><button id="quickScan" class="secondary fit">▦ สแกน</button></div></div><div id="notice"></div>
 <section id="dashboard"><div class="grid"><div class="card"><div class="metric-label">จำนวนสินค้าในคลัง</div><div class="metric" id="mUnits">0</div><div class="muted small">รวมทุกหมวดหมู่ (ชิ้น)</div></div><div class="card"><div class="metric-label">รหัสสินค้าทั้งหมด</div><div class="metric" id="mSkus">0</div><div class="muted small">SKU ที่ไม่ซ้ำกัน</div></div><div class="card"><div class="metric-label">รับเข้าเดือนนี้</div><div class="metric" id="mIn">0</div><div class="muted small">ชิ้น</div></div><div class="card"><div class="metric-label">ขายออกเดือนนี้</div><div class="metric" id="mOut">0</div><div class="muted small">ชิ้น</div></div></div><div class="card"><h2>หมวดหมู่สินค้า</h2><div class="grid"><div class="card catclick" onclick="openCategory('เครื่องเกม')"><div>🎮 เครื่องเกม</div><div class="metric" id="catConsole">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('ตุ๊กตา')"><div>🧸 ตุ๊กตา</div><div class="metric" id="catPlush">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('จอยเกม/ACC')"><div>🕹️ จอยเกม / ACC</div><div class="metric" id="catAcc">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('แผ่นเกม')"><div>💿 แผ่นเกม</div><div class="metric" id="catGame">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('ของแถม')"><div>🎁 ของแถม</div><div class="metric" id="catGift">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('ไม่มีหมวดหมู่')"><div>❔ ไม่มีหมวดหมู่</div><div class="metric" id="catNone">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openLowStock()"><div>⚠️ สินค้าใกล้หมด</div><div class="metric" id="lowStock">0</div><div class="muted small">เหลือ 0: <b id="lowZero">0</b> · เหลือ 1–3: <b id="lowFew">0</b> · กดเพื่อดู</div></div></div></div><div class="card"><div class="row" style="justify-content:space-between;align-items:center;gap:10px"><h2 style="margin:0">🏆 สินค้าขายดี</h2><div class="tabs" id="bestTabs" style="margin:0"><button class="pill active" data-range="day">วันนี้</button><button class="pill" data-range="month">เดือนนี้</button><button class="pill" data-range="year">ปีนี้</button></div></div><div class="row" style="justify-content:space-between;align-items:center;gap:8px;margin:8px 0 12px"><div class="small muted" id="bestSummary">—</div><button id="bestExport" class="secondary fit" style="font-size:12px;padding:6px 10px;white-space:nowrap">⬇ Excel</button></div><div id="bestList" class="best"></div></div><div class="card"><h2>รายการเคลื่อนไหวล่าสุด</h2><div class="tablewrap"><table><thead><tr><th>วันเวลา</th><th>ประเภท</th><th>รหัส</th><th>สินค้า</th><th>จำนวน</th><th>หมายเหตุ</th></tr></thead><tbody id="recentRows"></tbody></table></div></div></section>
 <section id="inventory" class="hidden"><div class="card"><div class="row"><h2>คลังสินค้า</h2><div class="row" style="gap:8px;flex:0 0 auto"><select id="bulkCategory" class="hidden" style="max-width:170px;width:auto"><option value="">ย้ายไปหมวด…</option><option>เครื่องเกม</option><option>ตุ๊กตา</option><option>จอยเกม/ACC</option><option>แผ่นเกม</option><option>ของแถม</option><option>ไม่มีหมวดหมู่</option></select><button id="bulkMove" class="secondary hidden">ย้ายหมวดหมู่</button><button id="bulkDelete" class="danger hidden">🗑 ลบที่เลือก</button><button id="newProduct" class="fit adminonly">+ เพิ่มสินค้า</button></div></div><div class="row"><button id="catalogBtn" class="secondary fit">▧ เปิดแคตตาล็อก / พิมพ์เอกสาร</button><button id="catalogExcelBtn" class="secondary fit">⬇ ส่งออก Excel (แยกหมวดหมู่)</button><button id="manageImagesBtn" class="secondary fit adminonly">🖼️ จัดการรูป</button><button id="showTableBtn" class="secondary fit">☷ มุมมองตาราง</button><button id="showGalleryBtn" class="secondary fit">▦ มุมมองรูปสินค้า</button><button id="lowFilter" class="secondary fit">⚠️ ใกล้หมด</button></div><div class="row"><div class="field"><label>ค้นหาสินค้า</label><input id="invSearch" placeholder="รหัส ชื่อ หรือบาร์โค้ด"></div><div class="field"><label>หมวดหมู่</label><select id="invCategory"><option value="">ทุกหมวดหมู่</option><option>เครื่องเกม</option><option>ตุ๊กตา</option><option>จอยเกม/ACC</option><option>แผ่นเกม</option><option>ของแถม</option><option>ไม่มีหมวดหมู่</option></select></div><div class="field" style="max-width:150px"><label>แสดงต่อหน้า</label><select id="pageSize"><option value="20">20</option><option value="50" selected>50</option><option value="100">100</option><option value="0">ทั้งหมด</option></select></div></div><div id="productGallery" class="product-gallery hidden"></div><div id="inventoryTableWrap" class="tablewrap"><table><thead><tr><th class="adminonly" style="width:36px"><input type="checkbox" id="checkAll" title="เลือกทั้งหน้านี้"></th><th>รหัสสินค้า</th><th>ชื่อสินค้า</th><th>หมวดหมู่</th><th>บาร์โค้ด</th><th>คงเหลือ</th><th>ต้นทุน/ชิ้น</th><th class="adminonly">จัดการ</th></tr></thead><tbody id="inventoryRows"></tbody></table></div><div id="pager" class="pager"></div></div></section>
 <section id="movement" class="hidden"><div class="card"><h2>รับสินค้าเข้า / โอนออก</h2><div class="tabs"><button class="pill active adminonly" data-kind="รับเข้า">รับสินค้าเข้า</button><button class="pill adminonly" data-kind="โอนออก">โอนให้ร้านอื่น</button></div><div class="two"><div class="field"><label>สแกนบาร์โค้ด / รหัสสินค้า</label><div class="row"><input id="moveCode" placeholder="ยิงบาร์โค้ดหรือพิมพ์รหัส"><button id="cameraBtn" class="secondary fit">📷 กล้อง</button></div><video id="camera" class="hidden" playsinline style="width:100%;border-radius:10px"></video></div><div class="field"><label>สินค้า</label><select id="moveProduct"></select></div><div class="field"><label>จำนวน (จำนวนเต็ม)</label><input id="moveQty" type="number" min="1" value="1"></div><div class="field"><label>ราคาต่อชิ้น (บาท) — ต้นทุน/มูลค่าที่บันทึก</label><input id="movePrice" type="number" min="0" value="0"></div><div class="field" id="storeField"><label>ร้านปลายทาง (เฉพาะการโอน)</label><input id="moveStore" placeholder="ชื่อร้านที่รับโอน"></div><div class="field"><label>หมายเหตุ</label><input id="moveNote" placeholder="ผู้รับผิดชอบ / หมายเหตุ"></div></div><button id="saveMove">บันทึกรายการ</button><div class="foot">ระบบตรวจสอบยอดคงเหลือก่อนโอนออก การบันทึกจะบันทึกลงฐานข้อมูลออนไลน์ร่วมกันทุกอุปกรณ์</div></div></section><section id="sale" class="hidden"><div class="card"><h2>ขายสินค้า</h2><div class="two"><div class="field"><label>สแกนบาร์โค้ด / รหัสสินค้า</label><div class="row"><input id="saleCode" placeholder="ยิงบาร์โค้ดหรือพิมพ์รหัส"><button id="saleCameraBtn" class="secondary fit">📷 กล้อง</button></div><video id="saleCamera" class="hidden" playsinline style="width:100%;border-radius:10px"></video></div><div class="field"><label>สินค้า</label><select id="saleProduct"></select></div><div class="field"><label>จำนวน (จำนวนเต็ม)</label><input id="saleQty" type="number" min="1" value="1"></div><div class="field"><label>ราคาต่อชิ้น (บาท)</label><input id="salePrice" type="number" min="0" value="0"><div id="saleDiscountHint" class="small" style="margin-top:4px"></div></div><div class="field"><label>หมายเหตุ</label><input id="saleNote" placeholder="ชื่อผู้ขาย / หมายเหตุ"></div></div><button id="addToBill">＋ เพิ่มลงบิล</button><div id="cartBox"><h3 style="margin:18px 0 8px">🧾 รายการในบิลนี้ <span class="small muted" id="billHint"></span></h3><div class="tablewrap"><table><thead><tr><th>รหัส</th><th>สินค้า</th><th>จำนวน</th><th>ราคา/ชิ้น</th><th>รวม</th><th></th></tr></thead><tbody id="cartRows"></tbody></table></div><div class="row" style="justify-content:space-between;align-items:center;margin-top:10px"><span class="small muted" id="cartCount">ยังไม่มีรายการ</span><b id="cartTotal">0 ฿</b></div><div class="row" style="gap:8px;margin-top:10px"><button id="saveBill">💾 บันทึกบิล</button><button id="clearBill" class="secondary">ล้างบิล</button></div></div><div class="foot">ระบบตรวจสอบยอดคงเหลือก่อนขาย การบันทึกบิลจะตัดสต๊อกทุกรายการพร้อมกัน และบันทึกลงฐานข้อมูลออนไลน์ร่วมกันทุกอุปกรณ์</div></div><div class="card" style="margin-top:18px"><div class="row"><h2>บิลขายล่าสุด</h2><button id="refreshBills" class="secondary fit">↻ รีเฟรช</button></div><div class="tablewrap"><table class="billtable"><thead><tr><th>วันเวลา</th><th>เลขบิล</th><th>รายการ</th><th>ชิ้น</th><th>ยอดรวม</th><th>จัดการ</th></tr></thead><tbody id="billRows"></tbody></table></div><div class="small muted" style="margin-top:8px">รวมรายการขายที่บันทึกไว้ล่าสุด — บิลที่บันทึกก่อนอัปเดตจะแสดงเป็น “บิลเดี่ยว”</div></div></section>
@@ -1314,18 +1267,114 @@ function catalogCardHtml(p,i,featured){
   if(catalogHasDiscount(p))badge=`<span class="shopbadge">${catalogDiscountBadge(p)}</span>`;
   else if(featured&&i===0)badge='<span class="shopbadge">♛ ยอดนิยม</span>';
   else if(featured&&i===1)badge='<span class="shopbadge alt">★ แนะนำ</span>';
+  const editBtn=isAdmin?`<button type="button" class="shop-edit-corner" title="แก้ไขรูปสินค้า" onclick="event.stopPropagation();openCatalogImageManager('${esc(p.code)}')">✏️ แก้ไข</button>`:'';
   return `<div class="shopcard" role="button" tabindex="0" data-code="${esc(p.code)}">
     ${badge}
-    <button type="button" class="shopfav ${fav?'on':''}" data-code="${esc(p.code)}" aria-label="ถูกใจ" aria-pressed="${fav}" title="บันทึกเป็นสินค้าที่ถูกใจ">${fav?'♥':'♡'}</button>
+    ${editBtn}
+    <button type="button" class="shopfav ${fav?'on':''}" data-code="${esc(p.code)}" aria-label="ถูกใจ" aria-pressed="${fav}" title="บันทึกเป็นสินค้าที่ถูกใจ" style="${isAdmin?'top:44px':''}">${fav?'♥':'♡'}</button>
     <div class="shopphoto">${p.image?`<img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="catalogCardImgFail(this)">`:'<span class="ph-emoji">🎮</span>'}</div>
     <div class="shopinfo"><h3>${esc(p.name)}</h3><div class="shopmeta">${esc(p.category||'—')}</div>${catalogStockHtml(qty)}<div class="shopprice-row">${catalogCardPriceHtml(p)}<button type="button" class="shopbuy" data-code="${esc(p.code)}">🛒 จอง</button></div></div>
   </div>`;
 }
-function catalogHeroProduct(){return catalogData.find(x=>x.category==='เครื่องเกม'&&x.image)||catalogData.find(x=>x.image)||catalogData.find(x=>x.category==='เครื่องเกม')||null}
+let catalogPromos={},catalogHeroIdx=0,promoEditSlot='';
+const BENTO_SLOT_DEFAULTS={
+  'bento-main':{title:'โปรโมชั่นพิเศษหลัก',subtitle:'ดีลพิเศษประจำร้าน Power Buy Central Northville',badge:'โปรโมชั่นพิเศษ',img:'https://placehold.co/600x600?text=Large+Promo'},
+  'bento-1':{title:'โปรโมชั่นพิเศษ 1',subtitle:'สินค้าแนะนำราคาพิเศษ',badge:'โปรโมชั่น',img:'https://placehold.co/400x280?text=Promo+1'},
+  'bento-2':{title:'โปรโมชั่นพิเศษ 2',subtitle:'อุปกรณ์เสริมและจอยเกม',badge:'โปรโมชั่น',img:'https://placehold.co/400x280?text=Promo+2'},
+  'bento-3':{title:'โปรโมชั่นพิเศษ 3',subtitle:'ชุดเครื่องเกมสุดคุ้ม',badge:'โปรโมชั่น',img:'https://placehold.co/400x280?text=Promo+3'},
+  'bento-4':{title:'โปรโมชั่นพิเศษ 4',subtitle:'แผ่นเกมฮิตและมาใหม่',badge:'โปรโมชั่น',img:'https://placehold.co/400x280?text=Promo+4'}
+};
+function catalogHeroGo(i){
+  const n=document.querySelectorAll('#catalogHeroTrack .heroslide').length;
+  if(!n)return;
+  catalogHeroIdx=((i%n)+n)%n;
+  $('catalogHeroTrack').style.transform=`translateX(${-catalogHeroIdx*100}%)`;
+  document.querySelectorAll('#catalogHeroDots .herodot').forEach((d,k)=>d.classList.toggle('on',k===catalogHeroIdx));
+}
 function renderCatalogHero(){
-  const art=$('catalogHeroArt');if(!art)return;
-  const p=catalogHeroProduct();
-  art.innerHTML=p?`<img src="${esc(p.image)}" alt="${esc(p.name)}" referrerpolicy="no-referrer" onerror="catalogHeroFail(this)">`:'<span class="hero-emoji">🎮</span>';
+  const track=$('catalogHeroTrack'),dots=$('catalogHeroDots');
+  if(!track||!dots)return;
+  const dbHeroes=[1,2,3,4,5,6].map(i=>{
+    const slot='hero-'+i,r=catalogPromos[slot]||{};
+    return {slot,img:r.image||'',title:r.title||('โปรโมชั่นแบนเนอร์ '+i),subtitle:r.subtitle||'พร้อมจองแล้ววันนี้ · รับสินค้าภายใน 3 วัน',badge:r.badge||'แนะนำ',fit:r.fit||'auto'};
+  });
+  const pool=catalogData.filter(p=>p.image);
+  const src=pool.length?pool:catalogData;
+  const slides=dbHeroes.map((h,i)=>{
+    const fb=src[i]||null;
+    const editBtn=isAdmin?`<button type="button" class="shop-edit-corner" onclick="event.stopPropagation();openPromoEdit('${h.slot}')">✏️ แก้ไข</button>`:'';
+    if(h.img){
+      return `<div class="heroslide heroslide--banner${h.fit==='cover'?' is-cover':''}" onclick="if(${isAdmin})openPromoEdit('${h.slot}')">${editBtn}<img class="hero-bg" src="${esc(h.img)}" alt=""><img class="hero-fg" src="${esc(h.img)}" alt="${esc(h.title)}" style="object-fit:${h.fit==='cover'?'cover':'contain'}"></div>`;
+    }
+    const title=fb?fb.name:h.title,img=fb?fb.image:'',cat=fb?(fb.category||'สินค้าแนะนำ'):h.badge;
+    return `<div class="heroslide heroslide--promo">${editBtn}<div class="heroslide-promo"><div class="promo-copy"><span class="promo-tag">${esc(cat)}</span><h2 class="promo-title">${esc(title)}</h2><p class="promo-sub">${esc(h.subtitle)}</p><button type="button" class="promo-btn" onclick="${isAdmin?`openPromoEdit('${h.slot}')`:'catalogScrollToProducts()'}">${isAdmin?'✏️ แก้ไขสไลด์นี้':'ดูโปรโมชั่น →'}</button></div><div class="promo-art">${img?`<img src="${esc(img)}" alt="${esc(title)}">`:'<span class="ph-emoji">🎮</span>'}</div></div></div>`;
+  });
+  track.innerHTML=slides.join('');
+  dots.innerHTML=slides.map((_,i)=>`<button type="button" class="herodot${i===0?' on':''}" onclick="catalogHeroGo(${i})"></button>`).join('');
+  catalogHeroGo(Math.min(catalogHeroIdx,slides.length-1));
+}
+function renderCatalogPromoBento(){
+  const root=$('catalogPromoBento');if(!root)return;
+  const card=(slot,cls='')=>{
+    const d=BENTO_SLOT_DEFAULTS[slot],p=catalogPromos[slot]||{};
+    const img=p.image||d.img,title=p.title||d.title;
+    const editBtn=isAdmin?`<button type="button" class="shop-edit-corner" onclick="event.stopPropagation();openPromoEdit('${slot}')">✏️ แก้ไข</button>`:'';
+    return `<div class="promo-bento-card ${cls}" onclick="${isAdmin?`openPromoEdit('${slot}')`:'catalogScrollToProducts()'}">${editBtn}<img src="${esc(img)}" alt="${esc(title)}"></div>`;
+  };
+  root.innerHTML=`${card('bento-main','promo-bento-main')}<div class="promo-bento-sub">${card('bento-1')}${card('bento-2')}${card('bento-3')}${card('bento-4')}</div>`;
+}
+async function loadCatalogPromos(){
+  if(!sb)return;
+  try{
+    const {data,error}=await sb.from('storefront_promos').select('*').order('sort_order');
+    if(!error&&data)catalogPromos=Object.fromEntries(data.map(r=>[r.slot,r]));
+  }catch(e){}
+}
+function openPromoEdit(slot){
+  if(!isAdmin)return note('เฉพาะแอดมินเท่านั้น','err');
+  promoEditSlot=slot;
+  const d=BENTO_SLOT_DEFAULTS[slot]||{};
+  const p=catalogPromos[slot]||{slot,kind:slot.startsWith('hero')?'hero':'bento',title:d.title||'',subtitle:d.subtitle||'',badge:d.badge||'โปรโมชั่น',description:'',image:'',fit:'auto',product_codes:[],active:true};
+  $('promoEditTitle').textContent=`✏️ แก้ไขโปรโมชั่น (${slot})`;
+  $('promoEditNotice').innerHTML='';
+  $('peTitle').value=p.title||'';
+  $('peSub').value=p.subtitle||'';
+  $('peBadge').value=p.badge||'';
+  $('peDesc').value=p.description||'';
+  $('peImg').value=p.image||'';
+  $('peFit').value=p.fit||'auto';
+  $('peCodes').value=Array.isArray(p.product_codes)?p.product_codes.join(', '):'';
+  $('peActive').checked=p.active!==false;
+  $('peFile').value='';
+  $('promoEditModal').classList.remove('hidden');
+}
+function closePromoEdit(){const m=$('promoEditModal');if(m)m.classList.add('hidden');promoEditSlot=''}
+async function savePromoEdit(){
+  if(!sb||!isAdmin||!promoEditSlot)return;
+  const btn=$('peSaveBtn'),notice=$('promoEditNotice');
+  btn.disabled=true;notice.innerHTML='<div class="notice">กำลังบันทึก…</div>';
+  try{
+    let imgUrl=$('peImg').value.trim();
+    const file=$('peFile').files[0];
+    if(file){
+      if(file.size>8000000)throw new Error('รูปใหญ่เกิน 8 MB');
+      const dataUrl=await compressImage(file,1400,0.84);
+      imgUrl=await uploadProductImage('promo_'+promoEditSlot,dataUrl);
+      $('peImg').value=imgUrl;
+    }
+    const codes=$('peCodes').value.split(',').map(s=>s.trim()).filter(Boolean);
+    const kind=promoEditSlot.startsWith('hero')?'hero':'bento';
+    const sort_order=kind==='hero'?Number(promoEditSlot.replace('hero-',''))||1:({'bento-main':10,'bento-1':11,'bento-2':12,'bento-3':13,'bento-4':14}[promoEditSlot]||20);
+    const row={slot:promoEditSlot,kind,title:$('peTitle').value.trim(),subtitle:$('peSub').value.trim(),badge:$('peBadge').value.trim(),description:$('peDesc').value.trim(),image:imgUrl,fit:$('peFit').value||'auto',product_codes:codes,sort_order,active:$('peActive').checked,updated_at:new Date().toISOString()};
+    const {error}=await sb.from('storefront_promos').upsert(row,{onConflict:'slot'});
+    if(error)throw error;
+    catalogPromos[promoEditSlot]=row;
+    renderCatalogHero();renderCatalogPromoBento();
+    closePromoEdit();
+    catalogNote('บันทึกโปรโมชั่นแล้ว — หน้าเว็บลูกค้าอัปเดตทันที','ok');
+  }catch(e){
+    notice.innerHTML=`<div class="notice err">${esc(e.message||e)}</div>`;
+  }finally{btn.disabled=false}
 }
 function renderCatalogCategories(){
   const el=$('catalogCats');if(!el)return;
@@ -1356,11 +1405,12 @@ async function refreshPublicCatalog(silent){
   catalogRefreshing=true;
   if(!silent)catalogNote('กำลังโหลดสินค้า…');
   try{
-    const {data,error}=await sb.rpc('public_catalog');
+    const [{data,error}]=await Promise.all([sb.rpc('public_catalog'),loadCatalogPromos()]);
     if(error)throw error;
     catalogData=catalogRows(data);
     catalogLoadedAt=Date.now();
     renderCatalogHero();
+    renderCatalogPromoBento();
     renderCatalogFeatured();
     renderPublicCatalog();
     if(!silent)catalogNote('');
@@ -1394,7 +1444,8 @@ async function openPublicCatalog(){
   $('catalogGrid').innerHTML='';
   $('catalogFeatured').innerHTML='';
   $('catalogCats').innerHTML='';
-  $('catalogHeroArt').innerHTML='<span class="hero-emoji">🎮</span>';
+  if($('catalogHeroTrack'))$('catalogHeroTrack').innerHTML='';
+  if($('catalogPromoBento'))$('catalogPromoBento').innerHTML='';
   await refreshPublicCatalog(false);
 }
 function closePublicCatalog(){
