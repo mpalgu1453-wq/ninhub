@@ -330,6 +330,15 @@ table{min-width:560px}th,td{padding:9px 8px}th{font-size:11px}td{font-size:13px}
 .billtable td .row{flex-wrap:wrap!important;justify-content:flex-end;gap:4px!important}
 .billtable th:nth-child(3),.billtable td:nth-child(3),.billtable th:nth-child(4),.billtable td:nth-child(4){display:none}
 }
+.promopage{padding:8px 0 28px}
+.promopage-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.promopage-back{display:inline-flex;align-items:center;gap:6px;background:#fff;color:#111;border:1px solid #d2d2d7;border-radius:999px;padding:8px 16px;font-size:13.5px;font-weight:700;cursor:pointer}
+.promopage-back:hover{border-color:#e60012;color:#e60012}
+.promopage-banner{width:100%;max-height:420px;border-radius:20px;overflow:hidden;background:#f5f5f7;margin-bottom:18px;box-shadow:0 8px 24px rgba(0,0,0,.06)}
+.promopage-banner img{width:100%;height:100%;max-height:420px;object-fit:contain;display:block}
+.promopage-title{margin:0 0 6px;font-size:28px;font-weight:800;letter-spacing:-.02em}
+.promopage-sub{font-size:15px;color:#515154;margin-bottom:10px}
+.promopage-desc{font-size:14px;color:#3a3a3c;line-height:1.6;white-space:pre-line;background:#fff;border:1px solid #ececef;border-radius:16px;padding:14px 16px;margin-bottom:20px}
 </style></head><body>
 <div id="authScreen" class="authwrap"><div class="authbox"><div class="brand" style="margin:0 0 14px"><span>●</span> Nintendo Stock</div><h1 id="authTitle">เข้าสู่ระบบ</h1><div class="muted" id="authSub">จัดการสินค้าเข้า–ออกและตรวจนับสต๊อก</div><div id="authNotice"></div><div class="field"><label>อีเมล</label><input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com"></div><div class="field"><label>รหัสผ่าน</label><input id="authPassword" type="password" autocomplete="current-password"></div><div class="field hidden" id="authConfirmField"><label>ยืนยันรหัสผ่าน</label><input id="authPassword2" type="password" autocomplete="new-password"></div><button id="authSubmit" style="width:100%;margin-top:10px">เข้าสู่ระบบ</button><button id="authToggleMode" class="secondary" style="width:100%;margin-top:10px">ยังไม่มีบัญชี? สมัครสมาชิก</button><div class="foot" style="text-align:center;margin-top:14px">แอดมิน: เพิ่ม/แก้ไขสินค้า ปรับสต๊อก · พนักงาน: บันทึกรับเข้า/ขาย/โอน และดูรายงาน</div></div></div>
 
@@ -352,6 +361,7 @@ table{min-width:560px}th,td{padding:9px 8px}th{font-size:11px}td{font-size:13px}
 <button type="button" data-action="back">← กลับเข้าสู่ระบบ</button>
 </div>
 <main class="shopmain">
+<div id="catalogHomeView">
 <section class="shophero" id="catalogHero">
   <div class="herotrack" id="catalogHeroTrack"></div>
   <div class="herodots" id="catalogHeroDots"></div>
@@ -371,9 +381,11 @@ table{min-width:560px}th,td{padding:9px 8px}th{font-size:11px}td{font-size:13px}
 <div id="catalogNotice"></div>
 <div id="catalogGrid" class="shopgrid"></div>
 </section>
+</div>
+<section id="catalogPromoView" class="promopage hidden"></section>
 <footer class="shopfoot">Nintendo Stock · สินค้าพร้อมจำหน่าย · สอบถามหรือจองได้ที่ร้าน</footer>
 </main>
-</div><div id="catalogModal" class="modal hidden" onclick="if(event.target===this)closeCatalogModal()"><div class="modalbox shopmodalbox"><div class="row"><h2 id="catalogModalTitle">รายละเอียดสินค้า</h2><button class="secondary fit" onclick="closeCatalogModal()">ปิด ✕</button></div><div id="catalogModalContent"></div></div></div><div id="catalogImageModal" class="modal hidden" onclick="if(event.target===this)closeCatalogImageManager()"><div class="modalbox shopimgbox"><div class="row"><h2>🖼️ จัดการรูปสินค้า</h2><button class="secondary fit" type="button" onclick="closeCatalogImageManager()">ปิด ✕</button></div><div class="shopimgtools"><input id="catalogImageSearch" class="search" placeholder="ค้นหาชื่อหรือรหัสสินค้า..."><span id="catalogImageCount" class="small muted"></span></div><div id="catalogImageList" class="shopimglist"></div><input id="catalogImageFile" type="file" accept="image/*" class="hidden"></div></div><div id="promoEditModal" class="modal hidden" onclick="if(event.target===this)closePromoEdit()"><div class="modalbox shopmodalbox" style="max-width:560px"><div class="row"><h2 id="promoEditTitle">✏️ แก้ไขโปรโมชั่น</h2><button class="secondary fit" type="button" onclick="closePromoEdit()">ปิด ✕</button></div><div id="promoEditNotice"></div><div class="field"><label>หัวข้อโปรโมชั่น</label><input id="peTitle" placeholder="เช่น โปรโมชั่น Nintendo Switch 2"></div><div class="field"><label>คำโปรย / หัวข้อย่อย</label><input id="peSub" placeholder="เช่น ดีลพิเศษประจำเดือน"></div><div class="field"><label>ป้าย Tag (Badge)</label><input id="peBadge" placeholder="เช่น โปรโมชั่นพิเศษ"></div><div class="field"><label>รายละเอียดเพิ่มเติม (แสดงในหน้าโปรโมชั่น)</label><textarea id="peDesc" rows="3" placeholder="รายละเอียดเงื่อนไขโปรโมชั่น..."></textarea></div><div class="field"><label>ลิงก์รูปภาพ (หรืออัปโหลดด้านล่าง)</label><input id="peImg" placeholder="https://..."></div><div class="row" style="gap:8px;align-items:center"><input id="peFile" type="file" accept="image/*" style="flex:1"><select id="peFit" style="width:150px"><option value="auto">Auto-fit</option><option value="cover">เต็มกรอบ (Cover)</option><option value="contain">ครบทั้งรูป (Contain)</option></select></div><div class="field"><label>รหัสสินค้าที่ร่วมโปรโมชั่น (คั่นด้วยลูกน้ำ ,)</label><input id="peCodes" placeholder="เช่น NSW001, ACC001"></div><div class="row" style="justify-content:space-between;align-items:center;margin-top:12px"><label style="display:flex;align-items:center;gap:6px;font-size:13px"><input id="peActive" type="checkbox" checked> แสดงผลบนหน้าเว็บ</label><button id="peSaveBtn" type="button" onclick="savePromoEdit()">💾 บันทึกโปรโมชั่น</button></div></div></div><div id="appScreen" class="shell hidden"><header class="mobilebar"><div class="brand" role="button" tabindex="0" title="กลับหน้าหลัก" onclick="page('dashboard');closeNav()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();page('dashboard');closeNav()}"><span>●</span> Nintendo Stock</div><button id="navMenuBtn" class="iconbtn" aria-label="เปิดเมนู" aria-expanded="false" aria-controls="navDrawer">☰</button></header><div id="navBackdrop"></div><aside class="side" id="navDrawer"><div class="brand" role="button" tabindex="0" title="กลับหน้าหลัก" onclick="page('dashboard');closeNav()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();page('dashboard');closeNav()}"><span>●</span> Nintendo Stock</div><div class="navs"><button class="nav active" data-page="dashboard">▦ ภาพรวม</button><button class="nav" data-page="inventory">▣ คลังสินค้า</button><button class="nav adminonly" data-page="movement">⇄ รับเข้า / โอน</button><button class="nav adminonly" data-page="sale">🧾 ขายสินค้า</button><button class="nav adminonly" data-page="discounts">🏷️ ส่วนลด</button><button class="nav adminonly" data-page="reservations">📋 การจอง</button><button class="nav" data-page="excel">▤ Excel นำเข้า–ส่งออก</button><button class="nav" data-page="reports">▥ รายงาน</button><button class="nav adminonly" id="navCompact">🧹 บีบอัดรูป</button><button class="nav" id="navStorefront">🛍️ หน้าร้านลูกค้า</button></div><div class="foot"><div id="userEmail" class="muted"></div><div id="userRole" class="muted"></div><button id="logoutBtn" class="secondary" style="width:100%;margin-top:10px">⏻ ออกจากระบบ</button></div></aside><main class="main"><div class="top"><div><h1 id="pageTitle">ภาพรวมคลังสินค้า</h1><div class="muted">จัดการสินค้าเข้า–ออกและตรวจนับสต๊อก</div></div><div class="row" style="max-width:470px"><input id="globalSearch" class="search" placeholder="ค้นหาชื่อ / รหัส / บาร์โค้ด..."><button id="quickScan" class="secondary fit">▦ สแกน</button></div></div><div id="notice"></div>
+</div><div id="catalogModal" class="modal hidden" onclick="if(event.target===this)closeCatalogModal()"><div class="modalbox shopmodalbox"><div class="row"><h2 id="catalogModalTitle">รายละเอียดสินค้า</h2><button class="secondary fit" onclick="closeCatalogModal()">ปิด ✕</button></div><div id="catalogModalContent"></div></div></div><div id="catalogImageModal" class="modal hidden" onclick="if(event.target===this)closeCatalogImageManager()"><div class="modalbox shopimgbox"><div class="row"><h2>🖼️ จัดการรูปสินค้า</h2><button class="secondary fit" type="button" onclick="closeCatalogImageManager()">ปิด ✕</button></div><div class="shopimgtools"><input id="catalogImageSearch" class="search" placeholder="ค้นหาชื่อหรือรหัสสินค้า..."><span id="catalogImageCount" class="small muted"></span></div><div id="catalogImageList" class="shopimglist"></div><input id="catalogImageFile" type="file" accept="image/*" class="hidden"></div></div><div id="promoEditModal" class="modal hidden" onclick="if(event.target===this)closePromoEdit()"><div class="modalbox shopmodalbox" style="max-width:560px"><div class="row"><h2 id="promoEditTitle">✏️ แก้ไขโปรโมชั่น</h2><button class="secondary fit" type="button" onclick="closePromoEdit()">ปิด ✕</button></div><div id="promoEditNotice"></div><div class="field"><label>หัวข้อโปรโมชั่น</label><input id="peTitle" placeholder="เช่น โปรโมชั่น Nintendo Switch 2"></div><div class="field"><label>คำโปรย / หัวข้อย่อย</label><input id="peSub" placeholder="เช่น ดีลพิเศษประจำเดือน"></div><div class="field"><label>ป้าย Tag (Badge)</label><input id="peBadge" placeholder="เช่น โปรโมชั่นพิเศษ"></div><div class="field"><label>รายละเอียดเพิ่มเติม (แสดงในหน้าโปรโมชั่น)</label><textarea id="peDesc" rows="3" placeholder="รายละเอียดเงื่อนไขโปรโมชั่น..."></textarea></div><div class="field"><label>ลิงก์รูปภาพ (หรืออัปโหลดด้านล่าง)</label><div class="row" style="gap:8px;align-items:center"><input id="peImg" placeholder="https://..." style="flex:1"><button type="button" class="secondary fit" onclick="$('peImg').value='';$('peFile').value=''" title="ลบรูปภาพ">🗑 ลบรูป</button></div></div><div class="row" style="gap:8px;align-items:center"><input id="peFile" type="file" accept="image/*" style="flex:1"><select id="peFit" style="width:150px"><option value="auto">Auto-fit</option><option value="cover">เต็มกรอบ (Cover)</option><option value="contain">ครบทั้งรูป (Contain)</option></select></div><div class="field"><label>เมื่อกดที่โปรโมชั่น ให้ไปที่หน้า</label><select id="peTarget"><option value="promo">หน้าโปรโมชั่น (แสดงสินค้าในโปร)</option><option value="cat:แผ่นเกม">หมวดหมู่: แผ่นเกม</option><option value="cat:เครื่องเกม">หมวดหมู่: เครื่องเกม</option><option value="cat:ตุ๊กตา">หมวดหมู่: ตุ๊กตา</option><option value="cat:จอยเกม/ACC">หมวดหมู่: จอยเกม/ACC</option><option value="cat:ของแถม">หมวดหมู่: ของแถม</option><option value="all">สินค้าทั้งหมด</option></select></div><div class="field"><label>รหัสสินค้าที่ร่วมโปรโมชั่น (คั่นด้วยลูกน้ำ ,)</label><input id="peCodes" placeholder="เช่น NSW001, ACC001"></div><div class="row" style="justify-content:space-between;align-items:center;margin-top:12px"><label style="display:flex;align-items:center;gap:6px;font-size:13px"><input id="peActive" type="checkbox" checked> แสดงผลบนหน้าเว็บ</label><button id="peSaveBtn" type="button" onclick="savePromoEdit()">💾 บันทึกโปรโมชั่น</button></div></div></div><div id="appScreen" class="shell hidden"><header class="mobilebar"><div class="brand" role="button" tabindex="0" title="กลับหน้าหลัก" onclick="page('dashboard');closeNav()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();page('dashboard');closeNav()}"><span>●</span> Nintendo Stock</div><button id="navMenuBtn" class="iconbtn" aria-label="เปิดเมนู" aria-expanded="false" aria-controls="navDrawer">☰</button></header><div id="navBackdrop"></div><aside class="side" id="navDrawer"><div class="brand" role="button" tabindex="0" title="กลับหน้าหลัก" onclick="page('dashboard');closeNav()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();page('dashboard');closeNav()}"><span>●</span> Nintendo Stock</div><div class="navs"><button class="nav active" data-page="dashboard">▦ ภาพรวม</button><button class="nav" data-page="inventory">▣ คลังสินค้า</button><button class="nav adminonly" data-page="movement">⇄ รับเข้า / โอน</button><button class="nav adminonly" data-page="sale">🧾 ขายสินค้า</button><button class="nav adminonly" data-page="discounts">🏷️ ส่วนลด</button><button class="nav adminonly" data-page="reservations">📋 การจอง</button><button class="nav" data-page="excel">▤ Excel นำเข้า–ส่งออก</button><button class="nav" data-page="reports">▥ รายงาน</button><button class="nav adminonly" id="navCompact">🧹 บีบอัดรูป</button><button class="nav" id="navStorefront">🛍️ หน้าร้านลูกค้า</button></div><div class="foot"><div id="userEmail" class="muted"></div><div id="userRole" class="muted"></div><button id="logoutBtn" class="secondary" style="width:100%;margin-top:10px">⏻ ออกจากระบบ</button></div></aside><main class="main"><div class="top"><div><h1 id="pageTitle">ภาพรวมคลังสินค้า</h1><div class="muted">จัดการสินค้าเข้า–ออกและตรวจนับสต๊อก</div></div><div class="row" style="max-width:470px"><input id="globalSearch" class="search" placeholder="ค้นหาชื่อ / รหัส / บาร์โค้ด..."><button id="quickScan" class="secondary fit">▦ สแกน</button></div></div><div id="notice"></div>
 <section id="dashboard"><div class="grid"><div class="card"><div class="metric-label">จำนวนสินค้าในคลัง</div><div class="metric" id="mUnits">0</div><div class="muted small">รวมทุกหมวดหมู่ (ชิ้น)</div></div><div class="card"><div class="metric-label">รหัสสินค้าทั้งหมด</div><div class="metric" id="mSkus">0</div><div class="muted small">SKU ที่ไม่ซ้ำกัน</div></div><div class="card"><div class="metric-label">รับเข้าเดือนนี้</div><div class="metric" id="mIn">0</div><div class="muted small">ชิ้น</div></div><div class="card"><div class="metric-label">ขายออกเดือนนี้</div><div class="metric" id="mOut">0</div><div class="muted small">ชิ้น</div></div></div><div class="card"><h2>หมวดหมู่สินค้า</h2><div class="grid"><div class="card catclick" onclick="openCategory('เครื่องเกม')"><div>🎮 เครื่องเกม</div><div class="metric" id="catConsole">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('ตุ๊กตา')"><div>🧸 ตุ๊กตา</div><div class="metric" id="catPlush">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('จอยเกม/ACC')"><div>🕹️ จอยเกม / ACC</div><div class="metric" id="catAcc">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('แผ่นเกม')"><div>💿 แผ่นเกม</div><div class="metric" id="catGame">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('ของแถม')"><div>🎁 ของแถม</div><div class="metric" id="catGift">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('ไม่มีหมวดหมู่')"><div>❔ ไม่มีหมวดหมู่</div><div class="metric" id="catNone">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openLowStock()"><div>⚠️ สินค้าใกล้หมด</div><div class="metric" id="lowStock">0</div><div class="muted small">เหลือ 0: <b id="lowZero">0</b> · เหลือ 1–3: <b id="lowFew">0</b> · กดเพื่อดู</div></div></div></div><div class="card"><div class="row" style="justify-content:space-between;align-items:center;gap:10px"><h2 style="margin:0">🏆 สินค้าขายดี</h2><div class="tabs" id="bestTabs" style="margin:0"><button class="pill active" data-range="day">วันนี้</button><button class="pill" data-range="month">เดือนนี้</button><button class="pill" data-range="year">ปีนี้</button></div></div><div class="row" style="justify-content:space-between;align-items:center;gap:8px;margin:8px 0 12px"><div class="small muted" id="bestSummary">—</div><button id="bestExport" class="secondary fit" style="font-size:12px;padding:6px 10px;white-space:nowrap">⬇ Excel</button></div><div id="bestList" class="best"></div></div><div class="card"><h2>รายการเคลื่อนไหวล่าสุด</h2><div class="tablewrap"><table><thead><tr><th>วันเวลา</th><th>ประเภท</th><th>รหัส</th><th>สินค้า</th><th>จำนวน</th><th>หมายเหตุ</th></tr></thead><tbody id="recentRows"></tbody></table></div></div></section>
 <section id="inventory" class="hidden"><div class="card"><div class="row"><h2>คลังสินค้า</h2><div class="row" style="gap:8px;flex:0 0 auto"><select id="bulkCategory" class="hidden" style="max-width:170px;width:auto"><option value="">ย้ายไปหมวด…</option><option>เครื่องเกม</option><option>ตุ๊กตา</option><option>จอยเกม/ACC</option><option>แผ่นเกม</option><option>ของแถม</option><option>ไม่มีหมวดหมู่</option></select><button id="bulkMove" class="secondary hidden">ย้ายหมวดหมู่</button><button id="bulkDelete" class="danger hidden">🗑 ลบที่เลือก</button><button id="newProduct" class="fit adminonly">+ เพิ่มสินค้า</button></div></div><div class="row"><button id="catalogBtn" class="secondary fit">▧ เปิดแคตตาล็อก / พิมพ์เอกสาร</button><button id="catalogExcelBtn" class="secondary fit">⬇ ส่งออก Excel (แยกหมวดหมู่)</button><button id="manageImagesBtn" class="secondary fit adminonly">🖼️ จัดการรูป</button><button id="showTableBtn" class="secondary fit">☷ มุมมองตาราง</button><button id="showGalleryBtn" class="secondary fit">▦ มุมมองรูปสินค้า</button><button id="lowFilter" class="secondary fit">⚠️ ใกล้หมด</button></div><div class="row"><div class="field"><label>ค้นหาสินค้า</label><input id="invSearch" placeholder="รหัส ชื่อ หรือบาร์โค้ด"></div><div class="field"><label>หมวดหมู่</label><select id="invCategory"><option value="">ทุกหมวดหมู่</option><option>เครื่องเกม</option><option>ตุ๊กตา</option><option>จอยเกม/ACC</option><option>แผ่นเกม</option><option>ของแถม</option><option>ไม่มีหมวดหมู่</option></select></div><div class="field" style="max-width:150px"><label>แสดงต่อหน้า</label><select id="pageSize"><option value="20">20</option><option value="50" selected>50</option><option value="100">100</option><option value="0">ทั้งหมด</option></select></div></div><div id="productGallery" class="product-gallery hidden"></div><div id="inventoryTableWrap" class="tablewrap"><table><thead><tr><th class="adminonly" style="width:36px"><input type="checkbox" id="checkAll" title="เลือกทั้งหน้านี้"></th><th>รหัสสินค้า</th><th>ชื่อสินค้า</th><th>หมวดหมู่</th><th>บาร์โค้ด</th><th>คงเหลือ</th><th>ต้นทุน/ชิ้น</th><th class="adminonly">จัดการ</th></tr></thead><tbody id="inventoryRows"></tbody></table></div><div id="pager" class="pager"></div></div></section>
 <section id="movement" class="hidden"><div class="card"><h2>รับสินค้าเข้า / โอนออก</h2><div class="tabs"><button class="pill active adminonly" data-kind="รับเข้า">รับสินค้าเข้า</button><button class="pill adminonly" data-kind="โอนออก">โอนให้ร้านอื่น</button></div><div class="two"><div class="field"><label>สแกนบาร์โค้ด / รหัสสินค้า</label><div class="row"><input id="moveCode" placeholder="ยิงบาร์โค้ดหรือพิมพ์รหัส"><button id="cameraBtn" class="secondary fit">📷 กล้อง</button></div><video id="camera" class="hidden" playsinline style="width:100%;border-radius:10px"></video></div><div class="field"><label>สินค้า</label><select id="moveProduct"></select></div><div class="field"><label>จำนวน (จำนวนเต็ม)</label><input id="moveQty" type="number" min="1" value="1"></div><div class="field"><label>ราคาต่อชิ้น (บาท) — ต้นทุน/มูลค่าที่บันทึก</label><input id="movePrice" type="number" min="0" value="0"></div><div class="field" id="storeField"><label>ร้านปลายทาง (เฉพาะการโอน)</label><input id="moveStore" placeholder="ชื่อร้านที่รับโอน"></div><div class="field"><label>หมายเหตุ</label><input id="moveNote" placeholder="ผู้รับผิดชอบ / หมายเหตุ"></div></div><button id="saveMove">บันทึกรายการ</button><div class="foot">ระบบตรวจสอบยอดคงเหลือก่อนโอนออก การบันทึกจะบันทึกลงฐานข้อมูลออนไลน์ร่วมกันทุกอุปกรณ์</div></div></section><section id="sale" class="hidden"><div class="card"><h2>ขายสินค้า</h2><div class="two"><div class="field"><label>สแกนบาร์โค้ด / รหัสสินค้า</label><div class="row"><input id="saleCode" placeholder="ยิงบาร์โค้ดหรือพิมพ์รหัส"><button id="saleCameraBtn" class="secondary fit">📷 กล้อง</button></div><video id="saleCamera" class="hidden" playsinline style="width:100%;border-radius:10px"></video></div><div class="field"><label>สินค้า</label><select id="saleProduct"></select></div><div class="field"><label>จำนวน (จำนวนเต็ม)</label><input id="saleQty" type="number" min="1" value="1"></div><div class="field"><label>ราคาต่อชิ้น (บาท)</label><input id="salePrice" type="number" min="0" value="0"><div id="saleDiscountHint" class="small" style="margin-top:4px"></div></div><div class="field"><label>หมายเหตุ</label><input id="saleNote" placeholder="ชื่อผู้ขาย / หมายเหตุ"></div></div><button id="addToBill">＋ เพิ่มลงบิล</button><div id="cartBox"><h3 style="margin:18px 0 8px">🧾 รายการในบิลนี้ <span class="small muted" id="billHint"></span></h3><div class="tablewrap"><table><thead><tr><th>รหัส</th><th>สินค้า</th><th>จำนวน</th><th>ราคา/ชิ้น</th><th>รวม</th><th></th></tr></thead><tbody id="cartRows"></tbody></table></div><div class="row" style="justify-content:space-between;align-items:center;margin-top:10px"><span class="small muted" id="cartCount">ยังไม่มีรายการ</span><b id="cartTotal">0 ฿</b></div><div class="row" style="gap:8px;margin-top:10px"><button id="saveBill">💾 บันทึกบิล</button><button id="clearBill" class="secondary">ล้างบิล</button></div></div><div class="foot">ระบบตรวจสอบยอดคงเหลือก่อนขาย การบันทึกบิลจะตัดสต๊อกทุกรายการพร้อมกัน และบันทึกลงฐานข้อมูลออนไลน์ร่วมกันทุกอุปกรณ์</div></div><div class="card" style="margin-top:18px"><div class="row"><h2>บิลขายล่าสุด</h2><button id="refreshBills" class="secondary fit">↻ รีเฟรช</button></div><div class="tablewrap"><table class="billtable"><thead><tr><th>วันเวลา</th><th>เลขบิล</th><th>รายการ</th><th>ชิ้น</th><th>ยอดรวม</th><th>จัดการ</th></tr></thead><tbody id="billRows"></tbody></table></div><div class="small muted" style="margin-top:8px">รวมรายการขายที่บันทึกไว้ล่าสุด — บิลที่บันทึกก่อนอัปเดตจะแสดงเป็น “บิลเดี่ยว”</div></div></section>
@@ -1314,10 +1326,10 @@ function renderCatalogHero(){
     const editBtn=isAdmin?`<button type="button" class="shop-edit-corner" onclick="event.stopPropagation();openPromoEdit('${h.slot}')">✏️ แก้ไข</button>`:'';
     if(h.img){
       const cls=h.fit==='cover'?' is-cover':h.fit==='auto'?' is-auto':'';
-      return `<div class="heroslide heroslide--banner${cls}" onclick="if(${isAdmin})openPromoEdit('${h.slot}')">${editBtn}<img class="hero-bg" src="${esc(h.img)}" alt=""><img class="hero-fg" src="${esc(h.img)}" alt="${esc(h.title)}" onload="syncCatalogHeroHeight()"></div>`;
+      return `<div class="heroslide heroslide--banner${cls}" onclick="catalogPromoAction('${h.slot}')">${editBtn}<img class="hero-bg" src="${esc(h.img)}" alt=""><img class="hero-fg" src="${esc(h.img)}" alt="${esc(h.title)}" onload="syncCatalogHeroHeight()"></div>`;
     }
     const title=fb?fb.name:h.title,img=fb?fb.image:'',cat=fb?(fb.category||'สินค้าแนะนำ'):h.badge;
-    return `<div class="heroslide heroslide--promo">${editBtn}<div class="heroslide-promo"><div class="promo-copy"><span class="promo-tag">${esc(cat)}</span><h2 class="promo-title">${esc(title)}</h2><p class="promo-sub">${esc(h.subtitle)}</p><button type="button" class="promo-btn" onclick="${isAdmin?`openPromoEdit('${h.slot}')`:'catalogScrollToProducts()'}">${isAdmin?'✏️ แก้ไขสไลด์นี้':'ดูโปรโมชั่น →'}</button></div><div class="promo-art">${img?`<img src="${esc(img)}" alt="${esc(title)}">`:'<span class="ph-emoji">🎮</span>'}</div></div></div>`;
+    return `<div class="heroslide heroslide--promo" onclick="catalogPromoAction('${h.slot}')">${editBtn}<div class="heroslide-promo"><div class="promo-copy"><span class="promo-tag">${esc(cat)}</span><h2 class="promo-title">${esc(title)}</h2><p class="promo-sub">${esc(h.subtitle)}</p><button type="button" class="promo-btn" onclick="event.stopPropagation();catalogPromoAction('${h.slot}')">ดูโปรโมชั่น →</button></div><div class="promo-art">${img?`<img src="${esc(img)}" alt="${esc(title)}">`:'<span class="ph-emoji">🎮</span>'}</div></div></div>`;
   });
   track.innerHTML=slides.join('');
   dots.innerHTML=slides.map((_,i)=>`<button type="button" class="herodot${i===0?' on':''}" onclick="catalogHeroGo(${i})"></button>`).join('');
@@ -1329,9 +1341,80 @@ function renderCatalogPromoBento(){
     const d=BENTO_SLOT_DEFAULTS[slot],p=catalogPromos[slot]||{};
     const img=p.image||d.img,title=p.title||d.title;
     const editBtn=isAdmin?`<button type="button" class="shop-edit-corner" onclick="event.stopPropagation();openPromoEdit('${slot}')">✏️ แก้ไข</button>`:'';
-    return `<div class="promo-bento-card ${cls}" onclick="${isAdmin?`openPromoEdit('${slot}')`:'catalogScrollToProducts()'}">${editBtn}<img src="${esc(img)}" alt="${esc(title)}"></div>`;
+    return `<div class="promo-bento-card ${cls}" onclick="catalogPromoAction('${slot}')">${editBtn}<img src="${esc(img)}" alt="${esc(title)}"></div>`;
   };
   root.innerHTML=`${card('bento-main','promo-bento-main')}<div class="promo-bento-sub">${card('bento-1')}${card('bento-2')}${card('bento-3')}${card('bento-4')}</div>`;
+}
+function catalogPromoTarget(p){
+  const list=Array.isArray(p&&p.product_codes)?p.product_codes:[];
+  const tok=list.find(c=>String(c||'').startsWith('@'));
+  return tok?String(tok).slice(1):'promo';
+}
+function catalogPromoAction(slot){
+  const p=catalogPromos[slot]||{};
+  const target=catalogPromoTarget(p);
+  if(target==='all'){
+    closeCatalogPromoPage();
+    $('catalogSearch').value='';
+    $('catalogCategory').value='';
+    renderPublicCatalog();
+    catalogScrollToProducts();
+    return;
+  }
+  if(target.startsWith('cat:')){
+    closeCatalogPromoPage();
+    $('catalogSearch').value='';
+    $('catalogCategory').value=target.slice(4);
+    renderPublicCatalog();
+    catalogScrollToProducts();
+    return;
+  }
+  openCatalogPromoPage(slot);
+}
+function openCatalogPromoPage(slot){
+  const home=$('catalogHomeView'),view=$('catalogPromoView');
+  if(!home||!view)return;
+  const d=BENTO_SLOT_DEFAULTS[slot]||{};
+  const p=catalogPromos[slot]||{};
+  const title=p.title||d.title||('โปรโมชั่น '+slot);
+  const sub=p.subtitle||d.subtitle||'ดีลพิเศษประจำร้าน Power Buy Central Northville';
+  const badge=p.badge||d.badge||'โปรโมชั่นพิเศษ';
+  const desc=p.description||'';
+  const img=p.image||d.img||'';
+  const rawCodes=Array.isArray(p.product_codes)?p.product_codes.filter(c=>!String(c||'').startsWith('@')):[];
+  const codeSet=new Set(rawCodes.map(c=>String(c).trim().toLowerCase()).filter(Boolean));
+  let items=codeSet.size?catalogData.filter(x=>codeSet.has(String(x.code||'').trim().toLowerCase())):[];
+  if(!items.length){
+    items=catalogData.filter(x=>Number(x.qty)>0&&Number(x.discount_value)>0);
+  }
+  if(!items.length){
+    items=catalogData.filter(x=>Number(x.qty)>0).slice(0,8);
+  }
+  const editBtn=isAdmin?`<button type="button" class="secondary fit" onclick="openPromoEdit('${esc(slot)}')">✏️ แก้ไขโปรโมชั่นนี้</button>`:'';
+  const bannerHtml=img?`<div class="promopage-banner"><img src="${esc(img)}" alt="${esc(title)}"></div>`:'';
+  const descHtml=desc?`<div class="promopage-desc">${esc(desc)}</div>`:'';
+  const cardsHtml=items.map((item,i)=>catalogCardHtml(item,i,false)).join('')||'<div class="shopempty">ยังไม่มีสินค้าในโปรโมชั่นนี้</div>';
+  view.innerHTML=`
+    <div class="promopage-head">
+      <button type="button" class="promopage-back" onclick="closeCatalogPromoPage()">← กลับหน้าร้าน</button>
+      ${editBtn}
+    </div>
+    ${bannerHtml}
+    <span class="promo-tag" style="margin-bottom:8px;display:inline-block">${esc(badge)}</span>
+    <h1 class="promopage-title">${esc(title)}</h1>
+    <div class="promopage-sub">${esc(sub)}</div>
+    ${descHtml}
+    <div class="shopsectionhead"><h2>สินค้าในโปรโมชั่นนี้</h2><span class="shopcount">พบ ${n(items.length)} รายการ</span></div>
+    <div class="shopgrid">${cardsHtml}</div>
+  `;
+  home.classList.add('hidden');
+  view.classList.remove('hidden');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function closeCatalogPromoPage(){
+  const home=$('catalogHomeView'),view=$('catalogPromoView');
+  if(view){view.classList.add('hidden');view.innerHTML=''}
+  if(home)home.classList.remove('hidden');
 }
 async function loadCatalogPromos(){
   if(!sb)return;
@@ -1353,7 +1436,9 @@ function openPromoEdit(slot){
   $('peDesc').value=p.description||'';
   $('peImg').value=p.image||'';
   $('peFit').value=p.fit||'auto';
-  $('peCodes').value=Array.isArray(p.product_codes)?p.product_codes.join(', '):'';
+  const rawCodes=Array.isArray(p.product_codes)?p.product_codes:[];
+  $('peTarget').value=catalogPromoTarget(p);
+  $('peCodes').value=rawCodes.filter(c=>!String(c||'').startsWith('@')).join(', ');
   $('peActive').checked=p.active!==false;
   $('peFile').value='';
   $('promoEditModal').classList.remove('hidden');
@@ -1372,7 +1457,9 @@ async function savePromoEdit(){
       imgUrl=await uploadProductImage('promo_'+promoEditSlot,dataUrl);
       $('peImg').value=imgUrl;
     }
-    const codes=$('peCodes').value.split(',').map(s=>s.trim()).filter(Boolean);
+    const target=$('peTarget')?$('peTarget').value:'promo';
+    const skuCodes=$('peCodes').value.split(',').map(s=>s.trim()).filter(s=>s&&!s.startsWith('@'));
+    const codes=target&&target!=='promo'?['@'+target,...skuCodes]:skuCodes;
     const kind=promoEditSlot.startsWith('hero')?'hero':'bento';
     const sort_order=kind==='hero'?Number(promoEditSlot.replace('hero-',''))||1:({'bento-main':10,'bento-1':11,'bento-2':12,'bento-3':13,'bento-4':14}[promoEditSlot]||20);
     const row={slot:promoEditSlot,kind,title:$('peTitle').value.trim(),subtitle:$('peSub').value.trim(),badge:$('peBadge').value.trim(),description:$('peDesc').value.trim(),image:imgUrl,fit:$('peFit').value||'auto',product_codes:codes,sort_order,active:$('peActive').checked,updated_at:new Date().toISOString()};
@@ -1380,6 +1467,7 @@ async function savePromoEdit(){
     if(error)throw error;
     catalogPromos[promoEditSlot]=row;
     renderCatalogHero();renderCatalogPromoBento();
+    if($('catalogPromoView')&&!$('catalogPromoView').classList.contains('hidden'))openCatalogPromoPage(promoEditSlot);
     closePromoEdit();
     catalogNote('บันทึกโปรโมชั่นแล้ว — หน้าเว็บลูกค้าอัปเดตทันที','ok');
   }catch(e){
@@ -1447,6 +1535,7 @@ async function openPublicCatalog(){
   if(menuBack)menuBack.innerHTML=user?'← กลับหลังบ้าน <span>›</span>':'← กลับเข้าสู่ระบบ <span>›</span>';
   closeCatalogMenu();
   closeCatalogImageManager();
+  closeCatalogPromoPage();
   $('catalogSearch').value='';
   $('catalogCategory').value='';
   window.scrollTo(0,0);
@@ -1459,7 +1548,7 @@ async function openPublicCatalog(){
   await refreshPublicCatalog(false);
 }
 function closePublicCatalog(){
-  closeCatalogMenu();closeCatalogImageManager();
+  closeCatalogMenu();closeCatalogImageManager();closeCatalogPromoPage();
   $('catalogModal').classList.add('hidden');
   $('catalogScreen').classList.add('hidden');
   if(user){showApp();return}
