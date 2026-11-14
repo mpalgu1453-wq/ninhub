@@ -30,9 +30,12 @@ jobs:
         env:
           DB_URL: ${{ secrets.SUPABASE_DB_URL }}
         run: |
+          set -euo pipefail
           mkdir -p backup
           docker run --rm -e DB_URL -v "$PWD/backup:/backup" postgres:17 \
-            bash -c 'pg_dump "$DB_URL" --no-owner --no-privileges --clean --if-exists | gzip > "/backup/db-$(date -u +%Y-%m-%d).sql.gz"'
+            bash -c 'set -euo pipefail; pg_dump "$DB_URL" --no-owner --no-privileges --clean --if-exists > "/backup/dump.sql"'
+          gzip -f backup/dump.sql
+          mv backup/dump.sql.gz "backup/db-$(date -u +%Y-%m-%d).sql.gz"
 
       - name: ตรวจว่าไฟล์ไม่ว่าง
         run: |
