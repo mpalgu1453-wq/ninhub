@@ -164,7 +164,7 @@ tbody tr:hover{background:var(--panel2)}
 .shopmenu-sep{height:1px;background:#f1f5f9;margin:6px 4px}
 .shopmain{max-width:1200px;margin:0 auto;padding:32px clamp(16px,3vw,24px) 0}
 .shophero{position:relative;overflow:hidden;border-radius:24px;box-shadow:0 4px 20px -2px rgba(0,0,0,.05);background:linear-gradient(135deg,#fff 0%,#fdf4f5 58%,#f1f5fd 100%)}
-.herotrack{display:flex;transition:transform .45s cubic-bezier(.4,0,.2,1);will-change:transform}
+.herotrack{display:flex;align-items:flex-start;transition:transform .45s cubic-bezier(.4,0,.2,1),height .3s ease;will-change:transform}
 .heroslide{position:relative;flex:0 0 100%;min-width:100%;aspect-ratio:20/7;overflow:hidden;background:linear-gradient(135deg,#fff 0%,#fdf4f5 58%,#f1f5fd 100%)}
 .heroslide--banner{background:#f1f5f9}
 .heroslide--banner>img{position:absolute;inset:0;display:block;width:100%;height:100%;object-position:center}
@@ -172,6 +172,9 @@ tbody tr:hover{background:var(--panel2)}
 .heroslide--banner>.hero-fg{z-index:1;object-fit:contain}
 .heroslide--banner.is-cover>.hero-fg{object-fit:cover}
 .heroslide--banner.is-cover>.hero-bg{display:none}
+.heroslide--banner.is-auto{aspect-ratio:auto}
+.heroslide--banner.is-auto>.hero-bg{display:none}
+.heroslide--banner.is-auto>.hero-fg{position:relative;inset:auto;width:100%;height:auto;max-height:70vh;object-fit:contain}
 .heroslide-promo{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:20px;width:100%;height:100%;padding:clamp(24px,3.2vw,46px)}
 .promo-copy{display:flex;flex-direction:column;align-items:flex-start;gap:10px;min-width:0}
 .promo-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(230,0,18,.08);color:#c4000f;border-radius:999px;padding:5px 13px;font-size:12px;font-weight:700}
@@ -1284,11 +1287,17 @@ const BENTO_SLOT_DEFAULTS={
   'bento-3':{title:'โปรโมชั่นพิเศษ 3',subtitle:'ชุดเครื่องเกมสุดคุ้ม',badge:'โปรโมชั่น',img:'https://placehold.co/400x280?text=Promo+3'},
   'bento-4':{title:'โปรโมชั่นพิเศษ 4',subtitle:'แผ่นเกมฮิตและมาใหม่',badge:'โปรโมชั่น',img:'https://placehold.co/400x280?text=Promo+4'}
 };
+function syncCatalogHeroHeight(){
+  const track=$('catalogHeroTrack'),slides=document.querySelectorAll('#catalogHeroTrack .heroslide');
+  const cur=slides[catalogHeroIdx];
+  if(track&&cur&&cur.offsetHeight)track.style.height=cur.offsetHeight+'px';
+}
 function catalogHeroGo(i){
   const n=document.querySelectorAll('#catalogHeroTrack .heroslide').length;
   if(!n)return;
   catalogHeroIdx=((i%n)+n)%n;
   $('catalogHeroTrack').style.transform=`translateX(${-catalogHeroIdx*100}%)`;
+  syncCatalogHeroHeight();
   document.querySelectorAll('#catalogHeroDots .herodot').forEach((d,k)=>d.classList.toggle('on',k===catalogHeroIdx));
 }
 function renderCatalogHero(){
@@ -1304,7 +1313,8 @@ function renderCatalogHero(){
     const fb=src[i]||null;
     const editBtn=isAdmin?`<button type="button" class="shop-edit-corner" onclick="event.stopPropagation();openPromoEdit('${h.slot}')">✏️ แก้ไข</button>`:'';
     if(h.img){
-      return `<div class="heroslide heroslide--banner${h.fit==='cover'?' is-cover':''}" onclick="if(${isAdmin})openPromoEdit('${h.slot}')">${editBtn}<img class="hero-bg" src="${esc(h.img)}" alt=""><img class="hero-fg" src="${esc(h.img)}" alt="${esc(h.title)}" style="object-fit:${h.fit==='cover'?'cover':'contain'}"></div>`;
+      const cls=h.fit==='cover'?' is-cover':h.fit==='auto'?' is-auto':'';
+      return `<div class="heroslide heroslide--banner${cls}" onclick="if(${isAdmin})openPromoEdit('${h.slot}')">${editBtn}<img class="hero-bg" src="${esc(h.img)}" alt=""><img class="hero-fg" src="${esc(h.img)}" alt="${esc(h.title)}" onload="syncCatalogHeroHeight()"></div>`;
     }
     const title=fb?fb.name:h.title,img=fb?fb.image:'',cat=fb?(fb.category||'สินค้าแนะนำ'):h.badge;
     return `<div class="heroslide heroslide--promo">${editBtn}<div class="heroslide-promo"><div class="promo-copy"><span class="promo-tag">${esc(cat)}</span><h2 class="promo-title">${esc(title)}</h2><p class="promo-sub">${esc(h.subtitle)}</p><button type="button" class="promo-btn" onclick="${isAdmin?`openPromoEdit('${h.slot}')`:'catalogScrollToProducts()'}">${isAdmin?'✏️ แก้ไขสไลด์นี้':'ดูโปรโมชั่น →'}</button></div><div class="promo-art">${img?`<img src="${esc(img)}" alt="${esc(title)}">`:'<span class="ph-emoji">🎮</span>'}</div></div></div>`;
