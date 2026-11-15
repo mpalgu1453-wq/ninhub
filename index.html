@@ -938,27 +938,112 @@ function autoFillSalePrice(){
 $('saleCode').onchange=()=>{let p=findScanProduct($('saleCode').value)||findProduct($('saleCode').value);if(p){$('saleCode').value=p.barcode||p.code;$('saleProduct').value=p.code;autoFillSalePrice()}else note('ไม่พบสินค้าที่ตรงกับ "'+$('saleCode').value.trim()+'" ในคลัง','err')};
 $('saleProduct').onchange=()=>{let p=db.products.find(x=>x.code===$('saleProduct').value);if(p){$('saleCode').value=p.barcode||p.code;autoFillSalePrice()}};
 $('saleCode').addEventListener('keydown',e=>{if(e.key!=='Enter')return;e.preventDefault();const p=findScanProduct($('saleCode').value)||findProduct($('saleCode').value);if(!p)return note('ไม่พบสินค้าที่ตรงกับ "'+$('saleCode').value.trim()+'" ในคลัง','err');$('saleCode').value=p.barcode||p.code;$('saleProduct').value=p.code;autoFillSalePrice();$('saleQty').focus()});
-let scanStream=null,scanTimer=null,scanTarget='inventory';
+let scanStream=null,scanTimer=null,scanTarget='inventory',zxingPromise=null;
+function ensureZXing(){
+  if(window.ZXing)return Promise.resolve(window.ZXing);
+  if(!zxingPromise)zxingPromise=new Promise((res,rej)=>{
+    const s=document.createElement('script');
+    s.src='https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/umd/index.min.js';
+    s.onload=()=>window.ZXing?res(window.ZXing):rej(new Error('โหลดตัวอ่านบาร์โค้ดไม่สำเร็จ'));
+    s.onerror=()=>{zxingPromise=null;rej(new Error('โหลดตัวอ่านบาร์โค้ดไม่สำเร็จ กรุณาเชื่อมต่ออินเทอร์เน็ตแล้วลองใหม่'))};
+    document.head.appendChild(s);
+  });
+  return zxingPromise;
+}
+function createZXingDetector(Z){
+  const reader=new Z.MultiFormatReader();
+  try{
+    if(Z.DecodeHintType&&Z.BarcodeFormat){
+      const hints=new Map();
+      const fmts=[Z.BarcodeFormat.EAN_13,Z.BarcodeFormat.EAN_8,Z.BarcodeFormat.UPC_A,Z.BarcodeFormat.UPC_E,Z.BarcodeFormat.CODE_128,Z.BarcodeFormat.CODE_39,Z.BarcodeFormat.ITF,Z.BarcodeFormat.QR_CODE].filter(Boolean);
+      if(fmts.length)hints.set(Z.DecodeHintType.POSSIBLE_FORMATS,fmts);
+      if(Z.DecodeHintType.TRY_HARDER!==undefined)hints.set(Z.DecodeHintType.TRY_HARDER,true);
+      reader.setHints(hints);
+    }
+  }catch(e){}
+  const browserReader=Z.BrowserMultiFormatReader?new Z.BrowserMultiFormatReader():null;
+  const canvas=document.createElement('canvas');
+  const ctx=canvas.getContext('2d',{willReadFrequently:true});
+  return {
+    async detect(video){
+      if(!video||video.readyState<2||!video.videoWidth||!video.videoHeight)return [];
+      if(ctx&&Z.HTMLCanvasElementLuminanceSource&&Z.BinaryBitmap&&Z.HybridBinarizer){
+        canvas.width=video.videoWidth;canvas.height=video.videoHeight;
+        ctx.drawImage(video,0,0,canvas.width,canvas.height);
+        try{
+          const lum=new Z.HTMLCanvasElementLuminanceSource(canvas);
+          const bmp=new Z.BinaryBitmap(new Z.HybridBinarizer(lum));
+          const res=reader.decodeWithState?reader.decodeWithState(bmp):reader.decode(bmp);
+          const raw=res&&(typeof res.getText==='function'?res.getText():res.text);
+          if(raw)return [{rawValue:String(raw).trim()}];
+        }catch(e){if(reader.reset)reader.reset()}
+      }
+      if(browserReader&&typeof browserReader.decode==='function'){
+        try{
+          const res=browserReader.decode(video);
+          const raw=res&&(typeof res.getText==='function'?res.getText():res.text);
+          if(raw)return [{rawValue:String(raw).trim()}];
+        }catch(e){}
+      }
+      return [];
+    }
+  };
+}
+async function createBarcodeScanner(){
+  let nativeDet=null,zxingDet=null;
+  if('BarcodeDetector'in window){
+    try{
+      const wanted=['ean_13','ean_8','upc_a','upc_e','code_128','code_39','itf','qr_code'];
+      let sup=wanted;
+      if(typeof BarcodeDetector.getSupportedFormats==='function')sup=await BarcodeDetector.getSupportedFormats();
+      if(Array.isArray(sup)&&sup.length){
+        const fmts=wanted.filter(f=>sup.includes(f));
+        nativeDet=fmts.length?new BarcodeDetector({formats:fmts}):new BarcodeDetector();
+      }
+    }catch(e){nativeDet=null}
+  }
+  if(!nativeDet){
+    const Z=await ensureZXing();
+    zxingDet=createZXingDetector(Z);
+  }
+  return {
+    async detect(video){
+      if(nativeDet){
+        try{return await nativeDet.detect(video)}
+        catch(e){nativeDet=null}
+      }
+      if(!zxingDet){
+        const Z=await ensureZXing();
+        zxingDet=createZXingDetector(Z);
+      }
+      return zxingDet.detect(video);
+    }
+  };
+}
+async function openCameraStream(){
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)throw new Error('เบราว์เซอร์ไม่รองรับการเปิดกล้อง (ต้องเปิดผ่าน HTTPS หรือ localhost)');
+  try{
+    return await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}},audio:false});
+  }catch(e){
+    return await navigator.mediaDevices.getUserMedia({video:true,audio:false});
+  }
+}
 async function openScan(target='inventory'){
   scanTarget=target;
-  if(!('BarcodeDetector'in window)){
-    const msg='เบราว์เซอร์นี้ไม่รองรับสแกนผ่านกล้อง (แนะนำ Chrome บน Android) — พิมพ์รหัสหรือเลือกจากรายการแทนได้';
-    if(scanTarget==='discount'){dScanNote(msg,'err');scanTarget='inventory';return}
-    return note(msg,'err');
-  }
   if(scanTarget!=='discount')page('inventory');
   $('scanModal').classList.remove('hidden');
   const video=$('scanVideo');
   try{
-    scanStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}});
+    const [stream,det]=await Promise.all([openCameraStream(),createBarcodeScanner()]);
+    if($('scanModal').classList.contains('hidden')){stream.getTracks().forEach(t=>t.stop());return}
+    scanStream=stream;
     video.srcObject=scanStream;try{await video.play()}catch(e){}
-    let det;try{det=new BarcodeDetector({formats:['ean_13','ean_8','upc_a','upc_e','code_128','code_39','itf','qr_code']})}catch(e){det=new BarcodeDetector()}
     const tick=async()=>{
       if(!scanStream)return;
       try{const codes=await det.detect(video);if(codes&&codes.length){const v=String(codes[0].rawValue||'').trim();if(v)return handleScan(v)}}catch(e){}
-      scanTimer=setTimeout(tick,350);
+      scanTimer=setTimeout(tick,250);
     };tick();
-  }catch(e){const msg='เปิดกล้องไม่สำเร็จ: '+e.message;closeScan();if(target==='discount')dScanNote(msg,'err');else note(msg,'err')}
+  }catch(e){const msg='เปิดกล้องไม่สำเร็จ: '+(e&&e.message?e.message:e);closeScan();if(target==='discount')dScanNote(msg,'err');else note(msg,'err')}
 }
 window.closeScan=()=>{if(scanTimer){clearTimeout(scanTimer);scanTimer=null}if(scanStream){scanStream.getTracks().forEach(t=>t.stop());scanStream=null}const v=$('scanVideo');if(v)v.srcObject=null;$('scanModal').classList.add('hidden');scanTarget='inventory'};
 function findScanProduct(val){
@@ -1192,17 +1277,38 @@ async function runReport(){if(!sb)return note('ยังไม่ได้ตั
 }
 $('runReport').onclick=runReport;$('reportPreset').onchange=applyReportPreset;$('reportFrom').onchange=$('reportTo').onchange=()=>{$('reportPreset').value='custom';updateReportLabel()};applyReportPreset();
 
+function stopInlineCamera(video,btn){
+  if(video._scanTimer){clearTimeout(video._scanTimer);video._scanTimer=null}
+  if(video.srcObject){video.srcObject.getTracks().forEach(t=>t.stop());video.srcObject=null}
+  video.dataset.on='';video.classList.add('hidden');if(btn)btn.textContent='📷 กล้อง';
+}
 async function toggleCamera(videoId,btnId,inputId){
   const video=$(videoId),btn=$(btnId);
-  if(video.dataset.on==='1'){if(video.srcObject)video.srcObject.getTracks().forEach(t=>t.stop());video.srcObject=null;video.dataset.on='';video.classList.add('hidden');btn.textContent='📷 กล้อง';return}
-  if(!('BarcodeDetector'in window))return note('เบราว์เซอร์นี้ไม่รองรับอ่านบาร์โค้ดผ่านกล้องโดยตรง ใช้เครื่องสแกนหรือพิมพ์รหัสแทนได้','err');
+  if(video.dataset.on==='1'){stopInlineCamera(video,btn);return}
+  btn.disabled=true;btn.textContent='กำลังเปิด...';
   try{
-    const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}});
-    video.srcObject=stream;video.dataset.on='1';video.classList.remove('hidden');await video.play();btn.textContent='ปิดกล้อง';
-    const detector=new BarcodeDetector();
-    const scan=async()=>{if(video.dataset.on!=='1')return;try{const codes=await detector.detect(video);if(codes.length){const input=$(inputId);input.value=codes[0].rawValue;input.dispatchEvent(new Event('change'));if(video.dataset.on==='1'){if(video.srcObject)video.srcObject.getTracks().forEach(t=>t.stop());video.srcObject=null;video.dataset.on='';video.classList.add('hidden');btn.textContent='📷 กล้อง'}return}}catch(e){}requestAnimationFrame(scan)};
+    const [stream,detector]=await Promise.all([openCameraStream(),createBarcodeScanner()]);
+    video.srcObject=stream;video.dataset.on='1';video.classList.remove('hidden');try{await video.play()}catch(e){}
+    btn.disabled=false;btn.textContent='ปิดกล้อง';
+    const scan=async()=>{
+      if(video.dataset.on!=='1')return;
+      try{
+        const codes=await detector.detect(video);
+        if(codes&&codes.length){
+          const raw=String(codes[0].rawValue||'').trim();
+          if(raw){
+            const input=$(inputId);input.value=raw;input.dispatchEvent(new Event('change'));
+            stopInlineCamera(video,btn);return;
+          }
+        }
+      }catch(e){}
+      if(video.dataset.on==='1')video._scanTimer=setTimeout(scan,250);
+    };
     scan();
-  }catch(e){note('เปิดกล้องไม่ได้ กรุณาอนุญาตสิทธิ์กล้องและเปิดผ่าน HTTPS','err')}
+  }catch(e){
+    btn.disabled=false;stopInlineCamera(video,btn);
+    note('เปิดกล้องไม่ได้: '+(e&&e.message?e.message:'กรุณาอนุญาตสิทธิ์กล้องและเปิดผ่าน HTTPS'),'err');
+  }
 }
 $('cameraBtn').onclick=()=>toggleCamera('camera','cameraBtn','moveCode');
 $('saleCameraBtn').onclick=()=>toggleCamera('saleCamera','saleCameraBtn','saleCode');
