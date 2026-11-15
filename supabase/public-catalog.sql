@@ -48,7 +48,27 @@ create policy "discounts_delete_admin"
 on public.discounts for delete to authenticated
 using (public.is_admin());
 
--- 3) ฟังก์ชันแคตตาล็อกสาธารณะ (คืนราคาหลังหักส่วนลดที่ถูกที่สุดของวันนี้)
+-- 3) ตารางการจอง (เผื่อรันไฟล์นี้ก่อน reservations.sql เพื่อให้ public_catalog หักยอดติดจองได้ทันที)
+create table if not exists public.reservations (
+  id bigint generated always as identity primary key,
+  order_code text,
+  code text not null,
+  product_name text not null,
+  qty integer not null check (qty >= 1 and qty <= 10),
+  customer_name text not null,
+  phone text not null,
+  note text,
+  pickup_date date,
+  status text not null default 'pending'
+    check (status in ('pending','confirmed','completed','cancelled')),
+  admin_note text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+alter table public.reservations enable row level security;
+
+-- 4) ฟังก์ชันแคตตาล็อกสาธารณะ (คืนราคาหลังหักส่วนลดที่ถูกที่สุดของวันนี้ + หักยอดที่ติดจอง pending/confirmed อัตโนมัติ)
 drop function if exists public.public_catalog();
 
 create function public.public_catalog()
@@ -69,9 +89,19 @@ stable
 security definer
 set search_path = public
 as $$
-  with base as (
+  with rsv as (
+    select r.code, coalesce(sum(r.qty), 0)::integer as reserved_qty
+    from public.reservations r
+    where r.status in ('pending', 'confirmed')
+    group by r.code
+  ),
+  base as (
     select
-      p.code, p.name, p.category, p.qty, p.image,
+      p.code,
+      p.name,
+      p.category,
+      greatest(0, coalesce(p.qty, 0) - coalesce(rsv.reserved_qty, 0))::integer as qty,
+      p.image,
       -- ใช้ราคาขายถ้าตั้งไว้แล้ว ถ้ายังไม่ตั้ง (0) ใช้ราคาที่นำเข้า/ต้นทุนที่บันทึกไว้
       -- ถ้ายังเป็น 0 อีก ใช้ราคาจากประวัติรับเข้า/ขายล่าสุดที่มีราคา
       coalesce(
@@ -81,6 +111,7 @@ as $$
         0
       ) as base_price
     from public.products p
+    left join rsv on rsv.code = p.code
   )
   select
     b.code,

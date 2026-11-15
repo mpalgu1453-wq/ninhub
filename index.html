@@ -101,14 +101,14 @@ tbody tr:hover{background:var(--panel2)}
 .product-tile{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden;cursor:pointer;transition:border-color .18s,transform .18s}
 .product-tile:hover{border-color:var(--purple);transform:translateY(-2px)}
 .product-photo{height:170px;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--muted2);overflow:hidden}
-.product-photo img{width:100%;height:100%;object-fit:contain}
+.product-photo img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
 .product-info{padding:14px}
 .product-info strong{display:block;margin-bottom:5px}
 .modal{position:fixed;inset:0;background:rgba(29,29,31,.5);z-index:100;display:flex;align-items:center;justify-content:center;padding:16px}
 .modalbox{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:26px;width:min(760px,100%);max-height:90vh;overflow:auto}
-.detail-photo{width:100%;height:300px;object-fit:contain;background:var(--bg);border-radius:18px}
+.detail-photo{width:100%;height:300px;object-fit:contain;background:var(--bg);border-radius:18px;mix-blend-mode:multiply}
 .imgpreview{height:170px;display:flex;align-items:center;justify-content:center;background:var(--bg);border:1px solid var(--line);border-radius:12px;overflow:hidden;padding:6px;text-align:center}
-.imgpreview img{max-width:100%;max-height:100%;object-fit:contain}
+.imgpreview img{max-width:100%;max-height:100%;object-fit:contain;mix-blend-mode:multiply}
 .catalogwrap{max-width:1100px;margin:0 auto;padding:18px 14px 40px;min-height:100vh}
 .catalogtop{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px}
 .cataloghero h1{font-size:26px;margin:0 0 4px}
@@ -122,7 +122,7 @@ tbody tr:hover{background:var(--panel2)}
 .catalogcard:hover{border-color:var(--muted2);box-shadow:0 8px 22px rgba(0,0,0,.09);transform:translateY(-2px)}
 .catalogcard:focus-visible{outline:none;border-color:var(--purple);box-shadow:0 0 0 3px rgba(0,102,204,.18)}
 .catalogphoto{height:150px;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--muted2);font-size:34px;overflow:hidden}
-.catalogphoto img{width:100%;height:100%;object-fit:contain}
+.catalogphoto img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
 .cataloginfo{padding:10px 11px 12px;display:flex;flex-direction:column;gap:4px}
 .cataloginfo h3{font-size:14px;line-height:1.35;margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:38px}
 .catalogfoot{display:flex;flex-direction:column;align-items:flex-start;gap:3px}
@@ -144,7 +144,8 @@ tbody tr:hover{background:var(--panel2)}
 /* ===== Customer storefront (synced with ninhub-shop) ===== */
 .shopwrap{min-height:100vh;background:#fff;padding:0 0 64px;font-family:'Plus Jakarta Sans','Noto Sans Thai',system-ui,-apple-system,sans-serif;color:#0f172a}
 .shophead{position:sticky;top:0;z-index:80;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;background:rgba(255,255,255,.92);backdrop-filter:saturate(180%) blur(12px);color:#0f172a;padding:12px clamp(16px,3vw,32px);border-bottom:1px solid #f1f5f9}
-.shopbrand{display:flex;align-items:center;gap:16px;min-width:0;flex:0 0 auto}
+.shopbrand{display:flex;align-items:center;gap:16px;min-width:0;flex:0 0 auto;cursor:pointer;user-select:none;transition:opacity .15s}
+.shopbrand:hover{opacity:.8}
 .shopbrandtext{display:flex;flex-direction:column;line-height:1.05;min-width:0}
 .shopbrandtext b{font-size:26px;font-weight:800;letter-spacing:-.03em;color:#e60012;white-space:nowrap}
 .shopbrandtext span{font-size:13px;font-weight:500;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}
@@ -222,7 +223,7 @@ tbody tr:hover{background:var(--panel2)}
 .shopcard{position:relative;background:#fff;border:0;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 20px -2px rgba(0,0,0,.05)}
 .shopcard:hover{transform:translateY(-4px);box-shadow:0 12px 30px -8px rgba(15,23,42,.1)}
 .shopphoto{position:relative;height:200px;margin:12px;border-radius:12px;background:#f8fafc;display:flex;align-items:center;justify-content:center;padding:16px;overflow:hidden}
-.shopphoto img{position:relative;z-index:1;max-width:100%;max-height:100%;object-fit:contain}
+.shopphoto img{position:relative;z-index:1;max-width:100%;max-height:100%;object-fit:contain;mix-blend-mode:multiply}
 .ph-emoji{position:relative;z-index:1;font-size:56px}
 .shopbadge{position:absolute;left:12px;top:12px;z-index:3;background:#e60012;color:#fff;border-radius:999px;padding:5px 12px;font-size:12px;font-weight:700}
 .shopbadge.alt{background:#0f172a}
@@ -248,7 +249,7 @@ tbody tr:hover{background:var(--panel2)}
 .shopmodalbox{width:min(860px,100%);padding:24px}
 .shopmodal-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
 .shopmodal-photo{min-height:280px;background:#f8fafc;border-radius:16px;display:flex;align-items:center;justify-content:center;padding:20px;overflow:hidden}
-.shopmodal-photo img{max-width:100%;max-height:320px;object-fit:contain}
+.shopmodal-photo img{max-width:100%;max-height:320px;object-fit:contain;mix-blend-mode:multiply}
 .shopmodal-info{display:flex;flex-direction:column;gap:10px}
 .shopmodal-cat{font-size:13px;font-weight:600;color:#64748b}
 .shopimgbox{width:min(720px,100%);max-height:88vh;display:flex;flex-direction:column;padding:20px}
@@ -257,7 +258,7 @@ tbody tr:hover{background:var(--panel2)}
 .shopimglist{overflow:auto;display:flex;flex-direction:column;gap:8px;min-height:80px;flex:1 1 auto}
 .shopimgrow{display:flex;align-items:center;gap:10px;border:1px solid #ececec;border-radius:14px;padding:8px 10px;background:#fff}
 .shopimgthumb{width:56px;height:56px;border-radius:10px;background:#f5f5f5;display:grid;place-items:center;overflow:hidden;flex:0 0 auto;font-size:24px}
-.shopimgthumb img{max-width:100%;max-height:100%;object-fit:contain}
+.shopimgthumb img{max-width:100%;max-height:100%;object-fit:contain;mix-blend-mode:multiply}
 .shopimgmeta{flex:1;min-width:0}
 .shopimgmeta b{display:block;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .shopimgmeta span{display:block;font-size:11px;color:#8a8a8a}
@@ -344,7 +345,7 @@ table{min-width:560px}th,td{padding:9px 8px}th{font-size:11px}td{font-size:13px}
 
 <div id="catalogScreen" class="shopwrap hidden">
 <header class="shophead">
-<div class="shopbrand"><div class="shopbrandtext"><b>Nintendo</b><span>Power Buy Central Northville</span></div></div>
+<div class="shopbrand" role="button" tabindex="0" title="กลับหน้าแรก" onclick="catalogGoHome()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();catalogGoHome()}"><div class="shopbrandtext"><b>Nintendo</b><span>Power Buy Central Northville</span></div></div>
 <form id="catalogNavForm" class="shopnav-search" onsubmit="event.preventDefault();$('catalogSearch').value=$('catalogNavInput').value;renderPublicCatalog();catalogScrollToProducts()">
   <input id="catalogNavInput" class="shopnav-input" type="search" placeholder="ค้นหาชื่อสินค้า / รหัส...">
   <button class="shopnav-go" type="submit">ค้นหา</button>
@@ -389,11 +390,11 @@ table{min-width:560px}th,td{padding:9px 8px}th{font-size:11px}td{font-size:13px}
 <section id="dashboard"><div class="grid"><div class="card"><div class="metric-label">จำนวนสินค้าในคลัง</div><div class="metric" id="mUnits">0</div><div class="muted small">รวมทุกหมวดหมู่ (ชิ้น)</div></div><div class="card"><div class="metric-label">รหัสสินค้าทั้งหมด</div><div class="metric" id="mSkus">0</div><div class="muted small">SKU ที่ไม่ซ้ำกัน</div></div><div class="card"><div class="metric-label">รับเข้าเดือนนี้</div><div class="metric" id="mIn">0</div><div class="muted small">ชิ้น</div></div><div class="card"><div class="metric-label">ขายออกเดือนนี้</div><div class="metric" id="mOut">0</div><div class="muted small">ชิ้น</div></div></div><div class="card"><h2>หมวดหมู่สินค้า</h2><div class="grid"><div class="card catclick" onclick="openCategory('เครื่องเกม')"><div>🎮 เครื่องเกม</div><div class="metric" id="catConsole">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('ตุ๊กตา')"><div>🧸 ตุ๊กตา</div><div class="metric" id="catPlush">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('จอยเกม/ACC')"><div>🕹️ จอยเกม / ACC</div><div class="metric" id="catAcc">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('แผ่นเกม')"><div>💿 แผ่นเกม</div><div class="metric" id="catGame">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('ของแถม')"><div>🎁 ของแถม</div><div class="metric" id="catGift">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openCategory('ไม่มีหมวดหมู่')"><div>❔ ไม่มีหมวดหมู่</div><div class="metric" id="catNone">0</div><div class="muted small">ชิ้น</div></div><div class="card catclick" onclick="openLowStock()"><div>⚠️ สินค้าใกล้หมด</div><div class="metric" id="lowStock">0</div><div class="muted small">เหลือ 0: <b id="lowZero">0</b> · เหลือ 1–3: <b id="lowFew">0</b> · กดเพื่อดู</div></div></div></div><div class="card"><div class="row" style="justify-content:space-between;align-items:center;gap:10px"><h2 style="margin:0">🏆 สินค้าขายดี</h2><div class="tabs" id="bestTabs" style="margin:0"><button class="pill active" data-range="day">วันนี้</button><button class="pill" data-range="month">เดือนนี้</button><button class="pill" data-range="year">ปีนี้</button></div></div><div class="row" style="justify-content:space-between;align-items:center;gap:8px;margin:8px 0 12px"><div class="small muted" id="bestSummary">—</div><button id="bestExport" class="secondary fit" style="font-size:12px;padding:6px 10px;white-space:nowrap">⬇ Excel</button></div><div id="bestList" class="best"></div></div><div class="card"><h2>รายการเคลื่อนไหวล่าสุด</h2><div class="tablewrap"><table><thead><tr><th>วันเวลา</th><th>ประเภท</th><th>รหัส</th><th>สินค้า</th><th>จำนวน</th><th>หมายเหตุ</th></tr></thead><tbody id="recentRows"></tbody></table></div></div></section>
 <section id="inventory" class="hidden"><div class="card"><div class="row"><h2>คลังสินค้า</h2><div class="row" style="gap:8px;flex:0 0 auto"><select id="bulkCategory" class="hidden" style="max-width:170px;width:auto"><option value="">ย้ายไปหมวด…</option><option>เครื่องเกม</option><option>ตุ๊กตา</option><option>จอยเกม/ACC</option><option>แผ่นเกม</option><option>ของแถม</option><option>ไม่มีหมวดหมู่</option></select><button id="bulkMove" class="secondary hidden">ย้ายหมวดหมู่</button><button id="bulkDelete" class="danger hidden">🗑 ลบที่เลือก</button><button id="newProduct" class="fit adminonly">+ เพิ่มสินค้า</button></div></div><div class="row"><button id="catalogBtn" class="secondary fit">▧ เปิดแคตตาล็อก / พิมพ์เอกสาร</button><button id="catalogExcelBtn" class="secondary fit">⬇ ส่งออก Excel (แยกหมวดหมู่)</button><button id="manageImagesBtn" class="secondary fit adminonly">🖼️ จัดการรูป</button><button id="showTableBtn" class="secondary fit">☷ มุมมองตาราง</button><button id="showGalleryBtn" class="secondary fit">▦ มุมมองรูปสินค้า</button><button id="lowFilter" class="secondary fit">⚠️ ใกล้หมด</button></div><div class="row"><div class="field"><label>ค้นหาสินค้า</label><input id="invSearch" placeholder="รหัส ชื่อ หรือบาร์โค้ด"></div><div class="field"><label>หมวดหมู่</label><select id="invCategory"><option value="">ทุกหมวดหมู่</option><option>เครื่องเกม</option><option>ตุ๊กตา</option><option>จอยเกม/ACC</option><option>แผ่นเกม</option><option>ของแถม</option><option>ไม่มีหมวดหมู่</option></select></div><div class="field" style="max-width:150px"><label>แสดงต่อหน้า</label><select id="pageSize"><option value="20">20</option><option value="50" selected>50</option><option value="100">100</option><option value="0">ทั้งหมด</option></select></div></div><div id="productGallery" class="product-gallery hidden"></div><div id="inventoryTableWrap" class="tablewrap"><table><thead><tr><th class="adminonly" style="width:36px"><input type="checkbox" id="checkAll" title="เลือกทั้งหน้านี้"></th><th>รหัสสินค้า</th><th>ชื่อสินค้า</th><th>หมวดหมู่</th><th>บาร์โค้ด</th><th>คงเหลือ</th><th>ต้นทุน/ชิ้น</th><th class="adminonly">จัดการ</th></tr></thead><tbody id="inventoryRows"></tbody></table></div><div id="pager" class="pager"></div></div></section>
 <section id="movement" class="hidden"><div class="card"><h2>รับสินค้าเข้า / โอนออก</h2><div class="tabs"><button class="pill active adminonly" data-kind="รับเข้า">รับสินค้าเข้า</button><button class="pill adminonly" data-kind="โอนออก">โอนให้ร้านอื่น</button></div><div class="two"><div class="field"><label>สแกนบาร์โค้ด / รหัสสินค้า</label><div class="row"><input id="moveCode" placeholder="ยิงบาร์โค้ดหรือพิมพ์รหัส"><button id="cameraBtn" class="secondary fit">📷 กล้อง</button></div><video id="camera" class="hidden" playsinline style="width:100%;border-radius:10px"></video></div><div class="field"><label>สินค้า</label><select id="moveProduct"></select></div><div class="field"><label>จำนวน (จำนวนเต็ม)</label><input id="moveQty" type="number" min="1" value="1"></div><div class="field"><label>ราคาต่อชิ้น (บาท) — ต้นทุน/มูลค่าที่บันทึก</label><input id="movePrice" type="number" min="0" value="0"></div><div class="field" id="storeField"><label>ร้านปลายทาง (เฉพาะการโอน)</label><input id="moveStore" placeholder="ชื่อร้านที่รับโอน"></div><div class="field"><label>หมายเหตุ</label><input id="moveNote" placeholder="ผู้รับผิดชอบ / หมายเหตุ"></div></div><button id="saveMove">บันทึกรายการ</button><div class="foot">ระบบตรวจสอบยอดคงเหลือก่อนโอนออก การบันทึกจะบันทึกลงฐานข้อมูลออนไลน์ร่วมกันทุกอุปกรณ์</div></div></section><section id="sale" class="hidden"><div class="card"><h2>ขายสินค้า</h2><div class="two"><div class="field"><label>สแกนบาร์โค้ด / รหัสสินค้า</label><div class="row"><input id="saleCode" placeholder="ยิงบาร์โค้ดหรือพิมพ์รหัส"><button id="saleCameraBtn" class="secondary fit">📷 กล้อง</button></div><video id="saleCamera" class="hidden" playsinline style="width:100%;border-radius:10px"></video></div><div class="field"><label>สินค้า</label><select id="saleProduct"></select></div><div class="field"><label>จำนวน (จำนวนเต็ม)</label><input id="saleQty" type="number" min="1" value="1"></div><div class="field"><label>ราคาต่อชิ้น (บาท)</label><input id="salePrice" type="number" min="0" value="0"><div id="saleDiscountHint" class="small" style="margin-top:4px"></div></div><div class="field"><label>หมายเหตุ</label><input id="saleNote" placeholder="ชื่อผู้ขาย / หมายเหตุ"></div></div><button id="addToBill">＋ เพิ่มลงบิล</button><div id="cartBox"><h3 style="margin:18px 0 8px">🧾 รายการในบิลนี้ <span class="small muted" id="billHint"></span></h3><div class="tablewrap"><table><thead><tr><th>รหัส</th><th>สินค้า</th><th>จำนวน</th><th>ราคา/ชิ้น</th><th>รวม</th><th></th></tr></thead><tbody id="cartRows"></tbody></table></div><div class="row" style="justify-content:space-between;align-items:center;margin-top:10px"><span class="small muted" id="cartCount">ยังไม่มีรายการ</span><b id="cartTotal">0 ฿</b></div><div class="row" style="gap:8px;margin-top:10px"><button id="saveBill">💾 บันทึกบิล</button><button id="clearBill" class="secondary">ล้างบิล</button></div></div><div class="foot">ระบบตรวจสอบยอดคงเหลือก่อนขาย การบันทึกบิลจะตัดสต๊อกทุกรายการพร้อมกัน และบันทึกลงฐานข้อมูลออนไลน์ร่วมกันทุกอุปกรณ์</div></div><div class="card" style="margin-top:18px"><div class="row"><h2>บิลขายล่าสุด</h2><button id="refreshBills" class="secondary fit">↻ รีเฟรช</button></div><div class="tablewrap"><table class="billtable"><thead><tr><th>วันเวลา</th><th>เลขบิล</th><th>รายการ</th><th>ชิ้น</th><th>ยอดรวม</th><th>จัดการ</th></tr></thead><tbody id="billRows"></tbody></table></div><div class="small muted" style="margin-top:8px">รวมรายการขายที่บันทึกไว้ล่าสุด — บิลที่บันทึกก่อนอัปเดตจะแสดงเป็น “บิลเดี่ยว”</div></div></section>
-<section id="discounts" class="hidden"><div class="card"><div class="row"><h2>🏷️ ส่วนลด / โปรโมชั่น</h2><div class="row" style="gap:8px;flex:0 0 auto"><button id="newDiscount" class="fit">+ เพิ่มส่วนลด</button><button id="refreshDiscounts" class="secondary fit">↻ รีเฟรช</button></div></div><div id="discountNotice"></div><div class="tablewrap"><table><thead><tr><th>สินค้า</th><th>ส่วนลด</th><th>ราคาปกติ → หลังลด</th><th>ช่วงวันที่</th><th>สถานะ</th><th>จัดการ</th></tr></thead><tbody id="discountRows"></tbody></table></div><div class="foot">ส่วนลดจะขึ้นบนแคตตาล็อกลูกค้าอัตโนมัติเมื่อถึงวันเริ่ม และหายไปเมื่อเลยวันสิ้นสุด · ตั้งได้หลายรายการต่อสินค้า ระบบจะใช้ส่วนลดที่ถูกที่สุด</div></div></section><section id="reservations" class="hidden"><div class="card"><div class="row"><h2>📋 การจองจากลูกค้า</h2><div class="row" style="gap:8px;flex:0 0 auto"><button id="refreshReservations" class="secondary fit">↻ รีเฟรช</button></div></div><div id="reservationNotice"></div><div class="grid"><div class="card"><div class="metric-label">รอยืนยัน</div><div class="metric" id="rsvPending">0</div><div class="muted small">รายการ</div></div><div class="card"><div class="metric-label">ยืนยันแล้ว</div><div class="metric" id="rsvConfirmed">0</div><div class="muted small">รอลูกค้ามารับ</div></div><div class="card"><div class="metric-label">รับสินค้าแล้ว</div><div class="metric" id="rsvCompleted">0</div><div class="muted small">รายการ</div></div><div class="card"><div class="metric-label">ยกเลิก</div><div class="metric" id="rsvCancelled">0</div><div class="muted small">รายการ</div></div></div><div class="row"><div class="field"><label>ค้นหา</label><input id="rsvSearch" placeholder="ชื่อ / เบอร์ / ชื่อสินค้า / รหัสสินค้า"></div><div class="field"><label>สถานะ</label><select id="rsvStatusFilter"><option value="">ทั้งหมด</option><option value="pending">รอยืนยัน</option><option value="confirmed">ยืนยันแล้ว</option><option value="completed">รับสินค้าแล้ว</option><option value="cancelled">ยกเลิก</option></select></div></div><div class="tablewrap"><table><thead><tr><th>วันที่จอง</th><th>สินค้า</th><th>จำนวน</th><th>ลูกค้า</th><th>เบอร์โทร</th><th>วันที่รับ</th><th>สถานะ</th><th>จัดการ</th></tr></thead><tbody id="reservationRows"></tbody></table></div><div class="foot">การจอง <b>ไม่ตัดสต๊อกอัตโนมัติ</b> — เมื่อลูกค้ามารับสินค้า ให้บันทึกขายที่หน้า <b>🧾 ขายสินค้า</b> แล้วกลับมากด “รับสินค้าแล้ว” ที่รายการนี้ · ลูกค้าจองผ่านเว็บลูกค้า (repo <b>ninhub-shop</b>)</div></div></section><section id="excel" class="hidden"><div class="two"><div class="card adminonly"><h2>↑ นำเข้า Excel</h2><p class="muted">รองรับ .xlsx และ .xls โดยใช้คอลัมน์ <b>รหัสสินค้า, จำนวน</b> (ชื่อสินค้า / หมวดหมู่ / บาร์โค้ด / ราคา ใส่ได้ถ้ามี — รองรับหัวตารางภาษาอังกฤษและรายงาน POS) · <b>รหัสที่ยังไม่มีในคลัง ระบบจะสร้างสินค้าใหม่ให้อัตโนมัติในหมวด “ไม่มีหมวดหมู่”</b> · บาร์โค้ดใช้คอลัมน์ SBC ก่อน ถ้าว่างจะใช้ IBC แทน · <b>ค่าเริ่มต้น: ตั้งจำนวนคงเหลือตามจำนวนในไฟล์ (ไม่บวกกับยอดเดิม)</b></p><div class="upload"><input id="excelFile" type="file" accept=".xlsx,.xls,.csv"><div class="small muted">เลือกไฟล์ที่นับจากคลังสินค้า</div></div><div class="field"><label>เมื่อยืนยันผลตรวจนับ</label><select id="importMode"><option value="reconcile" selected>ตั้งยอดคงเหลือตามจำนวนในไฟล์ (ใช้จำนวนในไฟล์เป็นยอดจริง)</option><option value="meta">อัปเดตเฉพาะบาร์โค้ด/ราคา (ไม่แตะจำนวน)</option><option value="report">เก็บเป็นรายงานตรวจนับ ไม่เปลี่ยนสต๊อก</option><option value="add">บวกจำนวนเพิ่มเข้าสต๊อก (รับเข้า) — เฉพาะกรณีเพิ่มของใหม่</option></select><div class="small muted" style="margin-top:6px">ค่าเริ่มต้น: ระบบจะ <b>ตั้งจำนวนคงเหลือเท่ากับจำนวนในไฟล์</b> (ไม่บวกกับยอดเดิม) — ถ้าจำนวนในไฟล์น้อยกว่า ระบบจะลดยอดลง</div></div><div id="importSummary" class="notice">เลือกไฟล์เพื่อเริ่มตรวจสอบ</div><div class="tablewrap"><table><thead><tr><th>รหัส</th><th>ชื่อ</th><th>บาร์โค้ด</th><th>ราคา</th><th>จำนวนในไฟล์</th><th>ในระบบ</th><th>ผลต่าง</th><th>สถานะ</th></tr></thead><tbody id="importRows"></tbody></table></div><button id="confirmImport" disabled>✓ ยืนยันนำเข้าข้อมูล</button></div><div class="card"><h2>↓ ส่งออก Excel</h2><p class="muted">ส่งออกจำนวนคงเหลือปัจจุบัน พร้อมรหัสสินค้า ชื่อสินค้า และหมวดหมู่</p><div class="field"><label>หมวดหมู่</label><select id="exportCategory"><option value="">ทุกหมวดหมู่</option><option>เครื่องเกม</option><option>ตุ๊กตา</option><option>จอยเกม/ACC</option><option>แผ่นเกม</option><option>ของแถม</option><option>ไม่มีหมวดหมู่</option></select></div><div class="field"><label>ชนิดข้อมูล</label><select id="exportType"><option value="stock">สินค้าคงเหลือปัจจุบัน</option><option value="transactions">ประวัติรับเข้า–ขาย–โอน</option><option value="in">ประวัติรับเข้า</option><option value="out">ประวัติขาย</option><option value="transfer">ประวัติโอน</option></select></div><button id="exportBtn" class="green">ดาวน์โหลดไฟล์ Excel</button><button id="templateBtn" class="secondary">ดาวน์โหลดแม่แบบตรวจนับ</button><div class="notice">ก่อนนำเข้า ระบบจะแสดงรหัสที่ไม่พบ จำนวนผิดรูปแบบ และผลต่างให้ตรวจสอบก่อนยืนยันเสมอ</div></div></div></section>
+<section id="discounts" class="hidden"><div class="card"><div class="row"><h2>🏷️ ส่วนลด / โปรโมชั่น</h2><div class="row" style="gap:8px;flex:0 0 auto"><button id="newDiscount" class="fit">+ เพิ่มส่วนลด</button><button id="refreshDiscounts" class="secondary fit">↻ รีเฟรช</button></div></div><div id="discountNotice"></div><div class="tablewrap"><table><thead><tr><th>สินค้า</th><th>ส่วนลด</th><th>ราคาปกติ → หลังลด</th><th>ช่วงวันที่</th><th>สถานะ</th><th>จัดการ</th></tr></thead><tbody id="discountRows"></tbody></table></div><div class="foot">ส่วนลดจะขึ้นบนแคตตาล็อกลูกค้าอัตโนมัติเมื่อถึงวันเริ่ม และหายไปเมื่อเลยวันสิ้นสุด · ตั้งได้หลายรายการต่อสินค้า ระบบจะใช้ส่วนลดที่ถูกที่สุด</div></div></section><section id="reservations" class="hidden"><div class="card"><div class="row"><h2>📋 การจองจากลูกค้า</h2><div class="row" style="gap:8px;flex:0 0 auto"><button id="rsvScanBtn" class="fit" type="button">📷 สแกนใบจอง (QR)</button><button id="refreshReservations" class="secondary fit" type="button">↻ รีเฟรช</button></div></div><div id="reservationNotice"></div><div class="grid"><div class="card"><div class="metric-label">รอยืนยัน</div><div class="metric" id="rsvPending">0</div><div class="muted small">รายการ</div></div><div class="card"><div class="metric-label">ยืนยันแล้ว</div><div class="metric" id="rsvConfirmed">0</div><div class="muted small">รอลูกค้ามารับ</div></div><div class="card"><div class="metric-label">รับสินค้าแล้ว</div><div class="metric" id="rsvCompleted">0</div><div class="muted small">รายการ</div></div><div class="card"><div class="metric-label">ยกเลิก</div><div class="metric" id="rsvCancelled">0</div><div class="muted small">รายการ</div></div></div><div class="row"><div class="field"><label>ค้นหา (รหัสออเดอร์ RSV-... / ชื่อ / เบอร์โทร / สินค้า)</label><input id="rsvSearch" placeholder="สแกน QR หรือพิมพ์รหัส RSV-... / ชื่อ / เบอร์ / รหัสสินค้า"></div><div class="field"><label>สถานะ</label><select id="rsvStatusFilter"><option value="">ทั้งหมด</option><option value="pending">รอยืนยัน</option><option value="confirmed">ยืนยันแล้ว</option><option value="completed">รับสินค้าแล้ว</option><option value="cancelled">ยกเลิก</option></select></div></div><div class="tablewrap"><table><thead><tr><th>วันที่จอง / รหัสออเดอร์</th><th>สินค้า</th><th>จำนวน</th><th>ลูกค้า</th><th>เบอร์โทร</th><th>วันที่รับ</th><th>สถานะ</th><th>จัดการ</th></tr></thead><tbody id="reservationRows"></tbody></table></div><div class="foot">เมื่อลูกค้าจอง ยอดที่แสดงบนเว็บลูกค้า (<b>ninhub-shop</b>) จะหักออกอัตโนมัติทันที (จำกัดไม่เกิน 10 ชิ้น/ใบเสร็จ) แต่<b>ไม่ตัดสต๊อกจริงฝั่งหลังบ้าน</b> — เมื่อลูกค้ามารับสินค้า ให้สแกน QR ใบจอง บันทึกขายที่หน้า <b>🧾 ขายสินค้า</b> แล้วกด “รับสินค้าแล้ว” ที่รายการนี้ (หากกด “ยกเลิก” ยอดบนเว็บลูกค้าจะคืนกลับอัตโนมัติ)</div></div></section><section id="excel" class="hidden"><div class="two"><div class="card adminonly"><h2>↑ นำเข้า Excel</h2><p class="muted">รองรับ .xlsx และ .xls โดยใช้คอลัมน์ <b>รหัสสินค้า, จำนวน</b> (ชื่อสินค้า / หมวดหมู่ / บาร์โค้ด / ราคา ใส่ได้ถ้ามี — รองรับหัวตารางภาษาอังกฤษและรายงาน POS) · <b>รหัสที่ยังไม่มีในคลัง ระบบจะสร้างสินค้าใหม่ให้อัตโนมัติในหมวด “ไม่มีหมวดหมู่”</b> · บาร์โค้ดใช้คอลัมน์ SBC ก่อน ถ้าว่างจะใช้ IBC แทน · <b>ค่าเริ่มต้น: ตั้งจำนวนคงเหลือตามจำนวนในไฟล์ (ไม่บวกกับยอดเดิม)</b></p><div class="upload"><input id="excelFile" type="file" accept=".xlsx,.xls,.csv"><div class="small muted">เลือกไฟล์ที่นับจากคลังสินค้า</div></div><div class="field"><label>เมื่อยืนยันผลตรวจนับ</label><select id="importMode"><option value="reconcile" selected>ตั้งยอดคงเหลือตามจำนวนในไฟล์ (ใช้จำนวนในไฟล์เป็นยอดจริง)</option><option value="meta">อัปเดตเฉพาะบาร์โค้ด/ราคา (ไม่แตะจำนวน)</option><option value="report">เก็บเป็นรายงานตรวจนับ ไม่เปลี่ยนสต๊อก</option><option value="add">บวกจำนวนเพิ่มเข้าสต๊อก (รับเข้า) — เฉพาะกรณีเพิ่มของใหม่</option></select><div class="small muted" style="margin-top:6px">ค่าเริ่มต้น: ระบบจะ <b>ตั้งจำนวนคงเหลือเท่ากับจำนวนในไฟล์</b> (ไม่บวกกับยอดเดิม) — ถ้าจำนวนในไฟล์น้อยกว่า ระบบจะลดยอดลง</div></div><div id="importSummary" class="notice">เลือกไฟล์เพื่อเริ่มตรวจสอบ</div><div class="tablewrap"><table><thead><tr><th>รหัส</th><th>ชื่อ</th><th>บาร์โค้ด</th><th>ราคา</th><th>จำนวนในไฟล์</th><th>ในระบบ</th><th>ผลต่าง</th><th>สถานะ</th></tr></thead><tbody id="importRows"></tbody></table></div><button id="confirmImport" disabled>✓ ยืนยันนำเข้าข้อมูล</button></div><div class="card"><h2>↓ ส่งออก Excel</h2><p class="muted">ส่งออกจำนวนคงเหลือปัจจุบัน พร้อมรหัสสินค้า ชื่อสินค้า และหมวดหมู่</p><div class="field"><label>หมวดหมู่</label><select id="exportCategory"><option value="">ทุกหมวดหมู่</option><option>เครื่องเกม</option><option>ตุ๊กตา</option><option>จอยเกม/ACC</option><option>แผ่นเกม</option><option>ของแถม</option><option>ไม่มีหมวดหมู่</option></select></div><div class="field"><label>ชนิดข้อมูล</label><select id="exportType"><option value="stock">สินค้าคงเหลือปัจจุบัน</option><option value="transactions">ประวัติรับเข้า–ขาย–โอน</option><option value="in">ประวัติรับเข้า</option><option value="out">ประวัติขาย</option><option value="transfer">ประวัติโอน</option></select></div><button id="exportBtn" class="green">ดาวน์โหลดไฟล์ Excel</button><button id="templateBtn" class="secondary">ดาวน์โหลดแม่แบบตรวจนับ</button><div class="notice">ก่อนนำเข้า ระบบจะแสดงรหัสที่ไม่พบ จำนวนผิดรูปแบบ และผลต่างให้ตรวจสอบก่อนยืนยันเสมอ</div></div></div></section>
 <section id="reports" class="hidden"><div class="card"><h2>รายงานการเคลื่อนไหว</h2><div class="row"><div class="field"><label>จากวันที่</label><input id="reportFrom" type="date"></div><div class="field"><label>ถึงวันที่</label><input id="reportTo" type="date"></div><div class="field"><label>ช่วงด่วน</label><select id="reportPreset"><option value="today">วันนี้</option><option value="7">7 วันล่าสุด</option><option value="month" selected>เดือนนี้</option><option value="year">ปีนี้</option><option value="all">ทั้งหมด</option><option value="custom">กำหนดเอง</option></select></div><div class="field"><label>ประเภท</label><select id="reportKind"><option value="">ทั้งหมด</option><option>รับเข้า</option><option>ขายออก</option><option>โอนออก</option><option>ตรวจนับ</option></select></div><button id="runReport" class="fit">แสดงรายงาน</button></div><div class="small muted" id="reportRangeLabel"></div><div class="grid"><div class="card"><div class="muted">รับเข้า (ชิ้น)</div><div class="metric" id="rIn">0</div></div><div class="card"><div class="muted">ขายออก (ชิ้น)</div><div class="metric" id="rSold">0</div></div><div class="card"><div class="muted">โอนออก (ชิ้น)</div><div class="metric" id="rTransfer">0</div></div><div class="card"><div class="muted">ยอดขาย (บาท)</div><div class="metric" id="rSales">0</div></div></div><div class="tablewrap"><table><thead><tr><th>วันเวลา</th><th>ประเภท</th><th>รหัส</th><th>สินค้า</th><th>จำนวน</th><th>มูลค่า</th><th>หมายเหตุ</th></tr></thead><tbody id="reportRows"></tbody></table></div><button id="reportExport" class="secondary">ส่งออกรายงาน Excel</button></div></section>
 <div class="foot">ข้อมูลเก็บในฐานข้อมูลออนไลน์ (Supabase) ร่วมกันทุกอุปกรณ์ · ต้องล็อกอินก่อนใช้งาน · สิทธิ์: แอดมิน/พนักงาน</div></main></div><div id="productModal" class="modal hidden" onclick="if(event.target===this)closeProductModal()"><div class="modalbox"><div class="row"><h2 id="modalTitle">รายละเอียดสินค้า</h2><button class="secondary fit" onclick="closeProductModal()">ปิด ✕</button></div><div id="modalContent"></div></div></div><div id="productForm" class="modal hidden" onclick="if(event.target===this)closeProductForm()"><div class="modalbox"><div class="row"><h2 id="productFormTitle">เพิ่มสินค้า</h2><button class="secondary fit" onclick="closeProductForm()">ปิด ✕</button></div><div class="two"><div class="field"><label>รหัสสินค้า (ต้องไม่ซ้ำ)</label><input id="pCode"></div><div class="field"><label>ชื่อสินค้า</label><input id="pName"></div><div class="field"><label>หมวดหมู่</label><select id="pCategory"><option>เครื่องเกม</option><option>ตุ๊กตา</option><option>จอยเกม/ACC</option><option>แผ่นเกม</option><option>ของแถม</option><option>ไม่มีหมวดหมู่</option></select></div><div class="field"><label>บาร์โค้ด</label><input id="pBarcode"></div><div class="field"><label>จำนวนคงเหลือ</label><input id="pQty" type="number" min="0" value="0"></div><div class="field"><label>ต้นทุนต่อชิ้น (บาท)</label><input id="pCost" type="number" min="0" value="0"></div><div class="field"><label>ราคาขายหน้าร้าน (บาท)</label><input id="pPrice" type="number" min="0" value="0"><div class="small muted" style="margin-top:4px">ราคานี้จะแสดงในแคตตาล็อกลูกค้า · ถ้าใส่ 0 จะใช้ราคาที่นำเข้า/ต้นทุนที่บันทึกไว้แสดงแทน</div></div><div class="field"><label>ลิงก์รูปสินค้า (ถ้ามี)</label><input id="pImage" placeholder="https://.../รูป.jpg"><div class="small muted" style="margin-top:4px">วาง <b>ลิงก์รูปโดยตรง</b> (เช่น https://.../a.jpg) หรือลิงก์แชร์ <b>Google Drive / Dropbox</b> — ระบบแปลงให้อัตโนมัติ (Google Drive ต้องแชร์ “ทุกคนที่มีลิงก์”) · ลิงก์หน้าสินค้า (Powerbuy / Shopee / Lazada / Facebook) ใช้ไม่ได้</div></div><div class="field"><label>หรืออัปโหลดรูปจากอุปกรณ์</label><input id="pImageFile" type="file" accept="image/*"><div class="small muted">ระบบย่อรูปให้อัตโนมัติ (ด้านยาวสุดไม่เกิน 600 px, JPEG) แล้วเก็บขึ้น Supabase Storage พร้อมสร้างลิงก์ให้ — ไฟล์ต้นฉบับไม่เกิน 8 MB</div></div><div class="field" style="grid-column:1/-1"><label>ตัวอย่างรูป</label><div id="pImagePreview" class="imgpreview"><span class="small muted">ยังไม่มีรูป</span></div></div></div><div class="row" style="margin-top:14px"><button id="saveProduct">บันทึกสินค้า</button><button id="cancelProduct" class="secondary">ยกเลิก</button><button id="deleteProduct" class="danger hidden">ลบสินค้า</button></div></div></div>
 <div id="discountForm" class="modal hidden" onclick="if(event.target===this)closeDiscountForm()"><div class="modalbox"><div class="row"><h2 id="discountFormTitle">เพิ่มส่วนลด</h2><button class="secondary fit" onclick="closeDiscountForm()">ปิด ✕</button></div><div class="two"><div class="field" style="grid-column:1/-1"><label>สแกนบาร์โค้ด / พิมพ์รหัสสินค้า</label><div class="row" style="gap:8px"><input id="dScanCode" placeholder="ยิงบาร์โค้ดหรือพิมพ์รหัส แล้วกด Enter" autocomplete="off"><button id="dScanFind" class="secondary fit" type="button">ค้นหา</button><button id="dScan" class="secondary fit" type="button">📷 กล้อง</button></div><div id="dScanMsg" class="small muted" style="margin-top:4px"></div></div><div class="field"><label>หมวดหมู่ (กรองสินค้า)</label><select id="dCategory"></select></div><div class="field"><label>สินค้า</label><select id="dCode"></select></div><div class="field"><label>ราคาปกติ / ราคาขายหน้าร้าน (บาท)</label><input id="dPrice" type="number" min="0" step="0.01" value="0"><div id="dPriceHint" class="small muted" style="margin-top:4px"></div></div><div class="field"><label>ราคาหลังลด (บาท)</label><input id="dSalePrice" type="number" min="0" step="0.01" placeholder="เช่น 2500"><div id="dSaleHint" class="small muted" style="margin-top:4px">ใส่ราคาที่ต้องการขายจริง ระบบจะคำนวณส่วนลดให้อัตโนมัติ</div></div><div class="field" style="grid-column:1/-1"><div id="dPreview" class="notice" style="margin:0"></div></div><div class="field"><label>ประเภทส่วนลด</label><select id="dKind"><option value="percent">เปอร์เซ็นต์ (%)</option><option value="amount">จำนวนเงิน (บาท)</option></select></div><div class="field"><label>มูลค่าส่วนลด</label><input id="dValue" type="number" min="0" step="0.01" value="0"></div><div class="field"><label>วันที่เริ่ม</label><input id="dStart" type="date"></div><div class="field"><label>วันที่สิ้นสุด</label><input id="dEnd" type="date"></div><div class="field"><label>หมายเหตุ</label><input id="dNote" placeholder="เช่น ลดพิเศษปีใหม่"></div></div><label style="display:flex;align-items:center;gap:8px;margin:10px 0"><input id="dActive" type="checkbox" checked> เปิดใช้งาน</label><div id="dFormMsg"></div><div class="row"><button id="saveDiscount">บันทึกส่วนลด</button><button id="deleteDiscount" class="danger hidden">ลบส่วนลด</button></div><div class="foot">ตัวอย่าง: สินค้าราคา 1,000 บาท · ลด 10% → ลูกค้าเห็น 900 บาท · ลด 100 บาท → ลูกค้าเห็น 900 บาท</div></div></div><div id="scanModal" class="modal hidden" onclick="if(event.target===this)closeScan()"><div class="modalbox" style="max-width:560px"><div class="row"><h2>สแกนบาร์โค้ด</h2><button class="secondary fit" onclick="closeScan()">ปิด ✕</button></div><video id="scanVideo" playsinline style="width:100%;border-radius:14px;background:#000;min-height:220px"></video><div class="muted small" style="margin-top:10px">ส่องบาร์โค้ดให้อยู่ในกรอบ ระบบจะค้นหาสินค้าในคลังให้อัตโนมัติ — หรือใช้เครื่องสแกนยิงที่ช่องค้นหาก็ได้</div></div></div>
-<div id="billModal" class="modal hidden" onclick="if(event.target===this)closeBill()"><div class="modalbox"><div class="row"><h2 id="billTitle">รายละเอียดบิล</h2><button class="secondary fit" onclick="closeBill()">ปิด ✕</button></div><div id="billContent"></div></div></div>
+<div id="billModal" class="modal hidden" onclick="if(event.target===this)closeBill()"><div class="modalbox"><div class="row"><h2 id="billTitle">รายละเอียดบิล</h2><button class="secondary fit" onclick="closeBill()">ปิด ✕</button></div><div id="billContent"></div></div></div><div id="rsvSlipModal" class="modal hidden" onclick="if(event.target===this)closeRsvSlip()"><div class="modalbox" style="max-width:480px"><div class="row"><h2 id="rsvSlipTitle">🎫 ใบยืนยันการจอง</h2><button class="secondary fit" type="button" onclick="closeRsvSlip()">ปิด ✕</button></div><div id="rsvSlipContent"></div></div></div>
 <script>
 const $=id=>document.getElementById(id);
 let db={products:[],moves:[],discounts:[]},kind='รับเข้า',importData=[],cameraStream=null,editing=null,user=null,profile=null,isAdmin=false,sb,selectedCodes=new Set(),pageNo=1,pageSize=50,lowOnly=false;
@@ -784,7 +785,8 @@ document.addEventListener('touchend',()=>{
   dragEnd(open);
 },{passive:true});
 document.addEventListener('touchcancel',dragReset,{passive:true});
-$('globalSearch').oninput=()=>{page('inventory');$('invSearch').value=$('globalSearch').value;pageNo=1;render()};
+$('globalSearch').oninput=()=>{const v=$('globalSearch').value.trim();if(/^RSV-/i.test(v)&&isAdmin){page('reservations');$('rsvStatusFilter').value='';$('rsvSearch').value=v;renderReservations();return}page('inventory');$('invSearch').value=$('globalSearch').value;pageNo=1;render()};
+$('globalSearch').addEventListener('keydown',e=>{if(e.key!=='Enter')return;const v=$('globalSearch').value.trim();if(/^RSV-/i.test(v)&&isAdmin){e.preventDefault();handleReservationScan(v)}});
 $('invSearch').oninput=()=>{pageNo=1;render()};$('invSearch').addEventListener('keydown',e=>{if(e.key!=='Enter')return;const v=$('invSearch').value.trim(),p=v?findScanProduct(v):null;if(!p)return;e.preventDefault();$('invSearch').value=p.code;pageNo=1;render();openProduct(p.code)});$('invCategory').onchange=()=>{pageNo=1;render()};
 $('showGalleryBtn').onclick=()=>{$('productGallery').classList.remove('hidden');$('inventoryTableWrap').classList.add('hidden')};
 $('showTableBtn').onclick=()=>{$('productGallery').classList.add('hidden');$('inventoryTableWrap').classList.remove('hidden')};
@@ -864,7 +866,7 @@ $('cancelProduct').onclick=closeProductForm;
 let pImgTimer=null;
 $('pImage').addEventListener('input',()=>{clearTimeout(pImgTimer);pImgTimer=setTimeout(()=>setImagePreview(normalizeImageUrl($('pImage').value)),400)});
 $('pImageFile').addEventListener('change',async()=>{const f=$('pImageFile').files[0];if(!f)return;if(f.size>8000000)return note('รูปใหญ่เกิน 8 MB กรุณาเลือกรูปที่เล็กลง','err');try{setImagePreview(await compressImage(f,640,0.62))}catch(e){note('อ่านรูปไม่สำเร็จ: '+e.message,'err')}});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!$('billModal').classList.contains('hidden'))return closeBill();if(!$('scanModal').classList.contains('hidden'))return closeScan();if(!$('productForm').classList.contains('hidden'))return closeProductForm();if(!$('productModal').classList.contains('hidden'))closeProductModal()}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if($('rsvSlipModal')&&!$('rsvSlipModal').classList.contains('hidden'))return closeRsvSlip();if(!$('billModal').classList.contains('hidden'))return closeBill();if(!$('scanModal').classList.contains('hidden'))return closeScan();if(!$('productForm').classList.contains('hidden'))return closeProductForm();if(!$('productModal').classList.contains('hidden'))closeProductModal()}});
 $('saveProduct').onclick=async()=>{
   if(!sb||!isAdmin)return note('เฉพาะแอดมินเท่านั้น หรือยังไม่ได้ตั้งค่า Supabase','err');
   if(editing)await getImage(editing).catch(()=>{});
@@ -1030,7 +1032,7 @@ async function openCameraStream(){
 }
 async function openScan(target='inventory'){
   scanTarget=target;
-  if(scanTarget!=='discount')page('inventory');
+  if(scanTarget!=='discount'&&scanTarget!=='reservation')page('inventory');
   $('scanModal').classList.remove('hidden');
   const video=$('scanVideo');
   try{
@@ -1043,7 +1045,7 @@ async function openScan(target='inventory'){
       try{const codes=await det.detect(video);if(codes&&codes.length){const v=String(codes[0].rawValue||'').trim();if(v)return handleScan(v)}}catch(e){}
       scanTimer=setTimeout(tick,250);
     };tick();
-  }catch(e){const msg='เปิดกล้องไม่สำเร็จ: '+(e&&e.message?e.message:e);closeScan();if(target==='discount')dScanNote(msg,'err');else note(msg,'err')}
+  }catch(e){const msg='เปิดกล้องไม่สำเร็จ: '+(e&&e.message?e.message:e);closeScan();if(target==='discount')dScanNote(msg,'err');else if(target==='reservation')reservationNote(msg,'err');else note(msg,'err')}
 }
 window.closeScan=()=>{if(scanTimer){clearTimeout(scanTimer);scanTimer=null}if(scanStream){scanStream.getTracks().forEach(t=>t.stop());scanStream=null}const v=$('scanVideo');if(v)v.srcObject=null;$('scanModal').classList.add('hidden');scanTarget='inventory'};
 function findScanProduct(val){
@@ -1053,16 +1055,21 @@ function findScanProduct(val){
     ||db.products.find(p=>d&&(digits(p.barcode)===d||digits(p.code)===d))
     ||db.products.find(p=>norm(p.name)===t)||findProductByName(val);
 }
-function handleScan(val){
-  const p=findScanProduct(val),target=scanTarget;
+async function handleScan(val){
+  const target=scanTarget,clean=String(val||'').trim();
   closeScan();
-  if(target==='discount'){pickDiscountProduct(val);return}
+  if(target==='discount'){pickDiscountProduct(clean);return}
+  if(target==='reservation'||/^RSV-/i.test(clean)||(reservations&&reservations.some(r=>rsvOrderCode(r).toLowerCase()===clean.toLowerCase()))){
+    await handleReservationScan(clean);
+    return;
+  }
+  const p=findScanProduct(clean);
   page('inventory');
-  $('invCategory').value='';$('invSearch').value=p?p.code:val;pageNo=1;render();
+  $('invCategory').value='';$('invSearch').value=p?p.code:clean;pageNo=1;render();
   if(p){openProduct(p.code);note('พบสินค้า: '+p.name+' · คงเหลือ '+n(p.qty)+' ชิ้น','ok')}
-  else note('ไม่พบสินค้าที่ตรงกับ "'+val+'" ในคลัง','err');
+  else note('ไม่พบสินค้าที่ตรงกับ "'+clean+'" ในคลัง','err');
 }
-$('quickScan').onclick=()=>{if(!$('movement').classList.contains('hidden')){$('moveCode').focus();return}if(!$('sale').classList.contains('hidden')){$('saleCode').focus();return}openScan()};
+$('quickScan').onclick=()=>{if(!$('movement').classList.contains('hidden')){$('moveCode').focus();return}if(!$('sale').classList.contains('hidden')){$('saleCode').focus();return}openScan(!$('reservations').classList.contains('hidden')?'reservation':'inventory')};
 function cartQty(code){return cart.filter(x=>x.code===code).reduce((s,x)=>s+x.qty,0)}
 function syncKindUI(){const t=kind==='โอนออก';const sf=$('storeField');if(sf)sf.classList.toggle('hidden',!t);$('saveMove').textContent=t?'บันทึกการโอน':'บันทึกรับเข้า'}
 function renderCart(){
@@ -1897,6 +1904,17 @@ function catalogPickCategory(cat){
   catalogScrollToProducts();
 }
 function catalogClearFilters(){$('catalogSearch').value='';$('catalogCategory').value='';renderPublicCatalog();catalogScrollToProducts()}
+function catalogGoHome(){
+  closeCatalogMenu();
+  closeCatalogModal();
+  closeCatalogPromoPage();
+  if($('catalogNavInput'))$('catalogNavInput').value='';
+  $('catalogSearch').value='';
+  $('catalogCategory').value='';
+  renderPublicCatalog();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+window.catalogGoHome=catalogGoHome;
 function catalogHeroAction(){
   const p=catalogHeroProduct();
   if(p)openCatalogProduct(p.code);else catalogScrollToProducts();
@@ -2244,7 +2262,177 @@ if(sb){
   boot();
 }
 // ===== การจองจากลูกค้า (เว็บลูกค้า repo: ninhub-shop) =====
-let reservations=[];
+let reservations=[],qrLibPromise=null;
+function ensureQRCode(){
+  if(window.qrcode)return Promise.resolve(window.qrcode);
+  if(!qrLibPromise)qrLibPromise=new Promise((res,rej)=>{
+    const s=document.createElement('script');
+    s.src='https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js';
+    s.onload=()=>window.qrcode?res(window.qrcode):rej(new Error('โหลดตัวสร้าง QR ไม่สำเร็จ'));
+    s.onerror=()=>{qrLibPromise=null;rej(new Error('โหลดตัวสร้าง QR ไม่สำเร็จ กรุณาเชื่อมต่ออินเทอร์เน็ต'))};
+    document.head.appendChild(s);
+  });
+  return qrLibPromise;
+}
+function rsvOrderCode(r){
+  if(!r)return '';
+  if(r.order_code&&String(r.order_code).trim())return String(r.order_code).trim().toUpperCase();
+  const dt=String(r.created_at||'').slice(2,10).replace(/-/g,'')||'000000';
+  return 'RSV-'+dt+'-'+String(r.id||0).padStart(4,'0');
+}
+async function drawQRToCanvas(ctx,text,x,y,size){
+  const qrFactory=await ensureQRCode();
+  const qr=qrFactory(0,'M');
+  qr.addData(String(text||''));
+  qr.make();
+  const count=qr.getModuleCount();
+  const margin=2,total=count+margin*2,cell=size/total;
+  ctx.fillStyle='#ffffff';
+  ctx.fillRect(x,y,size,size);
+  ctx.fillStyle='#0f172a';
+  for(let r=0;r<count;r++){
+    for(let c=0;c<count;c++){
+      if(qr.isDark(r,c)){
+        ctx.fillRect(Math.floor(x+(c+margin)*cell),Math.floor(y+(r+margin)*cell),Math.ceil(cell),Math.ceil(cell));
+      }
+    }
+  }
+}
+async function renderQRCanvas(canvas,text,size=180){
+  if(!canvas)return;
+  canvas.width=size;canvas.height=size;
+  const ctx=canvas.getContext('2d');
+  try{await drawQRToCanvas(ctx,text,0,0,size)}
+  catch(e){ctx.fillStyle='#f8fafc';ctx.fillRect(0,0,size,size);ctx.fillStyle='#64748b';ctx.font='bold 12px sans-serif';ctx.textAlign='center';ctx.fillText(String(text||''),size/2,size/2)}
+}
+function wrapCanvasText(ctx,text,maxWidth){
+  const words=String(text||'').split(/\s+/),lines=[];
+  let cur='';
+  for(const w of words){
+    const test=cur?cur+' '+w:w;
+    if(ctx.measureText(test).width<=maxWidth){cur=test}
+    else{
+      if(cur)lines.push(cur);
+      if(ctx.measureText(w).width>maxWidth){
+        let part='';
+        for(const ch of w){
+          if(ctx.measureText(part+ch).width>maxWidth){lines.push(part);part=ch}
+          else part+=ch;
+        }
+        cur=part;
+      }else cur=w;
+    }
+  }
+  if(cur)lines.push(cur);
+  return lines.length?lines:['—'];
+}
+async function downloadReservationSlip(id){
+  const r=typeof id==='object'?id:reservations.find(x=>String(x.id)===String(id));
+  if(!r)return;
+  const orderCode=rsvOrderCode(r);
+  const refNo='#'+String(r.id||0).padStart(4,'0');
+  const statusMap={pending:'รอยืนยันจากร้าน',confirmed:'ยืนยันแล้ว (รับสินค้าได้)',completed:'รับสินค้าแล้ว',cancelled:'ยกเลิกแล้ว'};
+  const W=720,H=980;
+  const c=document.createElement('canvas');c.width=W;c.height=H;
+  const ctx=c.getContext('2d');
+  ctx.fillStyle='#f1f5f9';ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='#ffffff';
+  ctx.beginPath();ctx.roundRect(28,28,W-56,H-56,28);ctx.fill();
+  ctx.save();ctx.beginPath();ctx.roundRect(28,28,W-56,132,[28,28,0,0]);ctx.clip();
+  ctx.fillStyle='#e60012';ctx.fillRect(28,28,W-56,132);ctx.restore();
+  ctx.fillStyle='#ffffff';ctx.textAlign='center';
+  ctx.font='800 32px system-ui,-apple-system,sans-serif';
+  ctx.fillText('Nintendo · Power Buy Central Northville',W/2,86);
+  ctx.font='600 18px system-ui,-apple-system,sans-serif';
+  ctx.fillText('ใบยืนยันการจองสินค้า (Reservation Slip)',W/2,124);
+  ctx.fillStyle='#0f172a';ctx.font='800 30px ui-monospace,Consolas,monospace';
+  ctx.fillText(orderCode,W/2,208);
+  ctx.fillStyle='#64748b';ctx.font='600 16px system-ui,-apple-system,sans-serif';
+  ctx.fillText('ลำดับที่ '+refNo+' · สถานะ: '+(statusMap[r.status]||r.status||'รอยืนยัน'),W/2,238);
+  const qrSize=220,qrX=(W-qrSize)/2,qrY=258;
+  ctx.strokeStyle='#e2e8f0';ctx.lineWidth=2;
+  ctx.strokeRect(qrX-8,qrY-8,qrSize+16,qrSize+16);
+  try{await drawQRToCanvas(ctx,orderCode,qrX,qrY,qrSize)}catch(e){}
+  ctx.fillStyle='#64748b';ctx.font='500 14px system-ui,-apple-system,sans-serif';
+  ctx.fillText('ยื่น QR Code หรือรหัสออเดอร์นี้ให้พนักงานสแกนเมื่อมารับสินค้า',W/2,qrY+qrSize+30);
+  let y=qrY+qrSize+66;
+  ctx.strokeStyle='#e2e8f0';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(68,y);ctx.lineTo(W-68,y);ctx.stroke();
+  y+=36;
+  const drawRow=(label,val,bold)=>{
+    ctx.textAlign='left';ctx.fillStyle='#64748b';ctx.font='600 18px system-ui,-apple-system,sans-serif';
+    ctx.fillText(label,68,y);
+    ctx.textAlign='right';ctx.fillStyle='#0f172a';ctx.font=(bold?'800 ':'600 ')+'19px system-ui,-apple-system,sans-serif';
+    const lines=wrapCanvasText(ctx,val,W-280);
+    lines.forEach((ln,i)=>{ctx.fillText(ln,W-68,y+i*26)});
+    y+=Math.max(1,lines.length)*28+14;
+  };
+  drawRow('สินค้า',r.product_name||'—',true);
+  drawRow('รหัสสินค้า',r.code||'—',false);
+  drawRow('จำนวนที่จอง',n(r.qty)+' ชิ้น',true);
+  drawRow('ชื่อผู้จอง',r.customer_name||'—',false);
+  drawRow('เบอร์โทรศัพท์',r.phone||'—',false);
+  drawRow('วันที่สะดวกรับ',r.pickup_date?thDate(r.pickup_date):'ร้านจะติดต่อกลับ',true);
+  drawRow('วันที่ทำรายการ',rsvDateTime(r.created_at),false);
+  ctx.fillStyle='#f8fafc';
+  ctx.beginPath();ctx.roundRect(60,H-110,W-120,54,14);ctx.fill();
+  ctx.fillStyle='#475569';ctx.textAlign='center';ctx.font='600 15px system-ui,-apple-system,sans-serif';
+  ctx.fillText('กรุณามารับสินค้าภายในวันที่กำหนด · จำกัดสูงสุด 10 ชิ้นต่อ 1 ใบเสร็จ',W/2,H-77);
+  const a=document.createElement('a');
+  a.download='nintendo-booking-'+orderCode+'.png';
+  a.href=c.toDataURL('image/png');
+  a.click();
+}
+window.downloadReservationSlip=downloadReservationSlip;
+function openRsvSlip(id){
+  const r=reservations.find(x=>String(x.id)===String(id));
+  if(!r)return;
+  const orderCode=rsvOrderCode(r);
+  const refNo='#'+String(r.id||0).padStart(4,'0');
+  $('rsvSlipTitle').textContent='🎫 ใบจอง '+orderCode;
+  $('rsvSlipContent').innerHTML=`
+    <div style="text-align:center;padding:8px 0 12px">
+      <div style="display:inline-block;background:#0f172a;color:#fff;padding:6px 16px;border-radius:999px;font-weight:700;font-family:ui-monospace,Consolas,monospace;font-size:16px;letter-spacing:.04em">${esc(orderCode)}</div>
+      <div class="small muted" style="margin-top:4px">ลำดับ ${esc(refNo)} · ${rsvTag(r.status)}</div>
+      <div style="margin:12px auto;display:inline-flex;padding:10px;background:#fff;border:1px solid #e2e8f0;border-radius:16px">
+        <canvas id="rsvSlipQrCanvas" width="180" height="180" style="width:180px;height:180px;display:block"></canvas>
+      </div>
+    </div>
+    <div style="background:#f8fafc;border-radius:14px;padding:12px 14px;font-size:14px;display:flex;flex-direction:column;gap:6px;margin-bottom:14px">
+      <div class="row" style="justify-content:space-between"><span class="muted">สินค้า</span><b style="text-align:right">${esc(r.product_name)} (${esc(r.code)})</b></div>
+      <div class="row" style="justify-content:space-between"><span class="muted">จำนวน</span><b>${n(r.qty)} ชิ้น</b></div>
+      <div class="row" style="justify-content:space-between"><span class="muted">ลูกค้า</span><b>${esc(r.customer_name)}</b></div>
+      <div class="row" style="justify-content:space-between"><span class="muted">เบอร์โทร</span><b><a href="tel:${esc(r.phone)}">${esc(r.phone)}</a></b></div>
+      <div class="row" style="justify-content:space-between"><span class="muted">วันที่รับ</span><b>${r.pickup_date?thDate(r.pickup_date):'—'}</b></div>
+      <div class="row" style="justify-content:space-between"><span class="muted">จองเมื่อ</span><span>${rsvDateTime(r.created_at)}</span></div>
+    </div>
+    <div class="row" style="gap:8px">
+      <button type="button" onclick="downloadReservationSlip('${esc(r.id)}')">💾 บันทึกรูปใบจอง (PNG)</button>
+      ${r.status==='pending'?`<button type="button" class="green" onclick="closeRsvSlip();setReservationStatus('${esc(r.id)}','confirmed')">✓ ยืนยันการจอง</button>`:''}
+      ${r.status==='confirmed'?`<button type="button" class="green" onclick="closeRsvSlip();setReservationStatus('${esc(r.id)}','completed')">📦 รับสินค้าแล้ว</button>`:''}
+    </div>`;
+  $('rsvSlipModal').classList.remove('hidden');
+  renderQRCanvas($('rsvSlipQrCanvas'),orderCode,180);
+}
+window.openRsvSlip=openRsvSlip;
+window.closeRsvSlip=()=>{$('rsvSlipModal').classList.add('hidden')};
+async function handleReservationScan(raw){
+  const q=String(raw||'').trim();
+  if(!q)return;
+  page('reservations');
+  if(!reservations.length)await loadReservations();
+  $('rsvStatusFilter').value='';
+  $('rsvSearch').value=q;
+  renderReservations();
+  const norm=q.toLowerCase();
+  const match=reservations.find(r=>rsvOrderCode(r).toLowerCase()===norm||('#'+String(r.id).padStart(4,'0')).toLowerCase()===norm||String(r.id)===norm);
+  if(match){
+    reservationNote('พบใบจอง '+rsvOrderCode(match)+' · ลูกค้า: '+match.customer_name+' · '+match.product_name+' ('+n(match.qty)+' ชิ้น)','ok');
+    openRsvSlip(match.id);
+  }else{
+    reservationNote('ไม่พบใบจองที่ตรงกับรหัส "'+q+'" — กรุณากดรีเฟรชแล้วลองใหม่','err');
+  }
+}
 function reservationNote(msg,type='ok'){$('reservationNotice').innerHTML=msg?`<div class="notice ${type}">${esc(msg)}</div>`:''}
 function rsvTag(status){
   if(status==='pending')return '<span class="tag warn">รอยืนยัน</span>';
@@ -2267,7 +2455,9 @@ function renderReservations(){
   const list=reservations.filter(r=>{
     if(st&&r.status!==st)return false;
     if(!q)return true;
-    return [r.customer_name,r.phone,r.product_name,r.code,String(r.id)].some(v=>String(v||'').toLowerCase().includes(q));
+    const oCode=rsvOrderCode(r);
+    const refNo='#'+String(r.id||0).padStart(4,'0');
+    return [oCode,refNo,r.customer_name,r.phone,r.product_name,r.code,String(r.id)].some(v=>String(v||'').toLowerCase().includes(q));
   });
   const count=s=>reservations.filter(r=>r.status===s).length;
   $('rsvPending').textContent=n(count('pending'));
@@ -2275,12 +2465,14 @@ function renderReservations(){
   $('rsvCompleted').textContent=n(count('completed'));
   $('rsvCancelled').textContent=n(count('cancelled'));
   $('reservationRows').innerHTML=list.map(r=>{
-    let acts='';
-    if(r.status==='pending')acts=rsvBtn(r.id,'confirmed','✓ ยืนยัน','')+rsvBtn(r.id,'cancelled','ยกเลิก','danger');
-    else if(r.status==='confirmed')acts=rsvBtn(r.id,'completed','📦 รับสินค้าแล้ว','green')+rsvBtn(r.id,'cancelled','ยกเลิก','danger');
-    else acts=rsvBtn(r.id,'delete','🗑 ลบ','secondary');
+    const oCode=rsvOrderCode(r);
+    const refNo='#'+String(r.id||0).padStart(4,'0');
+    let acts=rsvBtn(r.id,'slip','🎫 ใบจอง / QR','secondary');
+    if(r.status==='pending')acts+=rsvBtn(r.id,'confirmed','✓ ยืนยัน','')+rsvBtn(r.id,'cancelled','ยกเลิก','danger');
+    else if(r.status==='confirmed')acts+=rsvBtn(r.id,'completed','📦 รับสินค้าแล้ว','green')+rsvBtn(r.id,'cancelled','ยกเลิก','danger');
+    else acts+=rsvBtn(r.id,'delete','🗑 ลบ','secondary');
     const extra=[r.note,r.admin_note].filter(Boolean).map(esc).join(' · ');
-    return `<tr><td class="small">${rsvDateTime(r.created_at)}</td><td><b style="display:block;max-width:230px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(r.product_name)}">${esc(r.product_name)}</b><div class="small muted">${esc(r.code)}${extra?' · '+extra:''}</div></td><td>${n(r.qty)}</td><td>${esc(r.customer_name)}</td><td><a href="tel:${esc(r.phone)}">${esc(r.phone)}</a></td><td class="small">${r.pickup_date?thDate(r.pickup_date):'—'}</td><td>${rsvTag(r.status)}</td><td><div style="display:flex;flex-direction:column;gap:6px;min-width:96px">${acts}</div></td></tr>`;
+    return `<tr><td class="small"><b style="font-family:ui-monospace,Consolas,monospace;color:#0f172a">${esc(oCode)}</b><div class="muted">${esc(refNo)} · ${rsvDateTime(r.created_at)}</div></td><td><b style="display:block;max-width:230px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(r.product_name)}">${esc(r.product_name)}</b><div class="small muted">${esc(r.code)}${extra?' · '+extra:''}</div></td><td>${n(r.qty)}</td><td>${esc(r.customer_name)}</td><td><a href="tel:${esc(r.phone)}">${esc(r.phone)}</a></td><td class="small">${r.pickup_date?thDate(r.pickup_date):'—'}</td><td>${rsvTag(r.status)}</td><td><div style="display:flex;flex-direction:column;gap:6px;min-width:110px">${acts}</div></td></tr>`;
   }).join('')||'<tr><td colspan="8" class="empty">ยังไม่มีการจอง</td></tr>';
 }
 async function loadReservations(){
@@ -2288,12 +2480,18 @@ async function loadReservations(){
   reservationNote('กำลังโหลดการจอง…');
   $('reservationRows').innerHTML='<tr><td colspan="8" class="empty">กำลังโหลด…</td></tr>';
   try{
-    const {data,error}=await sb.from('reservations')
-      .select('id,code,product_name,qty,customer_name,phone,note,pickup_date,status,admin_note,created_at')
+    let res=await sb.from('reservations')
+      .select('id,order_code,code,product_name,qty,customer_name,phone,note,pickup_date,status,admin_note,created_at')
       .order('created_at',{ascending:false})
       .limit(500);
-    if(error)throw error;
-    reservations=data||[];
+    if(res.error&&/order_code/i.test(res.error.message||'')){
+      res=await sb.from('reservations')
+        .select('id,code,product_name,qty,customer_name,phone,note,pickup_date,status,admin_note,created_at')
+        .order('created_at',{ascending:false})
+        .limit(500);
+    }
+    if(res.error)throw res.error;
+    reservations=res.data||[];
     reservationNote('');
     renderReservations();
   }catch(e){
@@ -2307,7 +2505,7 @@ async function loadReservations(){
 }
 async function setReservationStatus(id,status){
   if(!sb)return;
-  const ask={confirmed:'ยืนยันการจองนี้?',completed:'ยืนยันว่าลูกค้ารับสินค้าแล้ว?',cancelled:'ยกเลิกการจองนี้?',pending:'เปลี่ยนกลับเป็นรอยืนยัน?'}[status]||'อัปเดตสถานะ?';
+  const ask={confirmed:'ยืนยันการจองนี้?',completed:'ยืนยันว่าลูกค้ารับสินค้าแล้ว? (อย่าลืมบันทึกตัดสต๊อกที่หน้า "ขายสินค้า" ด้วย)',cancelled:'ยกเลิกการจองนี้? (ยอดที่กักไว้บนหน้าเว็บลูกค้าจะถูกคืนกลับอัตโนมัติ)',pending:'เปลี่ยนกลับเป็นรอยืนยัน?'}[status]||'อัปเดตสถานะ?';
   if(!confirm(ask))return;
   try{
     const {error}=await sb.from('reservations').update({status}).eq('id',id);
@@ -2315,6 +2513,7 @@ async function setReservationStatus(id,status){
     const r=reservations.find(x=>String(x.id)===String(id));
     if(r)r.status=status;
     renderReservations();
+    if(catalogData&&catalogData.length)refreshPublicCatalog(true);
     reservationNote('อัปเดตสถานะแล้ว ✓');
   }catch(e){reservationNote('อัปเดตไม่สำเร็จ: '+((e&&e.message)||e),'err')}
 }
@@ -2325,6 +2524,7 @@ async function deleteReservation(id){
     if(error)throw error;
     reservations=reservations.filter(x=>String(x.id)!==String(id));
     renderReservations();
+    if(catalogData&&catalogData.length)refreshPublicCatalog(true);
     reservationNote('ลบรายการจองแล้ว');
   }catch(e){reservationNote('ลบไม่สำเร็จ: '+((e&&e.message)||e),'err')}
 }
@@ -2332,9 +2532,19 @@ $('reservationRows').onclick=e=>{
   const b=e.target.closest('[data-rsv-status]');
   if(!b)return;
   const id=b.dataset.rsvId,status=b.dataset.rsvStatus;
-  if(status==='delete')deleteReservation(id);else setReservationStatus(id,status);
+  if(status==='slip')openRsvSlip(id);
+  else if(status==='delete')deleteReservation(id);
+  else setReservationStatus(id,status);
 };
+$('rsvScanBtn').onclick=()=>openScan('reservation');
 $('refreshReservations').onclick=loadReservations;
 $('rsvSearch').addEventListener('input',renderReservations);
+$('rsvSearch').addEventListener('keydown',e=>{
+  if(e.key!=='Enter')return;
+  const v=($('rsvSearch').value||'').trim();
+  if(!v)return;
+  e.preventDefault();
+  handleReservationScan(v);
+});
 $('rsvStatusFilter').addEventListener('change',renderReservations);
 </script><script defer src="/_vercel/insights/script.js"></script></body></html>
